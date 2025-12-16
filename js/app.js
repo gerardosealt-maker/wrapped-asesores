@@ -2,98 +2,90 @@ const app = document.getElementById("app");
 const startBtn = document.getElementById("startBtn");
 const errorMsg = document.getElementById("errorMsg");
 const audio = new Audio("./audio/wrapped.mp3");
-
 audio.loop = true;
 
-let asesoresData = [];
+let asesores = [];
+let screens = [];
+let current = 0;
+let autoplayTimer;
 
 fetch("./data/asesores.json")
-  .then(res => res.json())
-  .then(data => {
-    asesoresData = data.asesores;
-  })
-  .catch(() => {
-    errorMsg.textContent = "Error cargando información";
-  });
+  .then(r => r.json())
+  .then(d => asesores = d.asesores);
 
-startBtn.addEventListener("click", () => {
+startBtn.onclick = () => {
   const id = parseInt(document.getElementById("idInput").value);
-  const asesor = asesoresData.find(a => a.id === id);
-
+  const asesor = asesores.find(a => a.id === id);
   if (!asesor) {
-    errorMsg.textContent = "No se encontró información del asesor";
+    errorMsg.textContent = "ID no encontrado";
     return;
   }
+  audio.play().catch(()=>{});
+  buildWrapped(asesor);
+};
 
-  audio.play().catch(() => {});
-  renderWrapped(asesor);
-});
+function buildWrapped(asesor) {
+  app.innerHTML = "";
+  screens = [];
 
-function renderWrapped(asesor) {
-  const screens = [];
+  screens.push(createScreen(
+    "gradient-prospectos",
+    `<h1>${asesor.nombre}</h1><p class="story">Así se vivió tu año</p>`
+  ));
 
-  screens.push(`
-    <section class="screen gradient-prospectos">
-      <h1>${asesor.nombre}</h1>
-      <p class="story">Así se vivió tu año</p>
-    </section>
-  `);
-
-  Object.entries(asesor.metricas).forEach(([key, value]) => {
-    screens.push(`
-      <section class="screen gradient-${key}">
-        <h2>${key.toUpperCase()}</h2>
-        <div class="number">${value}</div>
-        <p class="story">${copyDinamico(key, value)}</p>
-      </section>
-    `);
+  Object.entries(asesor.metricas).forEach(([k,v]) => {
+    screens.push(createScreen(
+      `gradient-${k}`,
+      `<h2>${k.toUpperCase()}</h2>
+       <div class="number">${v}</div>
+       <p class="story">${copy(k,v)}</p>`
+    ));
   });
 
-  screens.push(`
-    <section class="screen gradient-final">
-      <h2>Tu resumen</h2>
-      <p class="story">
-        Cada cifra habla de constancia, presencia y proceso.
-        Esto no termina aquí.
-      </p>
-    </section>
-  `);
+  screens.push(createScreen(
+    "gradient-final",
+    `<h2>Resumen</h2>
+     <p class="story">Nada de esto fue casualidad.</p>
+     <button onclick="exportImage()">Guardar recuerdo</button>`
+  ));
 
-  app.innerHTML = screens.join("");
+  screens.forEach(s => app.appendChild(s));
+  showScreen(0);
+  autoplay();
 }
 
-function copyDinamico(tipo, valor) {
-  const textos = {
-    prospectos: valor > 250
-      ? "Estuviste donde había oportunidades."
-      : valor > 150
-      ? "La constancia abrió conversaciones."
-      : "Aquí empezó todo.",
+function createScreen(gradient, html) {
+  const s = document.createElement("section");
+  s.className = `screen ${gradient}`;
+  s.innerHTML = html;
+  return s;
+}
 
-    citas: valor > 80
-      ? "Muchos dijeron sí a escucharte."
-      : valor > 50
-      ? "La curiosidad se volvió diálogo."
-      : "Cada cita fue una posibilidad real.",
+function showScreen(i) {
+  screens.forEach(s => s.classList.remove("active"));
+  screens[i].classList.add("active");
+  current = i;
+}
 
-    visitas: valor > 35
-      ? "Llevaste la conversación al mundo real."
-      : valor > 20
-      ? "No todos cruzan la puerta. Algunos sí."
-      : "Cada visita contó.",
+function autoplay() {
+  autoplayTimer = setInterval(() => {
+    if (current < screens.length - 1) showScreen(current + 1);
+  }, 4000);
+}
 
-    ventas: valor > 15
-      ? "No fue suerte. Fue seguimiento."
-      : valor > 10
-      ? "Convertiste cuando importaba."
-      : "Aquí se sembró lo que sigue.",
+function copy(tipo, valor) {
+  if (valor > 200) return "Este número habla de dominio.";
+  if (valor > 100) return "Constancia que suma.";
+  return "Aquí empezó algo.";
+}
 
-    escrituras: valor > 9
-      ? "Este año dejaste huella real."
-      : valor > 6
-      ? "Más cerca de lo que parece."
-      : "Todo proceso largo empieza así."
-  };
-
-  return textos[tipo] || "";
+// EXPORTAR IMAGEN FINAL
+function exportImage() {
+  const node = screens[screens.length - 1];
+  html2canvas(node).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "mi_wrapped.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
 }
