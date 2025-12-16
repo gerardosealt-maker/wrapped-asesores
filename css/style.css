@@ -1,66 +1,109 @@
-:root {
-  --bg: #0e0e11;
-  --primary: #1db954;
-  --text: #ffffff;
-  --muted: #9fa3a9;
-}
-
+/* RESET */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: radial-gradient(circle at top, #1b1b23, #0e0e11);
-  color: var(--text);
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
+/* VARIABLES VISUALES */
+:root {
+  --bg: #0b0b0f;
+  --card: #15151c;
+  --primary: #8b5cf6;
+  --secondary: #22d3ee;
+  --text: #f5f5f7;
+  --muted: #a1a1aa;
 }
 
-.screen {
+/* BASE */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1f1f2e, var(--bg));
+  color: var(--text);
   height: 100vh;
-  padding: 48px 24px;
+  overflow: hidden;
+}
+
+/* SLIDES */
+.screen {
+  position: absolute;
+  inset: 0;
+  padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: center;
-  scroll-snap-align: start;
+  gap: 1.5rem;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+  pointer-events: none;
 }
 
-.hero h1 {
+.screen.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* TITULOS */
+h1 {
   font-size: 3rem;
-  margin-bottom: 12px;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.subtitle {
-  color: var(--muted);
-}
-
-.metric h2 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-}
-
-.big {
-  font-size: 4rem;
+h2 {
+  font-size: 2.2rem;
   font-weight: 700;
+}
+
+/* NUMEROS GRANDES */
+.number {
+  font-size: 5rem;
+  font-weight: 900;
   color: var(--primary);
+  letter-spacing: -2px;
 }
 
+/* STORYTELLING */
 .story {
-  max-width: 420px;
-  margin-top: 16px;
+  font-size: 1.2rem;
   color: var(--muted);
+  max-width: 500px;
+  line-height: 1.6;
 }
 
-.final h2 {
-  font-size: 2.4rem;
+/* BOTÓN */
+button {
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: #000;
+  font-weight: 700;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.final p {
-  margin-top: 16px;
-  max-width: 420px;
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(139,92,246,0.6);
+}
+
+/* TEXTO DE AYUDA */
+.hint {
   color: var(--muted);
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  h1 { font-size: 2.3rem; }
+  h2 { font-size: 1.7rem; }
+  .number { font-size: 3.8rem; }
 }
