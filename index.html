@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Wrapped Asesores</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
-<audio id="music" src="music.mp3" preload="auto" loop></audio>
+<audio id="bgMusic" src="music.mp3" loop></audio>
 
-<div id="app">
+<main id="app">
 
   <!-- LOGIN -->
-  <section class="screen active" data-step="0">
-    <h1>Tu Wrapped 📊</h1>
+  <section class="screen screen-login">
+    <h1>Tu año en números</h1>
     <p>Ingresa tu ID de asesor</p>
-    <input id="agentId" placeholder="Ej. 6017" inputmode="numeric">
+    <input id="agentInput" placeholder="Ej. 6017" />
     <button id="startBtn">Iniciar experiencia</button>
-    <small>Tip: usa audífonos 🎧</small>
+    <small>Recomendado con audífonos 🎧</small>
   </section>
 
-  <!-- SLIDE 1 -->
-  <section class="screen" data-step="1">
-    <h2 id="welcome"></h2>
-    <p class="story" id="introCopy"></p>
-  </section>
+  <!-- EXPERIENCIA -->
+  <div id="experience" class="hidden">
 
-  <!-- SLIDE 2 -->
-  <section class="screen" data-step="2">
-    <h2>Prospectos</h2>
-    <p class="big" id="prospects"></p>
-    <p class="story" id="prospectsCopy"></p>
-  </section>
+    <section class="screen">
+      <h2 id="name"></h2>
+      <p class="copy" id="introCopy"></p>
+    </section>
 
-  <!-- SLIDE 3 -->
-  <section class="screen" data-step="3">
-    <h2>Citas</h2>
-    <p class="big" id="appointments"></p>
-    <p class="story" id="appointmentsCopy"></p>
-  </section>
+    <section class="screen">
+      <h2>Prospectos generados</h2>
+      <p class="metric" id="prospects"></p>
+      <p class="copy" id="prospectsCopy"></p>
+    </section>
 
-  <!-- SLIDE 4 -->
-  <section class="screen" data-step="4">
-    <h2>Ventas</h2>
-    <p class="big" id="sales"></p>
-    <p class="story" id="salesCopy"></p>
-  </section>
+    <section class="screen">
+      <h2>Citas logradas</h2>
+      <p class="metric" id="appointments"></p>
+      <p class="copy" id="appointmentsCopy"></p>
+    </section>
 
-  <!-- SLIDE 5 -->
-  <section class="screen" data-step="5">
-    <h2>Resumen</h2>
-    <p class="story" id="summary"></p>
-    <button id="exportBtn">Exportar imagen</button>
-  </section>
+    <section class="screen">
+      <h2>Ventas realizadas</h2>
+      <p class="metric" id="sales"></p>
+      <p class="copy" id="salesCopy"></p>
+    </section>
 
-</div>
+    <section class="screen">
+      <h2>Tu resumen</h2>
+      <p class="copy" id="summary"></p>
+      <button id="exportBtn">Exportar recuerdo</button>
+    </section>
 
-<script src="./app.js"></script>
+  </div>
+
+</main>
+
+<script src="app.js"></script>
 </body>
 </html>
