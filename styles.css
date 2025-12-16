@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* Usamos una fuente genérica segura, puedes añadir 'Poppins' si la importas */
   font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
 }
 
@@ -92,7 +91,7 @@ h2 {
 }
 .intro-screen h2 {
     font-size: 28px;
-    color: #00E88D; /* Destaca la categoría */
+    color: #00E88D; 
     margin-top: 5px;
     margin-bottom: 20px;
     opacity: 1;
@@ -100,7 +99,7 @@ h2 {
 
 
 /* --- ANIMACIONES DE LOS ELEMENTOS INTERNOS (Delayed Fade-In) --- */
-.screen h2, .screen .metric, .screen .story, .screen button {
+.screen h2, .screen .metric, .screen .story, .screen button, #social-share {
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.6s cubic-bezier(.22,.61,.36,1);
@@ -123,7 +122,7 @@ h2 {
   transform: translateY(0);
   transition-delay: 0.7s;
 }
-.screen.active button {
+.screen.active button, .screen.active #social-share {
   opacity: 1;
   transform: translateY(0);
   transition-delay: 0.9s;
@@ -169,6 +168,14 @@ button {
   background: radial-gradient(circle at bottom, #00C9FF 0%, #157980 100%);
 }
 
+.deeds-screen { 
+  background: radial-gradient(circle at center, #9370DB 0%, #4B0082 100%);
+}
+
+.best-month-screen { 
+  background: radial-gradient(circle at top, #7FFF00 0%, #3CB371 100%);
+}
+
 .summary-screen {
     background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
     color: black;
@@ -182,7 +189,34 @@ button {
     color: white;
 }
 
-/* --- NUEVOS ESTILOS UX: PUNTOS DE NAVEGACIÓN --- */
+/* --- ESTILOS DE COMPARTIR Y PUNTOS DE NAVEGACIÓN --- */
+#social-share {
+    margin-top: 10px;
+    padding: 10px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#social-share p {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #111; 
+}
+.share-btn {
+    width: 85%;
+    color: white;
+    font-size: 16px;
+    margin-top: 8px;
+    padding: 12px;
+}
+.share-btn[data-platform="whatsapp"] {
+    background: #25D366;
+}
+.share-btn[data-platform="twitter"] {
+    background: #1DA1F2;
+}
 
 #navigation-dots {
   position: fixed;
@@ -222,3 +256,9 @@ button {
     0%, 100% { opacity: 0.6; }
     50% { opacity: 0.8; }
 }
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.8; }
+}
+
