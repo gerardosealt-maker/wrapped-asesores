@@ -99,7 +99,7 @@ h2 {
 
 
 /* --- ANIMACIONES DE LOS ELEMENTOS INTERNOS --- */
-.screen h2, .screen .metric, .screen .story, .screen button, #action-buttons {
+.screen h2, .screen .metric, .screen .story, .screen button, #action-buttons, #finalMetrics {
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.6s cubic-bezier(.22,.61,.36,1);
@@ -112,6 +112,13 @@ h2 {
 }
 
 .screen.active .metric {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.5s;
+}
+
+/* Animación ajustada para el nuevo bloque de métricas */
+.screen.active #finalMetrics {
   opacity: 1;
   transform: translateY(0);
   transition-delay: 0.5s;
@@ -189,14 +196,55 @@ button {
 /* Ajuste de tipografía en el resumen para hacerlo más limpio */
 .summary-screen h2 {
     font-size: 24px;
-}
-.summary-screen .metric {
-    font-size: 65px; /* Ligeramente más pequeño para mejor responsividad */
-    margin: 20px 0;
+    margin-bottom: 10px;
 }
 .summary-screen .story {
     font-size: 18px;
+    margin-top: 20px;
 }
+
+/* Nuevo estilo para el contenedor de métricas en el resumen */
+#finalMetrics {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+    margin: 30px auto 30px auto; 
+    padding: 15px 0;
+    background: rgba(255, 255, 255, 0.1); 
+    border-radius: 12px;
+}
+
+.summary-card {
+    text-align: center;
+    padding: 5px 10px;
+    /* Para que los 3 elementos quepan bien en pantallas angostas */
+    flex: 1; 
+    min-width: 0;
+}
+
+.summary-metric {
+    font-size: 32px; 
+    font-weight: 900;
+    color: #111; 
+    line-height: 1.1;
+    margin-bottom: 5px;
+    /* Para que el texto no se corte */
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.summary-card small {
+    display: block;
+    font-size: 12px;
+    opacity: 0.8;
+    color: #333;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 
 /* Contenedor de botones de acción */
 #action-buttons {
@@ -209,7 +257,7 @@ button {
 
 /* Botones de acción simplificados */
 #action-buttons button {
-    margin: 8px 0; /* Espaciado limpio */
+    margin: 8px 0; 
     width: 85%;
     font-weight: 700;
     padding: 14px;
@@ -217,13 +265,13 @@ button {
 
 /* Botón principal (Guardar PNG) */
 .primary-action {
-    background: #111; /* Color oscuro como Spotify */
+    background: #111; 
     color: white;
 }
 
 /* Botón secundario (Compartir Enlace WhatsApp) */
 .secondary-action {
-    background: #25D366; /* Verde WhatsApp */
+    background: #25D366; 
     color: white;
     font-weight: 600;
 }
@@ -231,8 +279,18 @@ button {
 
 /* --- RESPONSIVIDAD DE LA PANTALLA FINAL (Ajuste fino) --- */
 @media (max-width: 400px) {
-    .summary-screen .metric {
-        font-size: 55px; 
+    /* Apilamos las métricas en pantallas pequeñas para mayor claridad */
+    #finalMetrics {
+        flex-direction: column; 
+        padding: 15px;
+        gap: 15px;
+    }
+    .summary-card {
+        width: 100%;
+        padding: 0;
+    }
+    .summary-metric {
+        font-size: 40px;
     }
 }
 
