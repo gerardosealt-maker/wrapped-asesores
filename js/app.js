@@ -1,17 +1,36 @@
 const app = document.getElementById("app");
+const login = document.getElementById("login");
 const audio = new Audio("./audio/wrapped.mp3");
 audio.loop = true;
+let DATA = null;
 
 
 fetch("./data/asesores.json")
 .then(res => res.json())
-.then(data => iniciar(data));
+.then(json => DATA = json)
+.catch(() => alert("Error cargando datos"));
 
 
-function iniciar(data) {
-const asesor = data.asesores[0]; // luego se puede filtrar por ID
+function acceder() {
+const id = parseInt(document.getElementById("inputID").value);
+const asesor = DATA.asesores.find(a => a.id === id);
 
 
+if (!asesor) {
+alert("ID no encontrado");
+return;
+}
+
+
+login.style.display = "none";
+app.style.display = "block";
+
+
+iniciarWrapped(asesor);
+}
+
+
+function iniciarWrapped(asesor) {
 audio.play().catch(() => {});
 
 
@@ -26,22 +45,21 @@ screens.push(`
 `);
 
 
-Object.keys(asesor.metricas).forEach(key => {
+for (const key in asesor.metricas) {
 screens.push(`
 <section class="screen gradient-${key}">
 <h2>${key.toUpperCase()}</h2>
 <div class="number">${asesor.metricas[key]}</div>
-<p class="story-line">Cada número cuenta una historia</p>
+<p class="story-line">${copyDinamico(key, asesor.metricas[key])}</p>
 </section>
 `);
-});
+}
 
 
 screens.push(`
 <section class="screen gradient-final">
 <h2>Tu año, en resumen</h2>
 <p class="story-line">Nada de esto fue casualidad</p>
-<button type="button" onclick="exportar()">Guardar recuerdo</button>
 </section>
 `);
 
@@ -50,6 +68,5 @@ app.innerHTML = screens.join("");
 }
 
 
-function exportar() {
-alert("Aquí luego se exporta la imagen completa");
+function copyDinamico(m, v) {
 }
