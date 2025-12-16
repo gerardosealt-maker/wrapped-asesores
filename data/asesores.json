@@ -1,14 +1,12 @@
-{
-  "asesores": [
-    { "id": 6017, "nombre": "Patricia Almanza", "metricas": { "prospectos": 280, "citas": 95, "visitas": 44, "ventas": 18, "escrituras": 12 } },
-    { "id": 6330, "nombre": "Maria Zuniga", "metricas": { "prospectos": 210, "citas": 72, "visitas": 31, "ventas": 13, "escrituras": 9 } },
-    { "id": 5957, "nombre": "Juan Sosa", "metricas": { "prospectos": 190, "citas": 66, "visitas": 29, "ventas": 11, "escrituras": 7 } },
-    { "id": 6687, "nombre": "Aurora Salas", "metricas": { "prospectos": 260, "citas": 88, "visitas": 40, "ventas": 17, "escrituras": 11 } },
-    { "id": 6841, "nombre": "Maria Cruz", "metricas": { "prospectos": 150, "citas": 55, "visitas": 23, "ventas": 9, "escrituras": 6 } },
-    { "id": 7247, "nombre": "Liliana Franco", "metricas": { "prospectos": 300, "citas": 100, "visitas": 48, "ventas": 20, "escrituras": 14 } },
-    { "id": 7246, "nombre": "Laura Mendoza", "metricas": { "prospectos": 175, "citas": 61, "visitas": 27, "ventas": 10, "escrituras": 6 } },
-    { "id": 4706, "nombre": "Juan Lopez", "metricas": { "prospectos": 230, "citas": 80, "visitas": 36, "ventas": 15, "escrituras": 10 } },
-    { "id": 4686, "nombre": "Isaac Aguilar", "metricas": { "prospectos": 205, "citas": 73, "visitas": 34, "ventas": 12, "escrituras": 8 } },
-    { "id": 4685, "nombre": "Marisol Garcia", "metricas": { "prospectos": 215, "citas": 76, "visitas": 35, "ventas": 14, "escrituras": 9 } }
-  ]
-}
+[
+  { "id":"6017", "name":"Patricia Almanza", "prospects":62, "appointments":31, "sales":9 },
+  { "id":"6330", "name":"Maria Zuñiga", "prospects":40, "appointments":18, "sales":5 },
+  { "id":"5957", "name":"Juan Sosa", "prospects":75, "appointments":36, "sales":12 },
+  { "id":"6687", "name":"Aurora Salas", "prospects":58, "appointments":27, "sales":8 },
+  { "id":"6841", "name":"Maria Cruz", "prospects":44, "appointments":21, "sales":6 },
+  { "id":"7247", "name":"Liliana Franco", "prospects":69, "appointments":34, "sales":11 },
+  { "id":"7246", "name":"Laura Mendoza", "prospects":53, "appointments":26, "sales":7 },
+  { "id":"4706", "name":"Juan Lopez", "prospects":81, "appointments":39, "sales":13 },
+  { "id":"4686", "name":"Isaac Aguilar", "prospects":46, "appointments":22, "sales":6 },
+  { "id":"4685", "name":"Marisol Garcia", "prospects":60, "appointments":28, "sales":9 }
+]
