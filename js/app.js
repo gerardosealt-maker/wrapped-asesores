@@ -2,6 +2,7 @@ let data;
 let screens = [];
 let current = 0;
 let timer;
+let startX = 0;
 
 const params = new URLSearchParams(window.location.search);
 const asesor = params.get("asesor") || "demo";
@@ -13,6 +14,7 @@ fetch(`data/${asesor}.json`)
     buildScreens();
     show(0);
     autoPlay();
+    enableSwipe();
   });
 
 function buildScreens() {
@@ -45,7 +47,7 @@ function buildScreens() {
     <section class="screen" id="final">
       <div class="content">
         <h1>${cierre}</h1>
-        <button type="button" class="export" onclick="exportImage()">Guardar recuerdo</button>
+        <button type="button" class="export" onclick="exportStory()">Guardar mi historia</button>
       </div>
     </section>
   `;
@@ -57,6 +59,7 @@ function buildScreens() {
 function show(i) {
   screens.forEach(s => s.classList.remove("active"));
   screens[i].classList.add("active");
+  updateProgress();
 }
 
 function next() {
@@ -66,21 +69,41 @@ function next() {
   }
 }
 
+function prev() {
+  if (current > 0) {
+    current--;
+    show(current);
+  }
+}
+
 function autoPlay() {
   document.getElementById("bgm").play();
   timer = setInterval(() => {
-    if (current < screens.length - 1) {
-      next();
-    } else {
-      clearInterval(timer);
-    }
-  }, 4200); // duración por escena (ms)
+    if (current < screens.length - 1) next();
+    else clearInterval(timer);
+  }, 4200);
 }
 
-function exportImage() {
+/* PROGRESS */
+function updateProgress() {
+  const percent = ((current + 1) / screens.length) * 100;
+  document.getElementById("progress").style.width = percent + "%";
+}
+
+/* SWIPE */
+function enableSwipe() {
+  document.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+  document.addEventListener("touchend", e => {
+    const endX = e.changedTouches[0].clientX;
+    if (startX - endX > 50) next();
+    if (endX - startX > 50) prev();
+  });
+}
+
+/* EXPORT STORY */
+function exportStory() {
   clearInterval(timer);
-  const final = document.getElementById("final");
-  html2canvas(final).then(canvas => {
+  html2canvas(document.body).then(canvas => {
     const link = document.createElement("a");
     link.download = "mi-ano-en-resultados.png";
     link.href = canvas.toDataURL("image/png");
