@@ -2,57 +2,61 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Wrapped Asesores 2025</title>
+  <title>Tu año en números</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="css/style.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <!-- Música -->
-  <audio id="bgAudio" src="assets/audio/ambient.mp3" loop></audio>
-
-  <!-- Pantalla 1 -->
-  <section class="screen hero">
-    <h1 id="nombre">Tu año en números</h1>
-    <p class="subtitle">Desliza para comenzar</p>
+  <!-- Pantalla inicial -->
+  <section class="screen active" id="intro">
+    <h1>Tu año en números</h1>
+    <p class="hint">Desliza o da click para comenzar</p>
+    <button id="startBtn">Iniciar experiencia</button>
   </section>
 
-  <!-- Pantalla 2 -->
-  <section class="screen metric">
+  <!-- Slide 1 -->
+  <section class="screen">
     <h2>Todo empezó con un mensaje</h2>
-    <div class="big" id="prospectos">0</div>
-    <p class="story" id="textoProspectos"></p>
+    <p class="number" id="mensajes">0</p>
+    <p class="story" id="fraseMensajes"></p>
   </section>
 
-  <!-- Pantalla 3 -->
-  <section class="screen metric">
+  <!-- Slide 2 -->
+  <section class="screen">
     <h2>Cuando hubo intención real</h2>
-    <div class="big" id="citas">0</div>
-    <p class="story" id="textoCitas"></p>
+    <p class="number" id="intencion">0</p>
+    <p class="story" id="fraseIntencion"></p>
   </section>
 
-  <!-- Pantalla 4 -->
-  <section class="screen metric">
+  <!-- Slide 3 -->
+  <section class="screen">
     <h2>El momento clave</h2>
-    <div class="big" id="visitas">0</div>
-    <p class="story" id="textoVisitas"></p>
+    <p class="number" id="momento">0</p>
+    <p class="story" id="fraseMomento"></p>
   </section>
 
-  <!-- Pantalla 5 -->
-  <section class="screen metric">
+  <!-- Slide 4 -->
+  <section class="screen">
     <h2>Resultados reales</h2>
-    <div class="big" id="ventas">0</div>
-    <p class="story" id="textoVentas"></p>
+    <p class="number" id="resultados">0</p>
+    <p class="story" id="fraseResultados"></p>
   </section>
 
-  <!-- Pantalla Final -->
-  <section class="screen final">
+  <!-- Cierre -->
+  <section class="screen">
     <h2>Este fue tu 2025</h2>
-    <p id="cierre"></p>
+    <p class="story" id="fraseFinal"></p>
   </section>
 
-  <script src="js/app.js"></script>
+  <!-- Audio -->
+  <audio id="bgMusic" loop>
+    <source src="assets/audio/music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- JS -->
+  <script src="js/main.js"></script>
 </body>
 </html>
-
