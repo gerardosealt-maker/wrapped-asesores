@@ -1,14 +1,40 @@
 {
   "nombre": "Asesor Demo",
-  "prospectos": 320,
-  "citas": 140,
-  "visitas": 62,
-  "ventas": 21,
+  "anio": 2025,
+
+  "metricas": {
+    "prospectos": 248,
+    "citas": 126,
+    "visitas": 72,
+    "ventas": 18,
+    "escrituras": 11
+  },
+
   "frases": {
-    "prospectos": "Cada contacto fue una oportunidad abierta.",
-    "citas": "Aquí comenzó la conversación real.",
-    "visitas": "No todos llegan hasta aquí.",
-    "ventas": "Resultados que se construyen con constancia.",
-    "cierre": "Este año no fue suerte. Fue trabajo."
+    "prospectos": [
+      "Cada conversación fue una posibilidad.",
+      "Tuviste radar para detectar oportunidades.",
+      "Donde otros veían ruido, tú viste interés."
+    ],
+    "citas": [
+      "No todos aceptan una cita. Tú sí supiste convencer.",
+      "Cada cita fue un paso más cerca.",
+      "Aquí empezó la intención real."
+    ],
+    "visitas": [
+      "Aquí la intención se volvió tangible.",
+      "No era curiosidad, era decisión.",
+      "El momento donde todo se sintió real."
+    ],
+    "ventas": [
+      "El resultado de la constancia.",
+      "Cerrar también es un arte.",
+      "Aquí demostraste oficio."
+    ],
+    "escrituras": [
+      "Esto ya es legado.",
+      "Historias que cambian vidas.",
+      "El final que justifica todo el proceso."
+    ]
   }
 }
