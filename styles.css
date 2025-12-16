@@ -16,7 +16,6 @@ body {
   position: relative;
   height: 100vh;
   width: 100vw;
-  /* Gradiente base con animación */
   background: radial-gradient(circle at top, #1A1A1A 0%, #000 70%);
   background-size: 300% 300%; 
   animation: backgroundPan 10s ease infinite alternate; 
@@ -34,7 +33,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* Centrado horizontal perfecto */
   align-items: center; 
   text-align: center;
   opacity: 0;
@@ -99,8 +97,8 @@ h2 {
 }
 
 
-/* --- ANIMACIONES DE LOS ELEMENTOS INTERNOS (Delayed Fade-In) --- */
-.screen h2, .screen .metric, .screen .story, .screen button, #social-share {
+/* --- ANIMACIONES DE LOS ELEMENTOS INTERNOS --- */
+.screen h2, .screen .metric, .screen .story, .screen button, #action-buttons {
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.6s cubic-bezier(.22,.61,.36,1);
@@ -123,7 +121,7 @@ h2 {
   transform: translateY(0);
   transition-delay: 0.7s;
 }
-.screen.active button, .screen.active #social-share {
+.screen.active button, .screen.active #action-buttons {
   opacity: 1;
   transform: translateY(0);
   transition-delay: 0.9s;
@@ -156,7 +154,7 @@ button {
   width: 85%;
 }
 
-/* --- GRADIENTES ESPECÍFICOS POR SECCIÓN (Da más vida) --- */
+/* --- GRADIENTES ESPECÍFICOS POR SECCIÓN --- */
 .prospects-screen {
   background: radial-gradient(circle at bottom right, #4A00E0 0%, #200060 100%);
 }
@@ -177,6 +175,7 @@ button {
   background: radial-gradient(circle at top, #7FFF00 0%, #3CB371 100%);
 }
 
+/* --- ESTILO DE PANTALLA DE RESUMEN (Summary Screen) --- */
 .summary-screen {
     background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
     color: black;
@@ -185,75 +184,59 @@ button {
     color: #111;
     opacity: 1;
 }
-.summary-screen button {
-    background: #111;
-    color: white;
+
+/* Ajuste de tipografía en el resumen para hacerlo más limpio */
+.summary-screen h2 {
+    font-size: 24px;
+}
+.summary-screen .metric {
+    font-size: 65px; /* Ligeramente más pequeño para mejor responsividad */
+    margin: 20px 0;
+}
+.summary-screen .story {
+    font-size: 18px;
 }
 
-/* --- RESPONSIVIDAD DE LA PANTALLA FINAL (CORRECCIÓN UX) --- */
-@media (max-width: 400px) {
-    /* Reduce el tamaño de la fuente métrica en pantallas muy pequeñas para evitar desbordamiento */
-    .summary-screen .metric {
-        font-size: 60px; 
-    }
-}
-@media (max-width: 320px) {
-    /* Máxima reducción para dispositivos ultra pequeños */
-    .summary-screen .metric {
-        font-size: 50px; 
-    }
-}
-
-
-/* --- ESTILOS DE COMPARTIR Y PUNTOS DE NAVEGACIÓN --- */
-#social-share {
-    margin-top: 10px;
-    padding: 10px 0;
-    text-align: center;
+/* Contenedor de botones de acción */
+#action-buttons {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    margin-top: 30px;
 }
-#social-share p {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: #111; 
-}
-.share-btn {
+
+/* Botones de acción simplificados */
+#action-buttons button {
+    margin: 8px 0; /* Espaciado limpio */
     width: 85%;
+    font-weight: 700;
+    padding: 14px;
+}
+
+/* Botón principal (Guardar PNG) */
+.primary-action {
+    background: #111; /* Color oscuro como Spotify */
     color: white;
-    font-size: 16px;
-    margin-top: 8px;
-    padding: 12px;
-}
-.share-btn[data-platform="whatsapp"] {
-    background: #25D366; 
-}
-.share-btn[data-platform="twitter"] {
-    background: #1DA1F2;
 }
 
-hr {
-    width: 85%; 
-    border: 0; 
-    border-top: 1px solid rgba(0,0,0,0.2); 
-    margin: 10px 0;
-}
-
-/* Estilos de Historias/Estados */
-.share-btn[data-platform="instagram-stories"] {
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-}
-.share-btn[data-platform="whatsapp-status"] {
-    background: #25D366;
-}
-.share-btn[data-platform="facebook-stories"] {
-    background: #1877F2;
+/* Botón secundario (Compartir Enlace WhatsApp) */
+.secondary-action {
+    background: #25D366; /* Verde WhatsApp */
+    color: white;
+    font-weight: 600;
 }
 
 
+/* --- RESPONSIVIDAD DE LA PANTALLA FINAL (Ajuste fino) --- */
+@media (max-width: 400px) {
+    .summary-screen .metric {
+        font-size: 55px; 
+    }
+}
+
+
+/* --- INDICADORES DE NAVEGACIÓN --- */
 #navigation-dots {
   position: fixed;
   bottom: 40px;
