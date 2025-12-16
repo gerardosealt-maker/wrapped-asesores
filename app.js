@@ -1,80 +1,254 @@
-let data, current = 0, advisor;
-// Corregida la referencia al elemento de música
-const music = document.getElementById('bgMusic'); 
+let data, current = 0, advisor, averageSales;
 const screens = document.querySelectorAll('.screen');
+const music = document.getElementById('music'); 
 const startButton = document.getElementById('startBtn');
-const agentInput = document.getElementById('agentInput'); // Usamos el ID correcto del input
+const agentInput = document.getElementById('agentInput');
+const navigationDots = document.getElementById('navigation-dots');
+const shareButtons = document.getElementsByClassName('share-btn');
+const swipeHint = document.getElementById('swipe-hint');
+const exportButton = document.getElementById('exportBtn');
 
-// 1. Carga de datos y habilitación del botón
+// DATOS DE PRUEBA TEMPORALES para simular la estructura completa
+// **RECUERDA actualizar tu data.json con estos campos para datos reales.**
+const TEMP_DATA_EXTENSION = {
+    totalDeeds: 7,
+    monthlyData: {
+        "Ene": { "sales": 1, "deeds": 0 }, "Feb": { "sales": 0, "deeds": 0 }, 
+        "Mar": { "sales": 2, "deeds": 1 }, "Abr": { "sales": 0, "deeds": 0 }, 
+        "May": { "sales": 1, "deeds": 1 }, "Jun": { "sales": 0, "deeds": 0 }, 
+        "Jul": { "sales": 2, "deeds": 2 }, "Ago": { "sales": 1, "deeds": 1 }, 
+        "Sep": { "sales": 0, "deeds": 0 }, "Oct": { "sales": 1, "deeds": 1 }, 
+        "Nov": { "sales": 0, "deeds": 0 }, "Dic": { "sales": 1, "deeds": 1 }
+    }
+};
+
+// Función auxiliar para encontrar el mejor mes por métrica (asume datos mensuales)
+function findBestMonth(monthlyData) {
+    let bestMonth = '';
+    let maxScore = -1;
+    const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
+    for (const month of months) {
+        // Puntuación: 3 puntos por Venta, 5 puntos por Escritura (mayor peso)
+        const score = (monthlyData[month].sales * 3) + (monthlyData[month].deeds * 5); 
+        if (score > maxScore) {
+            maxScore = score;
+            bestMonth = month;
+        }
+    }
+    return { name: bestMonth, score: maxScore };
+}
+
+
+// 1. CARGA DE DATOS, CÁLCULO DE PROMEDIOS Y HABILITACIÓN
 fetch('./data.json')
   .then(r => r.json())
   .then(j => {
-    data = j;
-    // Habilita el botón de inicio una vez que los datos están cargados
-    startButton.disabled = false; 
+      data = j;
+      const totalSales = data.reduce((sum, a) => sum + a.sales, 0);
+      averageSales = totalSales / data.length;
+  })
+  .then(() => {
+    // Habilitar el botón si hay texto en el input
     agentInput.addEventListener('input', () => {
-        // Habilitar si hay texto en el input
         startButton.disabled = agentInput.value.trim().length === 0;
     });
+    // Inicializar los puntos de navegación
+    initDots();
   });
 
-// 2. Lógica de inicio
+// 2. LÓGICA DE INICIO Y CARGA DE MÉTRICAS
 startButton.onclick = () => {
-  // Corregida la referencia al valor del input
   const id = agentInput.value.trim(); 
   advisor = data.find(a => a.id === id);
-  if (!advisor) return alert('ID no encontrado');
+  if (!advisor) return alert('ID no encontrado. Por favor, verifica tu número.');
+  
+  // AÑADIR DATOS DE PRUEBA SI FALTAN (Esto debe eliminarse cuando data.json sea completo)
+  advisor = {...advisor, ...TEMP_DATA_EXTENSION};
 
-  // Colocando el nombre y el nivel en las etiquetas correctas de la segunda pantalla
-  document.getElementById('welcome').textContent = advisor.name; 
-  document.getElementById('name').textContent = advisor.sales > 10 ? 'NIVEL PRO' : 'BASE SÓLIDA';
-
+  // --- CÁLCULO DE MÉTRICAS CLAVE Y INSIGHTS ---
+  const prospectConversion = (advisor.appointments / advisor.prospects) * 100;
+  const saleConversion = (advisor.sales / advisor.appointments) * 100;
+  const salesDifference = advisor.sales - averageSales;
+  const bestMonthData = findBestMonth(advisor.monthlyData);
+  const bestMonthStats = advisor.monthlyData[bestMonthData.name];
+  
+  // --- PANTALLAS (Asignación de Contenido) ---
+  document.getElementById('welcome').textContent = advisor.name;
+  document.getElementById('name').textContent = advisor.sales > 10 ? 'NIVEL MASTER' : 'BASE SÓLIDA';
   document.getElementById('introCopy').textContent =
     advisor.sales > 10
-      ? 'Constancia pura. Esto no es suerte.'
-      : 'Todo gran cierre empieza con intención.';
+      ? 'Constancia pura. Esto no es suerte, es consistencia en acción.'
+      : 'Todo gran cierre empieza con una intención firme. Listo para el próximo ciclo.';
 
   document.getElementById('prospects').textContent = advisor.prospects;
-  document.getElementById('appointments').textContent = advisor.appointments;
-  document.getElementById('sales').textContent = advisor.sales;
-
   document.getElementById('prospectsCopy').textContent =
-    advisor.prospects > 50
-      ? 'Mucho flujo. El embudo respiró.'
-      : 'Menos ruido, más enfoque.';
+    prospectConversion >= 50
+      ? `Tuviste una conversión de ${prospectConversion.toFixed(0)}% de prospecto a cita. ¡Enfoque de cirujano!`
+      : `Registraste ${advisor.prospects} prospectos. Menos ruido, más enfoque para el seguimiento este año.`;
 
+  document.getElementById('appointments').textContent = advisor.appointments;
   document.getElementById('appointmentsCopy').textContent =
-    advisor.appointments > 20
-      ? 'Aquí se nota el seguimiento.'
-      : 'Cada cita cuenta más de lo que parece.';
+    saleConversion >= 30
+      ? `Un impresionante ${saleConversion.toFixed(0)}% de tus citas se cerraron. ¡Eficacia pura!`
+      : `Lograste ${advisor.appointments} citas. Cada una es un aprendizaje valioso. ¡A refinar el cierre!`;
 
+  document.getElementById('sales').textContent = advisor.sales;
   document.getElementById('salesCopy').textContent =
     advisor.sales > 8
-      ? 'Conversión real. Nivel pro.'
-      : 'Base sólida para el próximo ciclo.';
+      ? 'Conversión real. Nivel pro y resultados tangibles. ¡Sigue así!'
+      : 'Base sólida para el próximo ciclo. Usa estos aprendizajes para romper tus metas.';
+      
+  document.getElementById('deeds').textContent = advisor.totalDeeds;
+  document.getElementById('deedsCopy').textContent =
+    advisor.totalDeeds > 5
+      ? `Tuviste ${advisor.totalDeeds} escrituras. ¡La meta se ve cerca, sigue monetizando ese esfuerzo!`
+      : `Registraste ${advisor.totalDeeds} escrituras. El volumen es importante, pero la calidad se traduce en cierres.`;
+
+  document.getElementById('bestMonth').textContent = bestMonthData.name.toUpperCase();
+  document.getElementById('bestMonthCopy').textContent = 
+      `En ${bestMonthData.name}, lograste ${bestMonthStats.sales} ventas y ${bestMonthStats.deeds} escrituras. ¡Tu mejor desempeño del año! Enfoca tu energía en replicar ese éxito.`;
+
+  document.getElementById('summaryTitle').textContent =
+      salesDifference > 0
+          ? `¡LÍDER ABSOLUTO! (+${salesDifference.toFixed(1)})`
+          : `¡BASE DE CONFIANZA! (${advisor.sales} Ventas)`;
 
   document.getElementById('summary').textContent =
-    'No se trata solo de números. Se trata de evolución.';
+    salesDifference > 0
+        ? `Superaste el promedio del equipo de ${averageSales.toFixed(1)} cierres por ${salesDifference.toFixed(1)} unidades. ¡Tu impacto es enorme!`
+        : `Tu base de ${advisor.sales} cierres es un excelente punto de partida. El promedio del equipo fue de ${averageSales.toFixed(1)}. ¡A superar esa marca el próximo año!`;
+
 
   next();
-  // Manejo de promesa para evitar errores de reproducción automática
   music.play().catch(()=>{}); 
 };
 
-// 3. Navegación
-function next() {
-  if (screens[current]) screens[current].classList.remove('active');
-  current++;
-  if (screens[current]) screens[current].classList.add('active');
+// 3. FUNCIONES DE NAVEGACIÓN Y PUNTOS
+function initDots() {
+  // Ignorar la pantalla de login al crear los puntos
+  screens.forEach((screen, index) => {
+    if (index > 0) { 
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      navigationDots.appendChild(dot);
+    }
+  });
 }
 
-// 4. Swipe (sigue funcionando solo hacia adelante)
+function updateDots() {
+    const dots = document.querySelectorAll('#navigation-dots .dot');
+    // current=1 es la primera pantalla de contenido (index=0 del dot)
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === (current - 1)); 
+    });
+}
+
+function next() {
+  // Solo avanzamos si no es la última pantalla
+  if (current < screens.length - 1) { 
+      screens[current].classList.remove('active'); 
+      current++;
+      screens[current].classList.add('active');
+      updateDots();
+      
+      // Actualizar hint
+      swipeHint.style.display = (current === screens.length - 1) ? 'none' : 'block';
+      if (current === 1) swipeHint.querySelector('p').textContent = 'Desliza para continuar 👇';
+      else if (current > 1) swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
+  }
+}
+
+function prev() {
+    // Solo retrocedemos si no es la primera pantalla de contenido (current > 1)
+    if (current > 1) { 
+        screens[current].classList.remove('active');
+        current--;
+        screens[current].classList.add('active');
+        updateDots();
+        
+        // Restaurar hint
+        swipeHint.style.display = 'block';
+        if (current === 1) swipeHint.querySelector('p').textContent = 'Desliza para continuar 👇';
+        else if (current > 1) swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
+    } else if (current === 1) {
+        // Si estamos en la primera de contenido, volvemos a login (current=0)
+        screens[current].classList.remove('active');
+        current = 0;
+        screens[current].classList.add('active');
+        music.pause();
+        swipeHint.style.display = 'none'; 
+        updateDots();
+    }
+}
+
+// 4. NAVEGACIÓN POR SWIPE (Táctil) - CORREGIDO PARA AMBAS DIRECCIONES
 let startY = 0;
 document.addEventListener('touchstart', e => startY = e.touches[0].clientY);
 document.addEventListener('touchend', e => {
-  if (startY - e.changedTouches[0].clientY > 50) next();
+  const deltaY = startY - e.changedTouches[0].clientY;
+  
+  // Swipe UP (Advance) - deltaY es positivo
+  if (deltaY > 50) next();
+  
+  // Swipe DOWN (Go Back) - deltaY es negativo
+  else if (deltaY < -50) prev();
 });
 
-// 5. Exportar imagen
-document.getElementById('exportBtn').onclick = () =>
-  alert('Exportar imagen: siguiente fase');
+
+// 5. EXPORTAR IMAGEN (html2canvas)
+exportButton.onclick = () => {
+    const screenToCapture = screens[current]; 
+    
+    // Oculta temporalmente elementos que no deben ir en la captura
+    navigationDots.style.display = 'none';
+    swipeHint.style.display = 'none';
+    document.getElementById('social-share').style.display = 'none'; 
+
+    html2canvas(screenToCapture, {
+        allowTaint: true,
+        useCORS: true,
+        scale: 2 
+    }).then(function(canvas) {
+        // Restaurar los elementos
+        navigationDots.style.display = 'flex';
+        swipeHint.style.display = 'block';
+        document.getElementById('social-share').style.display = 'flex'; 
+
+        // Crear enlace de descarga
+        const link = document.createElement('a');
+        link.download = `Wrapped_${advisor.name.replace(/\s/g, '_')}_${advisor.id}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        
+        // Mensaje de confirmación clave para Historias
+        alert('¡Recuerdo guardado con éxito! Por favor, abre tu plataforma social y súbelo a tus Historias/Estados.');
+    });
+};
+
+// 6. LÓGICA DE COMPARTIR EN REDES SOCIALES (Guía)
+Array.from(shareButtons).forEach(button => {
+    button.onclick = () => {
+        const platform = button.getAttribute('data-platform');
+        const shareText = `¡Mira mi #Wrapped de Asesor de Ventas! Logré ${advisor.sales} ventas y ${advisor.totalDeeds} escrituras este año. ¡Vamos por más! 🚀 #Ventas #Éxito #MiWrapped`;
+        const encodedText = encodeURIComponent(shareText);
+        
+        const appLink = encodeURIComponent(window.location.href);
+
+        let url = '';
+
+        if (platform === 'whatsapp') {
+            url = `https://wa.me/?text=${encodedText}%20${appLink}`;
+        } else if (platform === 'twitter') {
+            url = `https://twitter.com/intent/tweet?text=${encodedText}&url=${appLink}`;
+        } else if (platform === 'whatsapp-status' || platform === 'instagram-stories' || platform === 'facebook-stories') {
+            // Guía al usuario para que suba la imagen PNG descargada
+            alert(`Para compartir en ${platform.split('-')[0].toUpperCase()} Stories/Status, pulsa "Añadir a Historia/Estado" y sube la imagen PNG que acabas de descargar. ¡Gracias por compartir!`);
+            return;
+        }
+        
+        if (url) {
+            window.open(url, '_blank');
+        }
+    };
+});
