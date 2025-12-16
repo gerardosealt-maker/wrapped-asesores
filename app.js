@@ -4,9 +4,11 @@ const music = document.getElementById('music');
 const startButton = document.getElementById('startBtn');
 const agentInput = document.getElementById('agentInput');
 const navigationDots = document.getElementById('navigation-dots');
-const shareButtons = document.getElementsByClassName('share-btn');
+// Eliminamos la referencia a shareButtons (HTML lo tiene simplificado)
 const swipeHint = document.getElementById('swipe-hint');
 const exportButton = document.getElementById('exportBtn');
+const whatsappShareBtn = document.getElementById('whatsappShareBtn'); // Nuevo botón de WhatsApp
+
 
 // DATOS DE PRUEBA TEMPORALES para simular la estructura completa
 // **RECUERDA actualizar tu data.json con estos campos para datos reales.**
@@ -63,7 +65,7 @@ startButton.onclick = () => {
   advisor = data.find(a => a.id === id);
   if (!advisor) return alert('ID no encontrado. Por favor, verifica tu número.');
   
-  // AÑADIR DATOS DE PRUEBA SI FALTAN (Esto debe eliminarse cuando data.json sea completo)
+  // AÑADIR DATOS DE PRUEBA SI FALTAN
   advisor = {...advisor, ...TEMP_DATA_EXTENSION};
 
   // --- CÁLCULO DE MÉTRICAS CLAVE Y INSIGHTS ---
@@ -105,11 +107,9 @@ startButton.onclick = () => {
       ? `Tuviste ${advisor.totalDeeds} escrituras. ¡La meta se ve cerca, sigue monetizando ese esfuerzo!`
       : `Registraste ${advisor.totalDeeds} escrituras. El volumen es importante, pero la calidad se traduce en cierres.`;
 
-  // --- MEJORA: DETALLE DEL MEJOR MES ---
   document.getElementById('bestMonth').textContent = bestMonthData.name.toUpperCase();
   document.getElementById('bestMonthCopy').textContent = 
       `En ${bestMonthData.name}, lograste ${bestMonthStats.sales} ventas y ${bestMonthStats.deeds} escrituras. ¡Tu mejor desempeño del año! Enfoca tu energía en replicar ese éxito.`;
-  // ------------------------------------
 
   document.getElementById('summaryTitle').textContent =
       salesDifference > 0
@@ -192,50 +192,38 @@ document.addEventListener('touchend', e => {
 exportButton.onclick = () => {
     const screenToCapture = screens[current]; 
     
+    // Ocultar elementos de navegación/botones para la captura
     navigationDots.style.display = 'none';
     swipeHint.style.display = 'none';
-    document.getElementById('social-share').style.display = 'none'; 
+    document.getElementById('action-buttons').style.display = 'none'; 
 
     html2canvas(screenToCapture, {
         allowTaint: true,
         useCORS: true,
         scale: 2 
     }).then(function(canvas) {
+        // Restaurar elementos
         navigationDots.style.display = 'flex';
         swipeHint.style.display = 'block';
-        document.getElementById('social-share').style.display = 'flex'; 
+        document.getElementById('action-buttons').style.display = 'flex'; 
 
+        // Crear enlace de descarga
         const link = document.createElement('a');
         link.download = `Wrapped_${advisor.name.replace(/\s/g, '_')}_${advisor.id}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
         
-        alert('¡Recuerdo guardado con éxito! Por favor, abre tu plataforma social y súbelo a tus Historias/Estados.');
+        // Mensaje de confirmación (el único necesario)
+        alert('¡Recuerdo guardado con éxito! Abre tu Instagram o WhatsApp para subirlo a tus Historias/Estados.');
     });
 };
 
-// 6. LÓGICA DE COMPARTIR EN REDES SOCIALES (Guía)
-Array.from(shareButtons).forEach(button => {
-    button.onclick = () => {
-        const platform = button.getAttribute('data-platform');
-        const shareText = `¡Mira mi #Wrapped de Asesor de Ventas! Logré ${advisor.sales} ventas y ${advisor.totalDeeds} escrituras este año. ¡Vamos por más! 🚀 #Ventas #Éxito #MiWrapped`;
-        const encodedText = encodeURIComponent(shareText);
-        
-        const appLink = encodeURIComponent(window.location.href);
+// 6. LÓGICA DE COMPARTIR EN WHATSAPP (Enlace)
+whatsappShareBtn.onclick = () => {
+    const shareText = `¡Mira mi #Wrapped de Asesor de Ventas! Logré ${advisor.sales} ventas y ${advisor.totalDeeds || 'N/A'} escrituras este año. ¡Vamos por más! 🚀 #Ventas #Éxito #MiWrapped`;
+    const encodedText = encodeURIComponent(shareText);
+    const appLink = encodeURIComponent(window.location.href);
 
-        let url = '';
-
-        if (platform === 'whatsapp') {
-            url = `https://wa.me/?text=${encodedText}%20${appLink}`;
-        } else if (platform === 'twitter') {
-            url = `https://twitter.com/intent/tweet?text=${encodedText}&url=${appLink}`;
-        } else if (platform === 'whatsapp-status' || platform === 'instagram-stories' || platform === 'facebook-stories') {
-            alert(`Para compartir en ${platform.split('-')[0].toUpperCase()} Stories/Status, pulsa "Añadir a Historia/Estado" y sube la imagen PNG que acabas de descargar. ¡Gracias por compartir!`);
-            return;
-        }
-        
-        if (url) {
-            window.open(url, '_blank');
-        }
-    };
-});
+    const url = `https://wa.me/?text=${encodedText}%20${appLink}`;
+    window.open(url, '_blank');
+};
