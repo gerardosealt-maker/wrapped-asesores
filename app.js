@@ -10,6 +10,7 @@ const exportButton = document.getElementById('exportBtn');
 
 // DATOS DE PRUEBA TEMPORALES para simular la estructura completa
 // **RECUERDA actualizar tu data.json con estos campos para datos reales.**
+// Si ya actualizaste data.json, puedes ELIMINAR esta sección y el spread operator en startButton.onclick
 const TEMP_DATA_EXTENSION = {
     totalDeeds: 7,
     monthlyData: {
@@ -22,7 +23,7 @@ const TEMP_DATA_EXTENSION = {
     }
 };
 
-// Función auxiliar para encontrar el mejor mes por métrica (asume datos mensuales)
+// Función auxiliar para encontrar el mejor mes por métrica (Ponderación: 3x Venta, 5x Escritura)
 function findBestMonth(monthlyData) {
     let bestMonth = '';
     let maxScore = -1;
@@ -53,7 +54,6 @@ fetch('./data.json')
     agentInput.addEventListener('input', () => {
         startButton.disabled = agentInput.value.trim().length === 0;
     });
-    // Inicializar los puntos de navegación
     initDots();
   });
 
@@ -105,9 +105,11 @@ startButton.onclick = () => {
       ? `Tuviste ${advisor.totalDeeds} escrituras. ¡La meta se ve cerca, sigue monetizando ese esfuerzo!`
       : `Registraste ${advisor.totalDeeds} escrituras. El volumen es importante, pero la calidad se traduce en cierres.`;
 
+  // --- MEJORA: DETALLE DEL MEJOR MES ---
   document.getElementById('bestMonth').textContent = bestMonthData.name.toUpperCase();
   document.getElementById('bestMonthCopy').textContent = 
       `En ${bestMonthData.name}, lograste ${bestMonthStats.sales} ventas y ${bestMonthStats.deeds} escrituras. ¡Tu mejor desempeño del año! Enfoca tu energía en replicar ese éxito.`;
+  // ------------------------------------
 
   document.getElementById('summaryTitle').textContent =
       salesDifference > 0
@@ -126,7 +128,6 @@ startButton.onclick = () => {
 
 // 3. FUNCIONES DE NAVEGACIÓN Y PUNTOS
 function initDots() {
-  // Ignorar la pantalla de login al crear los puntos
   screens.forEach((screen, index) => {
     if (index > 0) { 
       const dot = document.createElement('div');
@@ -138,21 +139,18 @@ function initDots() {
 
 function updateDots() {
     const dots = document.querySelectorAll('#navigation-dots .dot');
-    // current=1 es la primera pantalla de contenido (index=0 del dot)
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === (current - 1)); 
     });
 }
 
 function next() {
-  // Solo avanzamos si no es la última pantalla
   if (current < screens.length - 1) { 
       screens[current].classList.remove('active'); 
       current++;
       screens[current].classList.add('active');
       updateDots();
       
-      // Actualizar hint
       swipeHint.style.display = (current === screens.length - 1) ? 'none' : 'block';
       if (current === 1) swipeHint.querySelector('p').textContent = 'Desliza para continuar 👇';
       else if (current > 1) swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
@@ -160,19 +158,16 @@ function next() {
 }
 
 function prev() {
-    // Solo retrocedemos si no es la primera pantalla de contenido (current > 1)
     if (current > 1) { 
         screens[current].classList.remove('active');
         current--;
         screens[current].classList.add('active');
         updateDots();
         
-        // Restaurar hint
         swipeHint.style.display = 'block';
         if (current === 1) swipeHint.querySelector('p').textContent = 'Desliza para continuar 👇';
         else if (current > 1) swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
     } else if (current === 1) {
-        // Si estamos en la primera de contenido, volvemos a login (current=0)
         screens[current].classList.remove('active');
         current = 0;
         screens[current].classList.add('active');
@@ -182,16 +177,13 @@ function prev() {
     }
 }
 
-// 4. NAVEGACIÓN POR SWIPE (Táctil) - CORREGIDO PARA AMBAS DIRECCIONES
+// 4. NAVEGACIÓN POR SWIPE (Táctil)
 let startY = 0;
 document.addEventListener('touchstart', e => startY = e.touches[0].clientY);
 document.addEventListener('touchend', e => {
   const deltaY = startY - e.changedTouches[0].clientY;
   
-  // Swipe UP (Advance) - deltaY es positivo
   if (deltaY > 50) next();
-  
-  // Swipe DOWN (Go Back) - deltaY es negativo
   else if (deltaY < -50) prev();
 });
 
@@ -200,7 +192,6 @@ document.addEventListener('touchend', e => {
 exportButton.onclick = () => {
     const screenToCapture = screens[current]; 
     
-    // Oculta temporalmente elementos que no deben ir en la captura
     navigationDots.style.display = 'none';
     swipeHint.style.display = 'none';
     document.getElementById('social-share').style.display = 'none'; 
@@ -210,18 +201,15 @@ exportButton.onclick = () => {
         useCORS: true,
         scale: 2 
     }).then(function(canvas) {
-        // Restaurar los elementos
         navigationDots.style.display = 'flex';
         swipeHint.style.display = 'block';
         document.getElementById('social-share').style.display = 'flex'; 
 
-        // Crear enlace de descarga
         const link = document.createElement('a');
         link.download = `Wrapped_${advisor.name.replace(/\s/g, '_')}_${advisor.id}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
         
-        // Mensaje de confirmación clave para Historias
         alert('¡Recuerdo guardado con éxito! Por favor, abre tu plataforma social y súbelo a tus Historias/Estados.');
     });
 };
@@ -242,7 +230,6 @@ Array.from(shareButtons).forEach(button => {
         } else if (platform === 'twitter') {
             url = `https://twitter.com/intent/tweet?text=${encodedText}&url=${appLink}`;
         } else if (platform === 'whatsapp-status' || platform === 'instagram-stories' || platform === 'facebook-stories') {
-            // Guía al usuario para que suba la imagen PNG descargada
             alert(`Para compartir en ${platform.split('-')[0].toUpperCase()} Stories/Status, pulsa "Añadir a Historia/Estado" y sube la imagen PNG que acabas de descargar. ¡Gracias por compartir!`);
             return;
         }
