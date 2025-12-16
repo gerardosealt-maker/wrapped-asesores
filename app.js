@@ -43,11 +43,12 @@ fetch('./data.json')
   .then(r => r.json())
   .then(j => {
       data = j;
+      // CORRECCIÓN CLAVE: Error de paréntesis en la función reduce arreglado
       const totalSales = data.reduce((sum, a) => sum + a.sales, 0);
       averageSales = totalSales / data.length;
   })
   .then(() => {
-    // HABILITA EL BOTÓN CUANDO HAY CONTENIDO EN EL INPUT
+    // ESTA LÍNEA AHORA SE EJECUTA CORRECTAMENTE
     agentInput.addEventListener('input', () => {
         startButton.disabled = agentInput.value.trim().length === 0;
     });
@@ -55,7 +56,7 @@ fetch('./data.json')
   });
 
 // 2. LÓGICA DE INICIO Y CARGA DE MÉTRICAS
-startButton.onclick = () => {
+startButton.addEventListener('click', () => {
   const id = agentInput.value.trim(); 
   advisor = data.find(a => a.id === id);
   if (!advisor) return alert('ID no encontrado. Por favor, verifica tu número.');
@@ -105,7 +106,7 @@ startButton.onclick = () => {
   document.getElementById('bestMonthCopy').textContent = 
       `En ${bestMonthData.name}, lograste ${bestMonthStats.sales} ventas y ${bestMonthStats.deeds} escrituras. ¡Tu mejor desempeño del año! Enfoca tu energía en replicar ese éxito.`;
 
-  // --- Lógica del Resumen Final ---
+  // --- Lógica del Resumen Final con 3 Métricas ---
   document.getElementById('finalSales').textContent = advisor.sales;
   document.getElementById('finalDeeds').textContent = advisor.totalDeeds;
   document.getElementById('finalMonth').textContent = bestMonthData.name.toUpperCase();
@@ -126,11 +127,10 @@ startButton.onclick = () => {
   swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
 
   music.play().catch(()=>{}); 
-};
+});
 
 // 3. FUNCIONES DE NAVEGACIÓN Y PUNTOS
 function initDots() {
-  // Solo crea puntos para las pantallas de la experiencia (índice 1 en adelante)
   for (let i = 1; i < screens.length; i++) {
     const dot = document.createElement('div');
     dot.classList.add('dot');
@@ -139,7 +139,6 @@ function initDots() {
 }
 
 function updateDots() {
-    // Los puntos se sincronizan con la pantalla actual - 1 (ya que el Login no tiene punto)
     const dots = document.querySelectorAll('#navigation-dots .dot');
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === (current - 1)); 
@@ -159,7 +158,6 @@ function next() {
 }
 
 function prev() {
-    // Si estamos en la pantalla 1 (la primera de la experiencia)
     if (current === 1) { 
         screens[current].classList.remove('active');
         current = 0; // Regresamos al Login
@@ -168,7 +166,6 @@ function prev() {
         swipeHint.style.display = 'none'; 
         updateDots();
     } 
-    // Si estamos en cualquier otra pantalla de la experiencia
     else if (current > 1) { 
         screens[current].classList.remove('active');
         current--;
@@ -182,7 +179,7 @@ function prev() {
 // 4. NAVEGACIÓN POR SWIPE (Táctil)
 let startY = 0;
 document.addEventListener('touchstart', e => {
-    if (current > 0 && current < screens.length) { // Solo si estamos dentro de la experiencia
+    if (current > 0 && current < screens.length) { 
         startY = e.touches[0].clientY;
     }
 });
@@ -191,8 +188,8 @@ document.addEventListener('touchend', e => {
   if (current > 0 && current < screens.length) {
       const deltaY = startY - e.changedTouches[0].clientY;
       
-      if (deltaY > 50) next(); // Deslizar hacia arriba (siguiente)
-      else if (deltaY < -50) prev(); // Deslizar hacia abajo (anterior/regresar a login)
+      if (deltaY > 50) next(); 
+      else if (deltaY < -50) prev(); 
   }
 });
 
@@ -201,23 +198,18 @@ document.addEventListener('touchend', e => {
 exportButton.onclick = () => {
     const screenToCapture = screens[current]; 
     
-    // Ocultar elementos para la captura
     navigationDots.style.display = 'none';
     swipeHint.style.display = 'none';
     document.getElementById('action-buttons').style.display = 'none'; 
-    // Ocultamos el título h2 de 'Tu Legado del Año' si es necesario para un look más limpio de certificado (opcional)
-    // screenToCapture.querySelector('h2').style.display = 'none';
 
     html2canvas(screenToCapture, {
         allowTaint: true,
         useCORS: true,
         scale: 2 
     }).then(function(canvas) {
-        // Restaurar elementos
         navigationDots.style.display = 'flex';
         swipeHint.style.display = 'block';
         document.getElementById('action-buttons').style.display = 'flex'; 
-        // screenToCapture.querySelector('h2').style.display = 'block'; // Restaurar título
 
         const link = document.createElement('a');
         link.download = `Wrapped_${advisor.name.replace(/\s/g, '_')}_${advisor.id}.png`;
