@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Usamos una fuente genérica segura */
   font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
 }
 
@@ -35,6 +36,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* CORRECCIÓN UX/UI: Centrado horizontal perfecto */
+  align-items: center; 
   text-align: center;
   opacity: 0;
   transform: translateY(40px);
@@ -197,6 +200,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%; /* Asegura que tome todo el ancho para centrar los botones */
 }
 #social-share p {
     font-size: 16px;
@@ -212,11 +216,32 @@ button {
     padding: 12px;
 }
 .share-btn[data-platform="whatsapp"] {
-    background: #25D366;
+    background: #25D366; 
 }
 .share-btn[data-platform="twitter"] {
     background: #1DA1F2;
 }
+
+/* Estilo para la línea divisoria */
+hr {
+    width: 85%; 
+    border: 0; 
+    border-top: 1px solid rgba(0,0,0,0.2); 
+    margin: 10px 0;
+}
+
+/* Nuevos estilos para Historias/Estados */
+.share-btn[data-platform="instagram-stories"] {
+    /* Gradiente de Instagram */
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+.share-btn[data-platform="whatsapp-status"] {
+    background: #25D366; /* Mismo color de WhatsApp */
+}
+.share-btn[data-platform="facebook-stories"] {
+    background: #1877F2;
+}
+
 
 #navigation-dots {
   position: fixed;
@@ -256,9 +281,3 @@ button {
     0%, 100% { opacity: 0.6; }
     50% { opacity: 0.8; }
 }
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.8; }
-}
-
