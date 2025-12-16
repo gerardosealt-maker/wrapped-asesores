@@ -1,119 +1,68 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
 }
+
 
 body {
-  font-family: Inter, system-ui, sans-serif;
-  background: #0b0b0f;
-  color: #fff;
-  height: 100vh;
-  overflow: hidden;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+background: #0b0b0f;
+color: white;
+overflow: hidden;
 }
 
-/* PROGRESS BAR */
-#progress {
-  position: fixed;
-  top: env(safe-area-inset-top);
-  left: 0;
-  height: 4px;
-  width: 0%;
-  background: linear-gradient(90deg, #8b5cf6, #22d3ee);
-  z-index: 10;
-  transition: width 0.4s ease;
-}
 
-/* APP */
 #app {
-  height: 100vh;
-  width: 100vw;
-  position: relative;
+height: 100vh;
+width: 100vw;
+overflow-y: scroll;
+scroll-snap-type: y mandatory;
 }
 
-/* SCREENS */
+
 .screen {
-  position: absolute;
-  inset: 0;
-  padding: env(safe-area-inset-top) 24px env(safe-area-inset-bottom);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transform: translateX(40px);
-  transition: all 0.6s ease;
+height: 100vh;
+width: 100vw;
+scroll-snap-align: start;
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 32px 24px;
+position: relative;
 }
 
-.screen.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* CONTENT */
-.content {
-  max-width: 90%;
-}
 
 h1, h2 {
-  font-weight: 900;
-  line-height: 1.1;
+font-size: 2.2rem;
+margin-bottom: 12px;
 }
 
-h1 {
-  font-size: 2.8rem;
-  background: linear-gradient(90deg, #8b5cf6, #22d3ee);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-h2 {
-  font-size: 2.2rem;
-}
 
 .number {
-  font-size: 5.5rem;
-  font-weight: 900;
-  letter-spacing: -3px;
+font-size: 5.5rem;
+font-weight: 800;
+letter-spacing: -3px;
 }
+
 
 .story-line {
-  font-size: 1.15rem;
-  margin-top: 10px;
-  opacity: 0;
-  animation: fadeUp 0.8s forwards;
+font-size: 1.1rem;
+opacity: 0.9;
+margin-top: 8px;
 }
 
-.story-line:nth-child(1){animation-delay:.4s}
-.story-line:nth-child(2){animation-delay:.9s}
-.story-line:nth-child(3){animation-delay:1.4s}
 
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* GRADIENTS */
-.gradient-prospectos { background: radial-gradient(circle at top, #22d3ee, #0b0b0f); }
-.gradient-citas { background: radial-gradient(circle at bottom, #8b5cf6, #0b0b0f); }
-.gradient-visitas { background: radial-gradient(circle at top, #ec4899, #0b0b0f); }
-.gradient-ventas { background: radial-gradient(circle at bottom, #f59e0b, #0b0b0f); }
-.gradient-escrituras { background: radial-gradient(circle at center, #10b981, #0b0b0f); }
-
-/* BUTTONS */
 button {
-  margin-top: 32px;
-  padding: 14px 30px;
-  border-radius: 999px;
-  border: none;
-  font-weight: 700;
-  background: linear-gradient(90deg, #8b5cf6, #22d3ee);
-  color: #000;
+margin-top: 32px;
+padding: 14px 24px;
+background: white;
+color: black;
+border: none;
+border-radius: 999px;
+font-size: 1rem;
 }
 
-.export {
-  background: transparent;
-  color: #fff;
-  border: 2px solid #8b5cf6;
-}
+
+.gradient-prospectos { background: radial-gradient(circle, #22d3ee, #0b0b0f); }
+.gradient-final { background: radial-gradient(circle, #6366f1, #0b0b0f); }
