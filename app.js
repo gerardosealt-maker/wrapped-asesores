@@ -2,17 +2,14 @@ let data, current = 0, advisor, averageSales;
 const screens = document.querySelectorAll('.screen');
 const music = document.getElementById('music'); 
 const startButton = document.getElementById('startBtn');
-const agentInput = document.getElementById('agentInput');
+const agentInput = document.getElementById('agentInput'); // ID CORREGIDO
 const navigationDots = document.getElementById('navigation-dots');
-// Eliminamos la referencia a shareButtons (HTML lo tiene simplificado)
 const swipeHint = document.getElementById('swipe-hint');
 const exportButton = document.getElementById('exportBtn');
-const whatsappShareBtn = document.getElementById('whatsappShareBtn'); // Nuevo botón de WhatsApp
+const whatsappShareBtn = document.getElementById('whatsappShareBtn'); 
 
 
-// DATOS DE PRUEBA TEMPORALES para simular la estructura completa
-// **RECUERDA actualizar tu data.json con estos campos para datos reales.**
-// Si ya actualizaste data.json, puedes ELIMINAR esta sección y el spread operator en startButton.onclick
+// DATOS DE PRUEBA TEMPORALES (Asegúrate de actualizar tu data.json con estos campos)
 const TEMP_DATA_EXTENSION = {
     totalDeeds: 7,
     monthlyData: {
@@ -25,14 +22,12 @@ const TEMP_DATA_EXTENSION = {
     }
 };
 
-// Función auxiliar para encontrar el mejor mes por métrica (Ponderación: 3x Venta, 5x Escritura)
 function findBestMonth(monthlyData) {
     let bestMonth = '';
     let maxScore = -1;
     const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
     for (const month of months) {
-        // Puntuación: 3 puntos por Venta, 5 puntos por Escritura (mayor peso)
         const score = (monthlyData[month].sales * 3) + (monthlyData[month].deeds * 5); 
         if (score > maxScore) {
             maxScore = score;
@@ -43,7 +38,7 @@ function findBestMonth(monthlyData) {
 }
 
 
-// 1. CARGA DE DATOS, CÁLCULO DE PROMEDIOS Y HABILITACIÓN
+// 1. CARGA DE DATOS, CÁLCULO DE PROMEDIOS Y HABILITACIÓN DEL BOTÓN
 fetch('./data.json')
   .then(r => r.json())
   .then(j => {
@@ -52,7 +47,7 @@ fetch('./data.json')
       averageSales = totalSales / data.length;
   })
   .then(() => {
-    // Habilitar el botón si hay texto en el input
+    // HABILITA EL BOTÓN CUANDO HAY CONTENIDO EN EL INPUT Y LOS DATOS ESTÁN CARGADOS
     agentInput.addEventListener('input', () => {
         startButton.disabled = agentInput.value.trim().length === 0;
     });
@@ -61,11 +56,10 @@ fetch('./data.json')
 
 // 2. LÓGICA DE INICIO Y CARGA DE MÉTRICAS
 startButton.onclick = () => {
-  const id = agentInput.value.trim(); 
+  const id = agentInput.value.trim(); // Uso del ID CORREGIDO
   advisor = data.find(a => a.id === id);
   if (!advisor) return alert('ID no encontrado. Por favor, verifica tu número.');
   
-  // AÑADIR DATOS DE PRUEBA SI FALTAN
   advisor = {...advisor, ...TEMP_DATA_EXTENSION};
 
   // --- CÁLCULO DE MÉTRICAS CLAVE Y INSIGHTS ---
@@ -192,7 +186,6 @@ document.addEventListener('touchend', e => {
 exportButton.onclick = () => {
     const screenToCapture = screens[current]; 
     
-    // Ocultar elementos de navegación/botones para la captura
     navigationDots.style.display = 'none';
     swipeHint.style.display = 'none';
     document.getElementById('action-buttons').style.display = 'none'; 
@@ -202,18 +195,15 @@ exportButton.onclick = () => {
         useCORS: true,
         scale: 2 
     }).then(function(canvas) {
-        // Restaurar elementos
         navigationDots.style.display = 'flex';
         swipeHint.style.display = 'block';
         document.getElementById('action-buttons').style.display = 'flex'; 
 
-        // Crear enlace de descarga
         const link = document.createElement('a');
         link.download = `Wrapped_${advisor.name.replace(/\s/g, '_')}_${advisor.id}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
         
-        // Mensaje de confirmación (el único necesario)
         alert('¡Recuerdo guardado con éxito! Abre tu Instagram o WhatsApp para subirlo a tus Historias/Estados.');
     });
 };
@@ -227,5 +217,3 @@ whatsappShareBtn.onclick = () => {
     const url = `https://wa.me/?text=${encodedText}%20${appLink}`;
     window.open(url, '_blank');
 };
-
-
