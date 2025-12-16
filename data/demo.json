@@ -1,0 +1,60 @@
+{
+  "nombre": "Gerardo Serrato",
+  "anio": "2024",
+  "metricas": {
+    "prospectos": 248,
+    "citas": 132,
+    "visitas": 84,
+    "ventas": 27,
+    "escrituras": 19
+  },
+  "escenas": [
+    {
+      "titulo": "Todo empezó con un mensaje",
+      "valor": "prospectos",
+      "narrativa": [
+        "No fue un número.",
+        "Fueron personas.",
+        "Conversaciones que abrieron una puerta."
+      ]
+    },
+    {
+      "titulo": "Cuando hubo intención real",
+      "valor": "citas",
+      "narrativa": [
+        "Aquí ya no era curiosidad.",
+        "Era interés real."
+      ]
+    },
+    {
+      "titulo": "El momento clave",
+      "valor": "visitas",
+      "narrativa": [
+        "El espacio.",
+        "La decisión.",
+        "El silencio antes del sí."
+      ]
+    },
+    {
+      "titulo": "Resultados reales",
+      "valor": "ventas",
+      "narrativa": [
+        "Cerrar no es suerte.",
+        "Es constancia."
+      ]
+    },
+    {
+      "titulo": "Esto ya quedó en papel",
+      "valor": "escrituras",
+      "narrativa": [
+        "Esto ya es impacto.",
+        "Esto ya es legado."
+      ]
+    }
+  ],
+  "cierre": [
+    "Este año dejaste huella.",
+    "No todos llegan hasta aquí.",
+    "Esto apenas comienza."
+  ]
+}
