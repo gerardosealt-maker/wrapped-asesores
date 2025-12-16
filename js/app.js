@@ -1,112 +1,55 @@
-let data;
-let screens = [];
-let current = 0;
-let timer;
-let startX = 0;
+const app = document.getElementById("app");
+const audio = new Audio("./audio/wrapped.mp3");
+audio.loop = true;
 
-const params = new URLSearchParams(window.location.search);
-const asesor = params.get("asesor") || "demo";
 
-fetch(`data/${asesor}.json`)
-  .then(r => r.json())
-  .then(json => {
-    data = json;
-    buildScreens();
-    show(0);
-    autoPlay();
-    enableSwipe();
-  });
+fetch("./data/asesores.json")
+.then(res => res.json())
+.then(data => iniciar(data));
 
-function buildScreens() {
-  const app = document.getElementById("app");
 
-  let html = `
-    <section class="screen active">
-      <div class="content">
-        <h1>${data.nombre}</h1>
-        <p>Este fue tu ${data.anio}</p>
-      </div>
-    </section>
-  `;
+function iniciar(data) {
+const asesor = data.asesores[0]; // luego se puede filtrar por ID
 
-  data.escenas.forEach(e => {
-    html += `
-      <section class="screen gradient-${e.valor}">
-        <div class="content">
-          <h2>${e.titulo}</h2>
-          <div class="number">${data.metricas[e.valor]}</div>
-          ${e.narrativa.map(l => `<p class="story-line">${l}</p>`).join("")}
-        </div>
-      </section>
-    `;
-  });
 
-  const cierre = data.cierre[Math.floor(Math.random() * data.cierre.length)];
+audio.play().catch(() => {});
 
-  html += `
-    <section class="screen" id="final">
-      <div class="content">
-        <h1>${cierre}</h1>
-        <button type="button" class="export" onclick="exportStory()">Guardar mi historia</button>
-      </div>
-    </section>
-  `;
 
-  app.innerHTML = html;
-  screens = document.querySelectorAll(".screen");
+const screens = [];
+
+
+screens.push(`
+<section class="screen gradient-prospectos">
+<h1>${asesor.nombre}</h1>
+<p class="story-line">Así se vio tu año</p>
+</section>
+`);
+
+
+Object.keys(asesor.metricas).forEach(key => {
+screens.push(`
+<section class="screen gradient-${key}">
+<h2>${key.toUpperCase()}</h2>
+<div class="number">${asesor.metricas[key]}</div>
+<p class="story-line">Cada número cuenta una historia</p>
+</section>
+`);
+});
+
+
+screens.push(`
+<section class="screen gradient-final">
+<h2>Tu año, en resumen</h2>
+<p class="story-line">Nada de esto fue casualidad</p>
+<button type="button" onclick="exportar()">Guardar recuerdo</button>
+</section>
+`);
+
+
+app.innerHTML = screens.join("");
 }
 
-function show(i) {
-  screens.forEach(s => s.classList.remove("active"));
-  screens[i].classList.add("active");
-  updateProgress();
-}
 
-function next() {
-  if (current < screens.length - 1) {
-    current++;
-    show(current);
-  }
-}
-
-function prev() {
-  if (current > 0) {
-    current--;
-    show(current);
-  }
-}
-
-function autoPlay() {
-  document.getElementById("bgm").play();
-  timer = setInterval(() => {
-    if (current < screens.length - 1) next();
-    else clearInterval(timer);
-  }, 4200);
-}
-
-/* PROGRESS */
-function updateProgress() {
-  const percent = ((current + 1) / screens.length) * 100;
-  document.getElementById("progress").style.width = percent + "%";
-}
-
-/* SWIPE */
-function enableSwipe() {
-  document.addEventListener("touchstart", e => startX = e.touches[0].clientX);
-  document.addEventListener("touchend", e => {
-    const endX = e.changedTouches[0].clientX;
-    if (startX - endX > 50) next();
-    if (endX - startX > 50) prev();
-  });
-}
-
-/* EXPORT STORY */
-function exportStory() {
-  clearInterval(timer);
-  html2canvas(document.body).then(canvas => {
-    const link = document.createElement("a");
-    link.download = "mi-ano-en-resultados.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-  });
+function exportar() {
+alert("Aquí luego se exporta la imagen completa");
 }
