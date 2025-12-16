@@ -43,7 +43,7 @@ fetch('./data.json')
   .then(r => r.json())
   .then(j => {
       data = j;
-      const totalSales = data.reduce((sum, a => sum + a.sales, 0);
+      const totalSales = data.reduce((sum, a) => sum + a.sales, 0);
       averageSales = totalSales / data.length;
   })
   .then(() => {
@@ -105,7 +105,7 @@ startButton.onclick = () => {
   document.getElementById('bestMonthCopy').textContent = 
       `En ${bestMonthData.name}, lograste ${bestMonthStats.sales} ventas y ${bestMonthStats.deeds} escrituras. ¡Tu mejor desempeño del año! Enfoca tu energía en replicar ese éxito.`;
 
-  // --- NUEVA LÓGICA DEL RESUMEN FINAL ---
+  // --- Lógica del Resumen Final ---
   document.getElementById('finalSales').textContent = advisor.sales;
   document.getElementById('finalDeeds').textContent = advisor.totalDeeds;
   document.getElementById('finalMonth').textContent = bestMonthData.name.toUpperCase();
@@ -117,22 +117,29 @@ startButton.onclick = () => {
         : `Tu base de ${advisor.sales} cierres es un excelente punto de partida. El promedio del equipo fue de ${averageSales.toFixed(1)}. ¡A superar esa marca el próximo año!`;
 
 
-  next();
+  // EL BOTÓN INICIA EN current=0, lo forzamos a pasar a current=1
+  screens[0].classList.remove('active');
+  current = 1;
+  screens[current].classList.add('active');
+  updateDots();
+  swipeHint.style.display = 'block';
+  swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
+
   music.play().catch(()=>{}); 
 };
 
 // 3. FUNCIONES DE NAVEGACIÓN Y PUNTOS
 function initDots() {
-  screens.forEach((screen, index) => {
-    if (index > 0) { 
-      const dot = document.createElement('div');
-      dot.classList.add('dot');
-      navigationDots.appendChild(dot);
-    }
-  });
+  // Solo crea puntos para las pantallas de la experiencia (índice 1 en adelante)
+  for (let i = 1; i < screens.length; i++) {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    navigationDots.appendChild(dot);
+  }
 }
 
 function updateDots() {
+    // Los puntos se sincronizan con la pantalla actual - 1 (ya que el Login no tiene punto)
     const dots = document.querySelectorAll('#navigation-dots .dot');
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === (current - 1)); 
@@ -147,39 +154,46 @@ function next() {
       updateDots();
       
       swipeHint.style.display = (current === screens.length - 1) ? 'none' : 'block';
-      if (current === 1) swipeHint.querySelector('p').textContent = 'Desliza para continuar 👇';
-      else if (current > 1) swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
+      if (current > 0 && current < screens.length - 1) swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
   }
 }
 
 function prev() {
-    if (current > 1) { 
+    // Si estamos en la pantalla 1 (la primera de la experiencia)
+    if (current === 1) { 
         screens[current].classList.remove('active');
-        current--;
-        screens[current].classList.add('active');
-        updateDots();
-        
-        swipeHint.style.display = 'block';
-        if (current === 1) swipeHint.querySelector('p').textContent = 'Desliza para continuar 👇';
-        else if (current > 1) swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
-    } else if (current === 1) {
-        screens[current].classList.remove('active');
-        current = 0;
+        current = 0; // Regresamos al Login
         screens[current].classList.add('active');
         music.pause();
         swipeHint.style.display = 'none'; 
         updateDots();
+    } 
+    // Si estamos en cualquier otra pantalla de la experiencia
+    else if (current > 1) { 
+        screens[current].classList.remove('active');
+        current--;
+        screens[current].classList.add('active');
+        updateDots();
+        swipeHint.style.display = 'block';
+        swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
     }
 }
 
 // 4. NAVEGACIÓN POR SWIPE (Táctil)
 let startY = 0;
-document.addEventListener('touchstart', e => startY = e.touches[0].clientY);
+document.addEventListener('touchstart', e => {
+    if (current > 0 && current < screens.length) { // Solo si estamos dentro de la experiencia
+        startY = e.touches[0].clientY;
+    }
+});
+
 document.addEventListener('touchend', e => {
-  const deltaY = startY - e.changedTouches[0].clientY;
-  
-  if (deltaY > 50) next();
-  else if (deltaY < -50) prev();
+  if (current > 0 && current < screens.length) {
+      const deltaY = startY - e.changedTouches[0].clientY;
+      
+      if (deltaY > 50) next(); // Deslizar hacia arriba (siguiente)
+      else if (deltaY < -50) prev(); // Deslizar hacia abajo (anterior/regresar a login)
+  }
 });
 
 
@@ -187,18 +201,23 @@ document.addEventListener('touchend', e => {
 exportButton.onclick = () => {
     const screenToCapture = screens[current]; 
     
+    // Ocultar elementos para la captura
     navigationDots.style.display = 'none';
     swipeHint.style.display = 'none';
     document.getElementById('action-buttons').style.display = 'none'; 
+    // Ocultamos el título h2 de 'Tu Legado del Año' si es necesario para un look más limpio de certificado (opcional)
+    // screenToCapture.querySelector('h2').style.display = 'none';
 
     html2canvas(screenToCapture, {
         allowTaint: true,
         useCORS: true,
         scale: 2 
     }).then(function(canvas) {
+        // Restaurar elementos
         navigationDots.style.display = 'flex';
         swipeHint.style.display = 'block';
         document.getElementById('action-buttons').style.display = 'flex'; 
+        // screenToCapture.querySelector('h2').style.display = 'block'; // Restaurar título
 
         const link = document.createElement('a');
         link.download = `Wrapped_${advisor.name.replace(/\s/g, '_')}_${advisor.id}.png`;
