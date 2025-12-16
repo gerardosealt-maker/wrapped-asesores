@@ -12,40 +12,50 @@ body {
   overflow: hidden;
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* PROGRESS BAR */
+#progress {
+  position: fixed;
+  top: env(safe-area-inset-top);
+  left: 0;
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, #8b5cf6, #22d3ee);
+  z-index: 10;
+  transition: width 0.4s ease;
+}
+
+/* APP */
 #app {
   height: 100vh;
   width: 100vw;
   position: relative;
 }
 
-/* PANTALLAS TIPO STORY */
+/* SCREENS */
 .screen {
   position: absolute;
   inset: 0;
   padding: env(safe-area-inset-top) 24px env(safe-area-inset-bottom);
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
   opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.7s ease;
+  transform: translateX(40px);
+  transition: all 0.6s ease;
 }
 
 .screen.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(0);
 }
 
-/* CONTENIDO */
+/* CONTENT */
 .content {
-  z-index: 2;
   max-width: 90%;
 }
 
 h1, h2 {
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.1;
 }
 
@@ -67,15 +77,15 @@ h2 {
 }
 
 .story-line {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  margin-top: 10px;
   opacity: 0;
-  transform: translateY(20px);
   animation: fadeUp 0.8s forwards;
 }
 
-.story-line:nth-child(1) { animation-delay: .4s }
-.story-line:nth-child(2) { animation-delay: .9s }
-.story-line:nth-child(3) { animation-delay: 1.4s }
+.story-line:nth-child(1){animation-delay:.4s}
+.story-line:nth-child(2){animation-delay:.9s}
+.story-line:nth-child(3){animation-delay:1.4s}
 
 @keyframes fadeUp {
   to {
@@ -84,17 +94,17 @@ h2 {
   }
 }
 
-/* FONDOS */
+/* GRADIENTS */
 .gradient-prospectos { background: radial-gradient(circle at top, #22d3ee, #0b0b0f); }
 .gradient-citas { background: radial-gradient(circle at bottom, #8b5cf6, #0b0b0f); }
 .gradient-visitas { background: radial-gradient(circle at top, #ec4899, #0b0b0f); }
 .gradient-ventas { background: radial-gradient(circle at bottom, #f59e0b, #0b0b0f); }
 .gradient-escrituras { background: radial-gradient(circle at center, #10b981, #0b0b0f); }
 
-/* BOTONES */
+/* BUTTONS */
 button {
   margin-top: 32px;
-  padding: 14px 28px;
+  padding: 14px 30px;
   border-radius: 999px;
   border: none;
   font-weight: 700;
