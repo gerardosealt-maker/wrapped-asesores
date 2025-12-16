@@ -1,0 +1,14 @@
+{
+  "nombre": "Asesor Demo",
+  "prospectos": 320,
+  "citas": 140,
+  "visitas": 62,
+  "ventas": 21,
+  "frases": {
+    "prospectos": "Cada contacto fue una oportunidad abierta.",
+    "citas": "Aquí comenzó la conversación real.",
+    "visitas": "No todos llegan hasta aquí.",
+    "ventas": "Resultados que se construyen con constancia.",
+    "cierre": "Este año no fue suerte. Fue trabajo."
+  }
+}
