@@ -2,11 +2,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
 }
 
 body {
-  background: radial-gradient(circle at top, #111 0%, #000 60%);
+  background: #000;
   color: white;
   height: 100vh;
   overflow: hidden;
@@ -16,6 +16,15 @@ body {
   position: relative;
   height: 100vh;
   width: 100vw;
+  /* Gradiente base con animación */
+  background: radial-gradient(circle at top, #1A1A1A 0%, #000 70%);
+  background-size: 300% 300%; 
+  animation: backgroundPan 10s ease infinite alternate; 
+}
+
+@keyframes backgroundPan {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
 }
 
 .screen {
@@ -25,6 +34,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* Centrado horizontal perfecto */
+  align-items: center; 
   text-align: center;
   opacity: 0;
   transform: translateY(40px);
@@ -32,6 +43,7 @@ body {
     opacity .8s cubic-bezier(.22,.61,.36,1),
     transform .8s cubic-bezier(.22,.61,.36,1);
   pointer-events: none;
+  z-index: 1;
 }
 
 .screen.active {
@@ -41,47 +53,227 @@ body {
   z-index: 2;
 }
 
+/* --- ESTILOS DE TIPOGRAFÍA DE ALTO IMPACTO --- */
 h1 {
-  font-size: 32px;
-  margin-bottom: 16px;
+  font-size: 38px;
+  font-weight: 900;
+  margin-bottom: 24px;
 }
 
 h2 {
-  font-size: 28px;
-  margin-bottom: 12px;
+  font-size: 20px;
+  margin-bottom: 8px;
+  opacity: 0.7; 
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* Ajustado de .big a .metric para consistencia */
-.metric { 
-  font-size: 56px;
-  font-weight: 700;
-  margin: 12px 0;
+.metric {
+  font-size: 80px; 
+  font-weight: 900;
+  margin: 30px 0;
+  line-height: 1;
 }
 
-/* Ajustado de .copy a .story para consistencia */
-.story { 
-  font-size: 18px;
-  opacity: .85;
+.story {
+  font-size: 20px;
+  line-height: 1.4;
+  opacity: 0.9;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
+/* Estilo específico para la pantalla de introducción */
+.intro-screen .metric {
+    font-size: 60px; 
+    font-weight: 900;
+    margin-bottom: 5px; 
+    text-transform: uppercase;
+}
+.intro-screen h2 {
+    font-size: 28px;
+    color: #00E88D; 
+    margin-top: 5px;
+    margin-bottom: 20px;
+    opacity: 1;
+}
+
+
+/* --- ANIMACIONES DE LOS ELEMENTOS INTERNOS (Delayed Fade-In) --- */
+.screen h2, .screen .metric, .screen .story, .screen button, #social-share {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.6s cubic-bezier(.22,.61,.36,1);
+}
+
+.screen.active h2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.3s;
+}
+
+.screen.active .metric {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.5s;
+}
+
+.screen.active .story {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.7s;
+}
+.screen.active button, .screen.active #social-share {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.9s;
+}
+
+
+/* --- ESTILOS DE INTERACCIÓN (Input/Button) --- */
 input {
   margin: 20px auto;
-  padding: 14px;
-  font-size: 18px;
-  width: 80%;
-  border-radius: 12px;
+  padding: 16px;
+  font-size: 20px;
+  width: 85%;
+  border-radius: 14px;
   border: none;
   text-align: center;
+  background: #2A2A2A;
+  color: white;
 }
 
 button {
   margin-top: 20px;
-  padding: 14px;
+  padding: 16px;
   font-size: 18px;
-  border-radius: 14px;
+  border-radius: 16px;
   border: none;
-  background: white;
+  background: #00E88D; 
   color: black;
-  font-weight: 600;
+  font-weight: 700;
+  cursor: pointer;
+  width: 85%;
 }
-/* Se eliminó la llave '}' extra que causaba errores */
+
+/* --- GRADIENTES ESPECÍFICOS POR SECCIÓN (Da más vida) --- */
+.prospects-screen {
+  background: radial-gradient(circle at bottom right, #4A00E0 0%, #200060 100%);
+}
+
+.appointments-screen {
+  background: radial-gradient(circle at top left, #FF4B2B 0%, #802515 100%);
+}
+
+.sales-screen {
+  background: radial-gradient(circle at bottom, #00C9FF 0%, #157980 100%);
+}
+
+.deeds-screen { 
+  background: radial-gradient(circle at center, #9370DB 0%, #4B0082 100%);
+}
+
+.best-month-screen { 
+  background: radial-gradient(circle at top, #7FFF00 0%, #3CB371 100%);
+}
+
+.summary-screen {
+    background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+    color: black;
+}
+.summary-screen h2, .summary-screen .story {
+    color: #111;
+    opacity: 1;
+}
+.summary-screen button {
+    background: #111;
+    color: white;
+}
+
+/* --- ESTILOS DE COMPARTIR Y PUNTOS DE NAVEGACIÓN --- */
+#social-share {
+    margin-top: 10px;
+    padding: 10px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+#social-share p {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #111; 
+}
+.share-btn {
+    width: 85%;
+    color: white;
+    font-size: 16px;
+    margin-top: 8px;
+    padding: 12px;
+}
+.share-btn[data-platform="whatsapp"] {
+    background: #25D366; 
+}
+.share-btn[data-platform="twitter"] {
+    background: #1DA1F2;
+}
+
+hr {
+    width: 85%; 
+    border: 0; 
+    border-top: 1px solid rgba(0,0,0,0.2); 
+    margin: 10px 0;
+}
+
+/* Estilos de Historias/Estados */
+.share-btn[data-platform="instagram-stories"] {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+.share-btn[data-platform="whatsapp-status"] {
+    background: #25D366;
+}
+.share-btn[data-platform="facebook-stories"] {
+    background: #1877F2;
+}
+
+
+#navigation-dots {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #00E88D; 
+  transform: scale(1.2);
+}
+
+#swipe-hint {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.6;
+    font-size: 14px;
+    z-index: 10;
+    animation: pulse 2s infinite; 
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.8; }
+}
