@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Tu Año en Ventas · Wrapped Comercial</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+:root{
+  --bg:#020617;--text:#e5e7eb;--muted:#94a3b8;
+  --green:#22c55e;--blue:#38bdf8;--purple:#a78bfa;--pink:#f472b6;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--text);overflow:hidden}
+
+/* Fondo */
+.bg{position:fixed;inset:-40%;background:
+radial-gradient(circle at 20% 20%,var(--blue),transparent 45%),
+radial-gradient(circle at 80% 30%,var(--purple),transparent 45%),
+radial-gradient(circle at 50% 80%,var(--pink),transparent 45%);
+filter:blur(180px);animation:drift 28s ease-in-out infinite alternate;z-index:-1}
+@keyframes drift{from{transform:translate(0)}to{transform:translate(-8%,-6%)}}
+
+/* Pantallas */
+.screen{min-height:100vh;display:none;align-items:center;justify-content:center;padding:40px 20px;text-align:center;animation:enter .8s cubic-bezier(.2,.8,.2,1)}
+.screen.active{display:flex}
+@keyframes enter{from{opacity:0;transform:scale(.94) translateY(60px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+/* Card */
+.card{max-width:520px;width:100%;padding:56px 40px;border-radius:44px;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.05));backdrop-filter:blur(26px);box-shadow:0 60px 140px rgba(0,0,0,.7)}
+h1{font-size:2.8rem;font-weight:900;margin-bottom:14px}
+h2{font-size:2.2rem;font-weight:800;margin-bottom:12px}
+p{color:var(--muted);line-height:1.6}
+.label{text-transform:uppercase;letter-spacing:.22em;font-size:.65rem;color:var(--muted)}
+.number{font-size:4.8rem;font-weight:900;margin:26px 0;background:linear-gradient(90deg,var(--green),var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+button{margin-top:34px;padding:18px 32px;border-radius:999px;border:none;background:linear-gradient(90deg,var(--green),var(--blue));color:#020617;font-weight:900;cursor:pointer}
+button.secondary{background:rgba(255,255,255,.15);color:var(--text)}
+
+/* Barra progreso */
+.progress{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);width:160px;height:4px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden}
+.bar{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--blue));transition:width .5s}
+
+/* Música */
+.music{position:fixed;top:16px;right:16px;font-size:.75rem;opacity:.8;cursor:pointer;z-index:10}
+
+/* Resumen */
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+.stat{background:rgba(255,255,255,.12);border-radius:24px;padding:20px 18px;text-align:left}
+.actions{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.small{font-size:.75rem;padding:12px 20px}
+
+/* Export */
+.exporting .bg{animation:none}
+.exporting .progress,.exporting .music,.exporting button{display:none}
+</style>
+</head>
+
+<body>
+<div class="bg"></div>
+<div class="music" id="musicBtn" onclick="toggleMusic()">♫ activar música</div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<audio id="audio" loop preload="auto">
+  <source src="https://cdn.pixabay.com/audio/2023/03/27/audio_5c8f5a3c4d.mp3" type="audio/mpeg">
+</audio>
+
+<!-- INTRO -->
+<section class="screen active"><div class="card"><h1>Tu año en ventas</h1><p>Un recorrido anual, creado para reconocer tu impacto.</p><input type="file" id="csv" accept=".csv"><button onclick="startExperience()">Comenzar experiencia</button></div></section>
+
+<!-- NOMBRE -->
+<section class="screen"><div class="card"><p class="label">Este año fue de</p><h1 id="nombre"></h1><p id="introPhrase"></p><button onclick="next()">Continuar</button></div></section>
+
+<!-- MÉTRICAS -->
+<section class="screen"><div class="card"><p class="label">Prospectos generados</p><div class="number" id="prospectos"></div><p id="phraseProspectos"></p><button onclick="next()">Siguiente</button></div></section>
+<section class="screen"><div class="card"><p class="label">Citas agendadas</p><div class="number" id="citas"></div><p id="phraseCitas"></p><button onclick="next()">Siguiente</button></div></section>
+<section class="screen"><div class="card"><p class="label">Visitas realizadas</p><div class="number" id="visitas"></div><p id="phraseVisitas"></p><button onclick="next()">Siguiente</button></div></section>
+<section class="screen"><div class="card"><p class="label">Ventas logradas</p><div class="number" id="ventas"></div><p id="phraseVentas"></p><button onclick="next()">Siguiente</button></div></section>
+<section class="screen"><div class="card"><p class="label">Escrituras firmadas</p><div class="number" id="escrituras"></div><p id="phraseEscrituras"></p><button onclick="next()">Resumen</button></div></section>
+
+<!-- RESUMEN -->
+<section class="screen"><div class="card" id="summaryCard"><h2>Tu año en una vista</h2><div class="summary"><div class="stat">Prospectos<br><strong id="rProspectos"></strong></div><div class="stat">Citas<br><strong id="rCitas"></strong></div><div class="stat">Visitas<br><strong id="rVisitas"></strong></div><div class="stat">Ventas<br><strong id="rVentas"></strong></div><div class="stat">Escrituras<br><strong id="rEscrituras"></strong></div></div><p id="summaryPhrase"></p><div class="actions"><button class="small" onclick="exportImage()">Descargar imagen</button></div><button onclick="next()">Cierre</button></div></section>
+
+<!-- CIERRE -->
+<section class="screen"><div class="card"><h2>Así se construye un año</h2><p id="finalMsg"></p><div class="actions"><button class="small secondary" onclick="exportImage()">Guardar recuerdo</button><button class="small" onclick="location.reload()">Volver a ver</button></div></div></section>
+
+<script>
+const screens=[...document.querySelectorAll('.screen')];
+const bar=document.getElementById('bar');
+const audio=document.getElementById('audio');
+const musicBtn=document.getElementById('musicBtn');
+let index=0,data={};
+
+const phrases={
+  intro:[
+    'Un año no se mide en suerte, se mide en constancia.',
+    'Este recorrido habla de presencia y seguimiento.',
+    'Cada número aquí representa una decisión tomada.'
+  ],
+  prospectos:v=>v>300?'Generaste atención a gran escala.':'Cada contacto abrió una posibilidad.',
+  citas:v=>v>120?'Convertiste interés en conversación real.':'Cada cita fue una puerta abierta.',
+  visitas:v=>v>60?'Estuviste donde se cierran decisiones.':'Dar la cara siempre marca diferencia.',
+  ventas:v=>v>20?'Lograste confianza sostenida.':'Cada venta fue un sí ganado.',
+  escrituras:v=>v>15?'Formalizaste resultados reales.':'Cuando se firma, el esfuerzo se vuelve historia.',
+  summary:[
+    'Este año tuvo foco, ritmo y cierre.',
+    'No fue un golpe de suerte, fue un proceso bien ejecutado.',
+    'La consistencia también deja huella.'
+  ]
+};
+
+function toggleMusic(){
+  if(audio.paused){audio.play().then(()=>musicBtn.textContent='♫ música activa');}
+  else{audio.pause();musicBtn.textContent='♫ activar música'}
+}
+
+function parseCSV(text){
+  const lines=text.trim().split(/\r?\n/);
+  const headers=lines[0].split(',').map(h=>h.trim());
+  const values=lines[1].split(',').map(v=>v.trim());
+  const obj={};headers.forEach((h,i)=>obj[h]=values[i]);return obj;
+}
+
+function startExperience(){
+  const file=document.getElementById('csv').files[0];
+  if(!file){alert('Carga tu archivo CSV');return}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    data=parseCSV(e.target.result);
+    nombre.textContent=data.nombre||'';
+    prospectos.textContent=data.prospectos||0;
+    citas.textContent=data.citas||0;
+    visitas.textContent=data.visitas||0;
+    ventas.textContent=data.ventas||0;
+    escrituras.textContent=data.escrituras||0;
+    rProspectos.textContent=data.prospectos||0;
+    rCitas.textContent=data.citas||0;
+    rVisitas.textContent=data.visitas||0;
+    rVentas.textContent=data.ventas||0;
+    rEscrituras.textContent=data.escrituras||0;
+
+    introPhrase.textContent=randomFrom(phrases.intro);
+    phraseProspectos.textContent=phrases.prospectos(+data.prospectos||0);
+    phraseCitas.textContent=phrases.citas(+data.citas||0);
+    phraseVisitas.textContent=phrases.visitas(+data.visitas||0);
+    phraseVentas.textContent=phrases.ventas(+data.ventas||0);
+    phraseEscrituras.textContent=phrases.escrituras(+data.escrituras||0);
+    summaryPhrase.textContent=randomFrom(phrases.summary);
+    finalMsg.textContent='Este año no fue casualidad. Fue decisión, seguimiento y presencia constante.';
+    next();
+  };
+  reader.readAsText(file);
+}
+
+function next(){
+  screens[index].classList.remove('active');
+  index++;
+  screens[index].classList.add('active');
+  bar.style.width=(index/(screens.length-1))*100+'%';
+}
+
+function randomFrom(arr){return arr[Math.floor(Math.random()*arr.length)]}
+
+function exportImage(){
+  document.body.classList.add('exporting');
+  html2canvas(document.getElementById('summaryCard'),{backgroundColor:'#020617',scale:2}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='mi_ano_en_ventas.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+    document.body.classList.remove('exporting');
+  });
+}
+</script>
+</body>
+</html>
