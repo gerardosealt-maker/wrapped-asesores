@@ -9,57 +9,52 @@
 
 <body>
 
-<audio id="bgMusic" src="music.mp3" loop></audio>
+<audio id="music" src="music.mp3" loop></audio>
 
 <main id="app">
 
-  <!-- LOGIN -->
-  <section id="login" class="screen">
+  <section id="login" class="screen active">
     <h1>Tu año en números</h1>
     <p>Ingresa tu ID de asesor</p>
     <input id="agentInput" placeholder="Ej. 6017" inputmode="numeric" />
-    <button id="startBtn" disabled>Iniciar experiencia</button>
+    <button id="startBtn">Iniciar experiencia</button>
     <small>Mejor con audífonos 🎧</small>
   </section>
 
-  <!-- EXPERIENCIA -->
-  <div id="experience" class="hidden">
+  <section class="screen">
+    <h2 id="welcome"></h2>
+    <p class="big" id="name"></p>
+    <p class="story" id="introCopy"></p>
+  </section>
 
-    <section class="screen">
-      <h2 id="name"></h2>
-      <p class="copy" id="introCopy"></p>
-    </section>
+  <section class="screen prospects-screen">
+    <h2>Prospectos generados</h2>
+    <p class="metric" id="prospects"></p>
+    <p class="story" id="prospectsCopy"></p>
+  </section>
 
-    <section class="screen">
-      <h2>Prospectos generados</h2>
-      <p class="metric" id="prospects"></p>
-      <p class="copy" id="prospectsCopy"></p>
-    </section>
+  <section class="screen appointments-screen">
+    <h2>Citas logradas</h2>
+    <p class="metric" id="appointments"></p>
+    <p class="story" id="appointmentsCopy"></p>
+  </section>
 
-    <section class="screen">
-      <h2>Citas logradas</h2>
-      <p class="metric" id="appointments"></p>
-      <p class="copy" id="appointmentsCopy"></p>
-    </section>
+  <section class="screen sales-screen">
+    <h2>Ventas realizadas</h2>
+    <p class="metric" id="sales"></p>
+    <p class="story" id="salesCopy"></p>
+  </section>
 
-    <section class="screen">
-      <h2>Ventas realizadas</h2>
-      <p class="metric" id="sales"></p>
-      <p class="copy" id="salesCopy"></p>
-    </section>
-
-    <section class="screen">
-      <h2>Tu resumen</h2>
-      <p class="copy" id="summary"></p>
-      <button id="exportBtn">Guardar recuerdo</button>
-    </section>
-
-  </div>
+  <section class="screen summary-screen">
+    <h2>Tu resumen</h2>
+    <p class="story" id="summary"></p>
+    <button id="exportBtn">Guardar recuerdo</button>
+  </section>
 
 </main>
 
-<!-- html2canvas -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
+
