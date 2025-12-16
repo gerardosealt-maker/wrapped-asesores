@@ -2,14 +2,14 @@ let data, current = 0, advisor, averageSales;
 const screens = document.querySelectorAll('.screen');
 const music = document.getElementById('music'); 
 const startButton = document.getElementById('startBtn');
-const agentInput = document.getElementById('agentInput'); // ID CORREGIDO
+const agentInput = document.getElementById('agentInput'); 
 const navigationDots = document.getElementById('navigation-dots');
 const swipeHint = document.getElementById('swipe-hint');
 const exportButton = document.getElementById('exportBtn');
 const whatsappShareBtn = document.getElementById('whatsappShareBtn'); 
 
 
-// DATOS DE PRUEBA TEMPORALES (Asegúrate de actualizar tu data.json con estos campos)
+// DATOS DE PRUEBA TEMPORALES para simular la estructura completa
 const TEMP_DATA_EXTENSION = {
     totalDeeds: 7,
     monthlyData: {
@@ -43,11 +43,11 @@ fetch('./data.json')
   .then(r => r.json())
   .then(j => {
       data = j;
-      const totalSales = data.reduce((sum, a) => sum + a.sales, 0);
+      const totalSales = data.reduce((sum, a => sum + a.sales, 0);
       averageSales = totalSales / data.length;
   })
   .then(() => {
-    // HABILITA EL BOTÓN CUANDO HAY CONTENIDO EN EL INPUT Y LOS DATOS ESTÁN CARGADOS
+    // HABILITA EL BOTÓN CUANDO HAY CONTENIDO EN EL INPUT
     agentInput.addEventListener('input', () => {
         startButton.disabled = agentInput.value.trim().length === 0;
     });
@@ -56,7 +56,7 @@ fetch('./data.json')
 
 // 2. LÓGICA DE INICIO Y CARGA DE MÉTRICAS
 startButton.onclick = () => {
-  const id = agentInput.value.trim(); // Uso del ID CORREGIDO
+  const id = agentInput.value.trim(); 
   advisor = data.find(a => a.id === id);
   if (!advisor) return alert('ID no encontrado. Por favor, verifica tu número.');
   
@@ -105,10 +105,11 @@ startButton.onclick = () => {
   document.getElementById('bestMonthCopy').textContent = 
       `En ${bestMonthData.name}, lograste ${bestMonthStats.sales} ventas y ${bestMonthStats.deeds} escrituras. ¡Tu mejor desempeño del año! Enfoca tu energía en replicar ese éxito.`;
 
-  document.getElementById('summaryTitle').textContent =
-      salesDifference > 0
-          ? `¡LÍDER ABSOLUTO! (+${salesDifference.toFixed(1)})`
-          : `¡BASE DE CONFIANZA! (${advisor.sales} Ventas)`;
+  // --- NUEVA LÓGICA DEL RESUMEN FINAL ---
+  document.getElementById('finalSales').textContent = advisor.sales;
+  document.getElementById('finalDeeds').textContent = advisor.totalDeeds;
+  document.getElementById('finalMonth').textContent = bestMonthData.name.toUpperCase();
+  // ------------------------------------
 
   document.getElementById('summary').textContent =
     salesDifference > 0
