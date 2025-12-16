@@ -24,51 +24,41 @@ function random(arr) {
 function buildScreens() {
   const root = document.getElementById("app");
 
-  root.innerHTML = `
+  let html = `
     <section class="screen">
       <h1>${data.nombre}</h1>
-      <p class="story">Este fue tu ${data.anio}. Desliza o toca para comenzar.</p>
+      <p class="story">Este fue tu ${data.anio}.</p>
       <button onclick="next()">Iniciar experiencia</button>
     </section>
+  `;
 
-    <section class="screen">
-      <h2>Todo empezó con un mensaje</h2>
-      <div class="number">${data.metricas.prospectos}</div>
-      <p class="story">${random(data.frases.prospectos)}</p>
-    </section>
+  data.escenas.forEach(escena => {
+    const valor = data.metricas[escena.valor];
 
-    <section class="screen">
-      <h2>Cuando hubo intención real</h2>
-      <div class="number">${data.metricas.citas}</div>
-      <p class="story">${random(data.frases.citas)}</p>
-    </section>
+    html += `
+      <section class="screen">
+        <h2>${escena.titulo}</h2>
+        <div class="number">${valor}</div>
+        <div class="story">
+          ${escena.narrativa
+            .map(linea => `<p class="story-line">${linea}</p>`)
+            .join("")}
+        </div>
+      </section>
+    `;
+  });
 
-    <section class="screen">
-      <h2>El momento clave</h2>
-      <div class="number">${data.metricas.visitas}</div>
-      <p class="story">${random(data.frases.visitas)}</p>
-    </section>
-
-    <section class="screen">
-      <h2>Resultados reales</h2>
-      <div class="number">${data.metricas.ventas}</div>
-      <p class="story">${random(data.frases.ventas)}</p>
-    </section>
-
-    <section class="screen">
-      <h2>Esto ya quedó en papel</h2>
-      <div class="number">${data.metricas.escrituras}</div>
-      <p class="story">${random(data.frases.escrituras)}</p>
-    </section>
-
+  html += `
     <section class="screen">
       <h1>Este fue tu ${data.anio}</h1>
       <p class="story">
-        No fue suerte. Fue constancia, criterio y disciplina.
+        No todos llegan hasta aquí.<br>
+        Tú sí.
       </p>
     </section>
   `;
 
+  root.innerHTML = html;
   screens = document.querySelectorAll(".screen");
 }
 
@@ -88,3 +78,4 @@ function next() {
 document.addEventListener("click", () => {
   if (current > 0) next();
 });
+
