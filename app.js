@@ -1,4 +1,4 @@
-let data, current = 0, advisor, averageSales;
+le data, current = 0, advisor, averageSales;
 const screens = document.querySelectorAll('.screen');
 const music = document.getElementById('music'); 
 const startButton = document.getElementById('startBtn');
@@ -227,3 +227,4 @@ whatsappShareBtn.onclick = () => {
     const url = `https://wa.me/?text=${encodedText}%20${appLink}`;
     window.open(url, '_blank');
 };
+
