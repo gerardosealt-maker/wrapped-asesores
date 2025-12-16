@@ -17,13 +17,13 @@
     <h1>Tu año en números</h1>
     <p>Ingresa tu ID de asesor</p>
     <input id="agentInput" placeholder="Ej. 6017" inputmode="numeric" />
-    <button id="startBtn">Iniciar experiencia</button>
+    <button id="startBtn" disabled>Iniciar experiencia</button>
     <small>Mejor con audífonos 🎧</small>
   </section>
 
-  <section class="screen">
-    <h2 id="welcome"></h2>
-    <p class="big" id="name"></p>
+  <section class="screen intro-screen">
+    <p class="metric" id="welcome"></p> 
+    <h2 id="name"></h2>
     <p class="story" id="introCopy"></p>
   </section>
 
@@ -46,10 +46,16 @@
   </section>
 
   <section class="screen summary-screen">
-    <h2>Tu resumen</h2>
+    <h2>Tu resumen de éxito</h2>
+    <p class="metric" id="summaryTitle"></p>
     <p class="story" id="summary"></p>
     <button id="exportBtn">Guardar recuerdo</button>
   </section>
+    
+  <div id="navigation-dots"></div>
+  <div id="swipe-hint">
+      <p>Desliza para continuar 👇</p>
+  </div>
 
 </main>
 
@@ -57,4 +63,3 @@
 <script src="app.js"></script>
 </body>
 </html>
-
