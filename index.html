@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Wrapped Asesores</title>
-<link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wrapped Asesores</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-
-<div id="login" class="screen gradient-prospectos">
-<h1>Tu Wrapped 2024</h1>
-<p class="story-line">Ingresa tu ID de asesor</p>
-<input id="inputID" type="number" placeholder="Ej. 6017" />
-<button type="button" onclick="acceder()">Ver mi Wrapped</button>
+<div id="app">
+  <section class="screen intro">
+    <h1>Tu año en cifras</h1>
+    <p>Ingresa tu número de asesor</p>
+    <input id="idInput" type="number" placeholder="Ej. 6017" />
+    <button id="startBtn">Iniciar experiencia</button>
+    <p id="errorMsg"></p>
+  </section>
 </div>
-
-
-<div id="app" style="display:none"></div>
-
 
 <script src="app.js"></script>
 </body>
