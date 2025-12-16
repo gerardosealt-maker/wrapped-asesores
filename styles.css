@@ -2,8 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* Cambio a una fuente más moderna si está disponible */
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; 
+  /* Usamos una fuente genérica segura, puedes añadir 'Poppins' si la importas */
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
 }
 
 body {
@@ -17,8 +17,16 @@ body {
   position: relative;
   height: 100vh;
   width: 100vw;
-  /* Gradiente base sutil */
+  /* Gradiente base con animación */
   background: radial-gradient(circle at top, #1A1A1A 0%, #000 70%);
+  background-size: 300% 300%; 
+  animation: backgroundPan 10s ease infinite alternate; 
+}
+
+/* Animación de movimiento de fondo */
+@keyframes backgroundPan {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
 }
 
 .screen {
@@ -35,7 +43,7 @@ body {
     opacity .8s cubic-bezier(.22,.61,.36,1),
     transform .8s cubic-bezier(.22,.61,.36,1);
   pointer-events: none;
-  z-index: 1; /* Asegura que la pantalla activa esté arriba */
+  z-index: 1;
 }
 
 .screen.active {
@@ -55,13 +63,13 @@ h1 {
 h2 {
   font-size: 20px;
   margin-bottom: 8px;
-  opacity: 0.7; /* Suaviza el subtítulo */
+  opacity: 0.7; 
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .metric {
-  font-size: 80px; /* Tamaño GIGANTE para el número principal */
+  font-size: 80px; 
   font-weight: 900;
   margin: 30px 0;
   line-height: 1;
@@ -75,37 +83,50 @@ h2 {
   margin: 0 auto;
 }
 
-/* --- ANIMACIONES DE LOS ELEMENTOS INTERNOS (Delayed Fade-In) --- */
+/* Estilo específico para la pantalla de introducción */
+.intro-screen .metric {
+    font-size: 60px; 
+    font-weight: 900;
+    margin-bottom: 5px; 
+    text-transform: uppercase;
+}
+.intro-screen h2 {
+    font-size: 28px;
+    color: #00E88D; /* Destaca la categoría */
+    margin-top: 5px;
+    margin-bottom: 20px;
+    opacity: 1;
+}
 
-/* Inicialmente ocultos y ligeramente desplazados */
+
+/* --- ANIMACIONES DE LOS ELEMENTOS INTERNOS (Delayed Fade-In) --- */
 .screen h2, .screen .metric, .screen .story, .screen button {
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.6s cubic-bezier(.22,.61,.36,1);
 }
 
-/* Cuando la pantalla está activa, aparecen con retraso */
 .screen.active h2 {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.3s; /* Título primero */
+  transition-delay: 0.3s;
 }
 
 .screen.active .metric {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.5s; /* Métrica segundo */
+  transition-delay: 0.5s;
 }
 
 .screen.active .story {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.7s; /* Historia tercero */
+  transition-delay: 0.7s;
 }
 .screen.active button {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.9s; /* Botón al final */
+  transition-delay: 0.9s;
 }
 
 
@@ -128,7 +149,7 @@ button {
   font-size: 18px;
   border-radius: 16px;
   border: none;
-  background: #00E88D; /* Color vibrante */
+  background: #00E88D; 
   color: black;
   font-weight: 700;
   cursor: pointer;
@@ -136,7 +157,6 @@ button {
 }
 
 /* --- GRADIENTES ESPECÍFICOS POR SECCIÓN (Da más vida) --- */
-
 .prospects-screen {
   background: radial-gradient(circle at bottom right, #4A00E0 0%, #200060 100%);
 }
@@ -150,7 +170,7 @@ button {
 }
 
 .summary-screen {
-    background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%); /* Oro y Naranja para el final */
+    background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
     color: black;
 }
 .summary-screen h2, .summary-screen .story {
@@ -160,4 +180,45 @@ button {
 .summary-screen button {
     background: #111;
     color: white;
+}
+
+/* --- NUEVOS ESTILOS UX: PUNTOS DE NAVEGACIÓN --- */
+
+#navigation-dots {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #00E88D; 
+  transform: scale(1.2);
+}
+
+#swipe-hint {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.6;
+    font-size: 14px;
+    z-index: 10;
+    animation: pulse 2s infinite; 
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.8; }
 }
