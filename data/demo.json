@@ -1,40 +1,47 @@
-{
-  "nombre": "Asesor Demo",
-  "anio": 2025,
-
-  "metricas": {
-    "prospectos": 248,
-    "citas": 126,
-    "visitas": 72,
-    "ventas": 18,
-    "escrituras": 11
+"escenas": [
+  {
+    "titulo": "Todo empezó con un mensaje",
+    "valor": "prospectos",
+    "narrativa": [
+      "No fue un número.",
+      "Fueron personas.",
+      "248 conversaciones que abrieron una puerta."
+    ]
   },
-
-  "frases": {
-    "prospectos": [
-      "Cada conversación fue una posibilidad.",
-      "Tuviste radar para detectar oportunidades.",
-      "Donde otros veían ruido, tú viste interés."
-    ],
-    "citas": [
-      "No todos aceptan una cita. Tú sí supiste convencer.",
-      "Cada cita fue un paso más cerca.",
-      "Aquí empezó la intención real."
-    ],
-    "visitas": [
-      "Aquí la intención se volvió tangible.",
-      "No era curiosidad, era decisión.",
-      "El momento donde todo se sintió real."
-    ],
-    "ventas": [
-      "El resultado de la constancia.",
-      "Cerrar también es un arte.",
-      "Aquí demostraste oficio."
-    ],
-    "escrituras": [
-      "Esto ya es legado.",
-      "Historias que cambian vidas.",
-      "El final que justifica todo el proceso."
+  {
+    "titulo": "Cuando hubo intención real",
+    "valor": "citas",
+    "narrativa": [
+      "Aquí ya no era curiosidad.",
+      "Era interés.",
+      "Era alguien diciendo: quiero saber más."
+    ]
+  },
+  {
+    "titulo": "El momento clave",
+    "valor": "visitas",
+    "narrativa": [
+      "Aquí todo se sintió distinto.",
+      "El lugar, la mirada, el silencio.",
+      "Este fue el punto de no retorno."
+    ]
+  },
+  {
+    "titulo": "Resultados reales",
+    "valor": "ventas",
+    "narrativa": [
+      "Cerrar no es suerte.",
+      "Es proceso.",
+      "Y tú lo ejecutaste."
+    ]
+  },
+  {
+    "titulo": "Esto ya quedó en papel",
+    "valor": "escrituras",
+    "narrativa": [
+      "Esto ya no es trabajo.",
+      "Es impacto.",
+      "Historias que ya nadie puede borrar."
     ]
   }
-}
+]
