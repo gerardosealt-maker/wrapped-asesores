@@ -1,25 +1,41 @@
+let data = null;
+let screens = [];
+let current = 0;
+
 const params = new URLSearchParams(window.location.search);
 const asesor = params.get("asesor") || "demo";
 
-let current = 0;
-let screens = [];
-let data = null;
-
-// Cargar JSON del asesor
 fetch(`data/${asesor}.json`)
-  .then(res => res.json())
+  .then(response => {
+    if (!response.ok) throw new Error("No existe el JSON");
+    return response.json();
+  })
   .then(json => {
     data = json;
     buildScreens();
-    showScreen(0);
+    show(0);
   })
-  .catch(() => {
-    alert("No se encontró la información del asesor");
+  .catch(err => {
+    document.body.innerHTML = `
+      <div style="
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:#0b0b0f;
+        color:white;
+        font-family:Inter;
+        text-align:center;
+        padding:40px;
+      ">
+        <div>
+          <h1>Error</h1>
+          <p>No se encontró información del asesor.</p>
+          <p style="opacity:.6">Verifica el nombre del archivo JSON.</p>
+        </div>
+      </div>
+    `;
   });
-
-function random(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
 
 function buildScreens() {
   const root = document.getElementById("app");
@@ -40,9 +56,9 @@ function buildScreens() {
         <h2>${escena.titulo}</h2>
         <div class="number">${valor}</div>
         <div class="story">
-          ${escena.narrativa
-            .map(linea => `<p class="story-line">${linea}</p>`)
-            .join("")}
+          ${escena.narrativa.map(
+            linea => `<p class="story-line">${linea}</p>`
+          ).join("")}
         </div>
       </section>
     `;
@@ -62,7 +78,7 @@ function buildScreens() {
   screens = document.querySelectorAll(".screen");
 }
 
-function showScreen(index) {
+function show(index) {
   screens.forEach(s => s.classList.remove("active"));
   screens[index].classList.add("active");
 }
@@ -70,12 +86,6 @@ function showScreen(index) {
 function next() {
   if (current < screens.length - 1) {
     current++;
-    showScreen(current);
+    show(current);
   }
 }
-
-// Click en cualquier parte
-document.addEventListener("click", () => {
-  if (current > 0) next();
-});
-
