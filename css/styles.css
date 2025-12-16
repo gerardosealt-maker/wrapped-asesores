@@ -1,11 +1,7 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   background: #0b0b0f;
   color: white;
   overflow: hidden;
@@ -14,81 +10,61 @@ body {
 #app {
   height: 100vh;
   width: 100vw;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+  overflow: hidden;
 }
 
 .screen {
-  min-height: 100vh;
+  position: absolute;
+  inset: 0;
   padding: 32px 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  scroll-snap-align: start;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(.22,.61,.36,1);
+}
+
+.screen.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .intro {
-  align-items: center;
   text-align: center;
+  align-items: center;
 }
 
 .intro input {
   margin-top: 16px;
   padding: 14px;
-  width: 100%;
-  max-width: 260px;
-  border-radius: 12px;
+  width: 240px;
+  border-radius: 14px;
   border: none;
   font-size: 1.1rem;
 }
 
 button {
   margin-top: 24px;
-  padding: 14px 24px;
-  border: none;
+  padding: 14px 28px;
   border-radius: 999px;
-  background: white;
-  color: black;
+  border: none;
   font-size: 1rem;
-}
-
-#errorMsg {
-  margin-top: 12px;
-  color: #f87171;
 }
 
 .number {
   font-size: 5rem;
   font-weight: 800;
-  letter-spacing: -3px;
 }
 
 .story {
   margin-top: 12px;
-  font-size: 1.1rem;
   opacity: 0.9;
 }
 
-.gradient-prospectos {
-  background: radial-gradient(circle, #22d3ee, #0b0b0f);
-}
-
-.gradient-citas {
-  background: radial-gradient(circle, #8b5cf6, #0b0b0f);
-}
-
-.gradient-visitas {
-  background: radial-gradient(circle, #ec4899, #0b0b0f);
-}
-
-.gradient-ventas {
-  background: radial-gradient(circle, #f59e0b, #0b0b0f);
-}
-
-.gradient-escrituras {
-  background: radial-gradient(circle, #10b981, #0b0b0f);
-}
-
-.gradient-final {
-  background: radial-gradient(circle, #6366f1, #0b0b0f);
-}
+.gradient-prospectos { background: radial-gradient(circle,#22d3ee,#0b0b0f); }
+.gradient-citas { background: radial-gradient(circle,#8b5cf6,#0b0b0f); }
+.gradient-visitas { background: radial-gradient(circle,#ec4899,#0b0b0f); }
+.gradient-ventas { background: radial-gradient(circle,#f59e0b,#0b0b0f); }
+.gradient-escrituras { background: radial-gradient(circle,#10b981,#0b0b0f); }
+.gradient-final { background: radial-gradient(circle,#6366f1,#0b0b0f); }
