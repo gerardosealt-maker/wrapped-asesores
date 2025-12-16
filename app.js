@@ -1,61 +1,54 @@
-let data, current = 0, advisor;
-const screens = document.querySelectorAll('.screen');
-const music = document.getElementById('music');
+let advisors = [];
+const audio = document.getElementById("bgMusic");
 
-fetch('./data.json')
-  .then(r => r.json())
-  .then(j => data = j);
+fetch("data.json")
+  .then(res => res.json())
+  .then(data => advisors = data);
 
-document.getElementById('startBtn').onclick = () => {
-  const id = document.getElementById('agentId').value;
-  advisor = data.find(a => a.id === id);
-  if (!advisor) return alert('ID no encontrado');
+document.getElementById("startBtn").addEventListener("click", () => {
+  const id = document.getElementById("agentInput").value.trim();
+  const advisor = advisors.find(a => a.id === id);
 
-  document.getElementById('welcome').textContent =
-    `${advisor.name}, este fue tu año`;
+  if (!advisor) {
+    alert("ID no encontrado");
+    return;
+  }
 
-  document.getElementById('introCopy').textContent =
-    advisor.sales > 10
-      ? 'Constancia pura. Esto no es suerte.'
-      : 'Todo gran cierre empieza con intención.';
+  // Mostrar experiencia
+  document.querySelector(".screen-login").style.display = "none";
+  document.getElementById("experience").classList.remove("hidden");
 
-  document.getElementById('prospects').textContent = advisor.prospects;
-  document.getElementById('appointments').textContent = advisor.appointments;
-  document.getElementById('sales').textContent = advisor.sales;
+  // Audio (desbloqueado por interacción)
+  audio.play().catch(() => {});
 
-  document.getElementById('prospectsCopy').textContent =
-    advisor.prospects > 50
-      ? 'Mucho flujo. El embudo respiró.'
-      : 'Menos ruido, más enfoque.';
+  // Inyectar data
+  document.getElementById("name").textContent =
+    `${advisor.name}, así se vio tu año`;
 
-  document.getElementById('appointmentsCopy').textContent =
-    advisor.appointments > 20
-      ? 'Aquí se nota el seguimiento.'
-      : 'Cada cita cuenta más de lo que parece.';
-
-  document.getElementById('salesCopy').textContent =
+  document.getElementById("introCopy").textContent =
     advisor.sales > 8
-      ? 'Conversión real. Nivel pro.'
-      : 'Base sólida para el próximo ciclo.';
+      ? "Un año de consistencia y cierres reales."
+      : "Cada paso construyó la base de lo que viene.";
 
-  document.getElementById('summary').textContent =
-    'No se trata solo de números. Se trata de evolución.';
+  document.getElementById("prospects").textContent = advisor.prospects;
+  document.getElementById("appointments").textContent = advisor.appointments;
+  document.getElementById("sales").textContent = advisor.sales;
 
-  next();
-  music.play().catch(()=>{});
-};
+  document.getElementById("prospectsCopy").textContent =
+    advisor.prospects > 50
+      ? "El flujo nunca se detuvo."
+      : "Menos volumen, más intención.";
 
-function next() {
-  screens[current].classList.remove('active');
-  current++;
-  if (screens[current]) screens[current].classList.add('active');
-}
+  document.getElementById("appointmentsCopy").textContent =
+    advisor.appointments > 20
+      ? "Seguimiento que sí convirtió."
+      : "Cada cita fue aprendizaje.";
 
-let startY = 0;
-document.addEventListener('touchstart', e => startY = e.touches[0].clientY);
-document.addEventListener('touchend', e => {
-  if (startY - e.changedTouches[0].clientY > 50) next();
+  document.getElementById("salesCopy").textContent =
+    advisor.sales > 10
+      ? "Resultados que hablan solos."
+      : "La base está puesta.";
+
+  document.getElementById("summary").textContent =
+    "Esto no es una calificación. Es una fotografía de tu evolución.";
 });
-
-document.getElementById('exportBtn').onclick = () =>
-  alert('Exportar imagen: siguiente fase');
