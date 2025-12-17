@@ -6,35 +6,42 @@ fetch('./data.json').then(r => r.json()).then(d => data = d);
 document.getElementById('startBtn').onclick = () => {
     const val = document.getElementById('agentInput').value.trim();
     currentUser = data.find(u => u.id === val || u.name.toLowerCase().includes(val.toLowerCase()));
-    if (!currentUser) return alert("ID de asesor no válido");
+    if (!currentUser) return alert("ID no encontrado");
     document.getElementById('music').play().catch(() => {});
     initExperience();
 };
 
-function getDynamicContent(u) {
-    let phrases = {
-        cancels: "No todas las batallas se ganan, pero tú seguiste adelante.",
+function getDynamicPhrases(u) {
+    let p = {
+        intro: "Hiciste que las cosas sucedieran.",
+        prospects: "¡Muchos 'hola', pero tú buscabas el 'sí'!",
+        effort: "Desgastaste la suela del zapato, ¡valió la pena!",
+        cancels: "No todas se logran, pero tú no te aguitas.",
+        model: "Te lo sabes de memoria, ¡es tu favorito!",
         elite: "FUERZA DE VENTAS 2025"
     };
 
-    if (u.cancelaciones === 0) phrases.cancels = "¡Imbatible! Mantuviste tu cartera intacta este año.";
+    // Frases por desempeño
+    if (u.prospects > 130) p.prospects = "¡Te llovieron prospectos y a todos atendiste!";
+    if (u.visits > 50) p.effort = "¡Casi vives en el desarrollo de tantas visitas!";
+    if (u.cancelaciones === 0) p.cancels = "¡Cartera de acero! Cero bajas este año.";
+    if (u.cancelaciones > 2) p.cancels = "Lo que no te mata, te hace más colmilludo.";
 
-    // Lógica de Status Élite
+    // Status Élite para el resumen final
     if (u.role === 'asesor') {
-        if (u.sales >= 15 || u.monto_escrituras > 60000000) phrases.elite = "TOP 2% ASESOR ÉLITE";
-        else if (u.sales >= 10) phrases.elite = "TOP 10% ALTO RENDIMIENTO";
+        if (u.sales >= 15 || u.monto_escrituras > 60000000) p.elite = "TOP 2% ASESOR ÉLITE ⭐";
+        else if (u.sales >= 10) p.elite = "TOP 10% ALTO RENDIMIENTO 🚀";
     } else {
-        phrases.elite = "LIDERAZGO DE IMPACTO 2025";
+        p.elite = "LÍDER ESTRATÉGICO 👑";
+        p.model = "El prototipo que movió la aguja este año.";
     }
-    return phrases;
+    return p;
 }
 
 function initExperience() {
-    const u = currentUser;
-    document.body.setAttribute('data-dev', u.desarrollo.toLowerCase());
-    document.getElementById('brandLogo').src = (u.desarrollo.toLowerCase() === 'sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
-
-    renderValues(u);
+    document.body.setAttribute('data-dev', currentUser.desarrollo.toLowerCase());
+    document.getElementById('brandLogo').src = (currentUser.desarrollo.toLowerCase() === 'sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
+    renderValues(currentUser);
     document.getElementById('login').style.display = 'none';
     document.getElementById('tapZones').style.display = 'flex';
     initProgressBars();
@@ -42,42 +49,31 @@ function initExperience() {
 }
 
 function renderValues(u) {
-    const dyn = getDynamicContent(u);
+    const f = getDynamicPhrases(u);
     document.querySelectorAll('.u-photo').forEach(img => img.src = `${u.name}.jpg`);
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
-    document.getElementById('p-cancels-txt').textContent = dyn.cancels;
-    document.getElementById('p-status-tag').textContent = dyn.elite;
+    
+    // Inyectar Frases
+    document.getElementById('p-intro-txt').textContent = f.intro;
+    document.getElementById('p-prospects-txt').textContent = f.prospects;
+    document.getElementById('p-effort-txt').textContent = f.effort;
+    document.getElementById('p-cancels-txt').textContent = f.cancels;
+    document.getElementById('p-model-txt').textContent = f.model;
+    document.getElementById('f-status-tag').textContent = f.elite;
+    
     document.getElementById('f-dev-label').textContent = `${u.role.toUpperCase()} | ${u.desarrollo.toUpperCase()}`;
 
-    if (u.role === 'asesor') {
-        document.getElementById('u-prospects').textContent = u.prospects;
-        document.getElementById('u-citas').textContent = u.citas;
-        document.getElementById('u-visits').textContent = u.visits;
-        document.getElementById('u-cancels').textContent = u.cancelaciones;
-        document.getElementById('u-topModel').textContent = u.topModel;
-        document.getElementById('u-sales').textContent = u.sales;
-        document.getElementById('u-deeds').textContent = u.deeds;
-        document.getElementById('u-monto').textContent = moneyF.format(u.monto_escrituras);
-        
-        // Tarjeta final
-        document.getElementById('f-val1').textContent = u.sales;
-        document.getElementById('f-val2').textContent = u.deeds;
-        document.getElementById('f-val3').textContent = moneyF.format(u.monto_escrituras);
-    } else {
-        // Lógica Coordinador
-        document.getElementById('u-prospects').textContent = u.equipoSales;
-        document.getElementById('u-citas').textContent = u.eficienciaEquipo;
-        document.getElementById('u-visits').textContent = "Resultados Equipo";
-        document.getElementById('u-cancels').textContent = u.equipoCancelaciones;
-        document.getElementById('u-topModel').textContent = u.modeloEstrella;
-        document.getElementById('u-sales').textContent = u.equipoSales;
-        document.getElementById('u-deeds').textContent = u.asesorEstrella;
-        document.getElementById('u-monto').textContent = moneyF.format(u.equipoMonto);
-        
-        document.getElementById('f-val1').textContent = u.equipoSales;
-        document.getElementById('f-val2').textContent = u.asesorEstrella; // En "Escrituras" ponemos el Asesor Estrella en el resumen del coord
-        document.getElementById('f-val3').textContent = moneyF.format(u.equipoMonto);
-    }
+    // Datos numéricos
+    document.getElementById('u-prospects').textContent = u.prospects || u.equipoSales;
+    document.getElementById('u-citas').textContent = u.citas || u.eficienciaEquipo;
+    document.getElementById('u-visits').textContent = u.visits || "META";
+    document.getElementById('u-cancels').textContent = u.cancelaciones || u.equipoCancelaciones;
+    document.getElementById('u-topModel').textContent = u.topModel || u.modeloEstrella;
+
+    // Resumen Final
+    document.getElementById('f-val1').textContent = u.sales || u.equipoSales;
+    document.getElementById('f-val2').textContent = u.deeds || u.asesorEstrella;
+    document.getElementById('f-val3').textContent = moneyF.format(u.monto_escrituras || u.equipoMonto);
 }
 
 function initProgressBars() {
@@ -100,7 +96,7 @@ function showStory(index) {
     });
     current = index;
     if (index === stories.length - 1) {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [getComputedStyle(document.body).getPropertyValue('--accent'), '#ffffff'] });
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [getComputedStyle(document.body).getPropertyValue('--accent')] });
     }
     resetTimer();
 }
@@ -113,15 +109,19 @@ function resetTimer() {
 document.getElementById('btnNext').onclick = () => { if(current < 5) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if(current > 0) showStory(current - 1); };
 
-const zones = document.getElementById('tapZones');
-zones.onmousedown = () => { clearInterval(storyTimer); document.querySelector('.progress-bar.active .progress-fill').style.animationPlayState = 'paused'; };
-zones.onmouseup = () => { resetTimer(); document.querySelector('.progress-bar.active .progress-fill').style.animationPlayState = 'running'; };
-
+// Lógica de descarga corregida
 document.getElementById('exportBtn').onclick = function() {
-    html2canvas(document.getElementById('capture-area'), { backgroundColor: "#000", scale: 2 }).then(canvas => {
+    const area = document.getElementById('capture-area');
+    html2canvas(area, {
+        backgroundColor: "#000",
+        scale: 3, // Mayor calidad
+        useCORS: true,
+        logging: false
+    }).then(canvas => {
+        const image = canvas.toDataURL("image/png");
         const link = document.createElement('a');
-        link.download = `Mi2025_${currentUser.name}.png`;
-        link.href = canvas.toDataURL();
+        link.download = `MiWrapped2025_${currentUser.name}.png`;
+        link.href = image;
         link.click();
     });
 };
