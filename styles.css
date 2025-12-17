@@ -1,37 +1,68 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-body { background: #000; color: white; height: 100vh; overflow: hidden; }
+:root {
+  --primary: #00E88D;
+  --bg: #121212;
+  --card-bg: rgba(255, 255, 255, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body { 
+    background-color: var(--bg); 
+    background-image: radial-gradient(circle at 50% 50%, #1e1e1e 0%, #000 100%);
+    color: white; 
+    height: 100vh; 
+    overflow: hidden; 
+}
 
 .screen {
-  position: absolute; inset: 0; padding: 40px 20px;
+  position: absolute; inset: 0; padding: 40px 25px;
   display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center; opacity: 0; transform: translateY(20px);
-  transition: all 0.6s ease; pointer-events: none;
+  text-align: center; opacity: 0; transform: scale(0.9); pointer-events: none;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.screen.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
-.metric { font-size: 64px; font-weight: 900; margin: 20px 0; color: #00E88D; }
-#moneyValue { font-size: 38px; }
-.story { font-size: 18px; opacity: 0.8; max-width: 300px; }
+.screen.active { opacity: 1; transform: scale(1); pointer-events: auto; }
 
-input { 
-  background: #222; border: none; padding: 15px; color: white; 
-  border-radius: 10px; width: 80%; margin: 20px 0; text-align: center; 
-}
-button { 
-  background: #00E88D; color: black; border: none; padding: 15px 30px; 
-  border-radius: 30px; font-weight: bold; cursor: pointer; width: 80%;
-}
-button:disabled { background: #555; cursor: not-allowed; }
+.metric { font-size: 58px; font-weight: 900; margin: 15px 0; color: var(--primary); text-shadow: 0 0 30px rgba(0,232,141,0.3); }
+#moneyValue { font-size: 34px; }
+.accent-text { color: var(--primary); margin-bottom: 10px; }
+.story { font-size: 17px; line-height: 1.5; opacity: 0.85; max-width: 320px; }
 
 /* Dashboard Cards */
-.summary-grid { display: flex; gap: 10px; width: 100%; margin: 20px 0; }
-.summary-card { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; flex: 1; }
-.summary-card h3 { font-size: 28px; color: #00E88D; }
-.money-card { background: #00E88D; color: black; padding: 20px; border-radius: 15px; width: 100%; }
-.money-card p { font-size: 24px; font-weight: 900; }
-.insight-box { background: #111; padding: 20px; border-radius: 15px; border: 1px solid #333; width: 100%; }
+.summary-grid { display: flex; gap: 15px; width: 100%; margin: 20px 0; }
+.summary-card { 
+    background: var(--card-bg); padding: 20px; border-radius: 20px; flex: 1; 
+    backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
+}
+.summary-card p { font-size: 32px; font-weight: 900; color: var(--primary); }
 
-#navigation-dots { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
-.dot { width: 8px; height: 8px; background: rgba(255,255,255,0.3); border-radius: 50%; }
-.dot.active { background: #00E88D; }
-#swipe-hint { position: fixed; bottom: 10px; width: 100%; text-align: center; font-size: 12px; opacity: 0.5; }
+.money-card { 
+    background: linear-gradient(135deg, var(--primary) 0%, #00a86b 100%); 
+    color: black; padding: 25px; border-radius: 20px; width: 100%; 
+    box-shadow: 0 15px 40px rgba(0,232,141,0.2);
+}
+.money-card p { font-size: 26px; font-weight: 900; margin-bottom: 5px; }
+
+.insight-box { 
+    background: rgba(0,0,0,0.4); padding: 20px; border-radius: 20px; 
+    border: 1px solid rgba(255,255,255,0.1); width: 100%; text-align: left;
+}
+.insight-box.highlight { border-color: var(--primary); }
+
+/* Login Elements */
+#agentInput { 
+    background: #222; border: 1px solid #444; padding: 18px; color: white; 
+    border-radius: 15px; width: 85%; margin: 25px 0; text-align: center; font-size: 18px;
+}
+#startBtn { 
+    background: var(--primary); color: black; border: none; padding: 18px 40px; 
+    border-radius: 40px; font-weight: 900; font-size: 16px; cursor: pointer; width: 85%;
+    box-shadow: 0 10px 25px rgba(0,232,141,0.3);
+}
+#startBtn:disabled { background: #444; color: #888; box-shadow: none; }
+
+#navigation-dots { position: fixed; bottom: 45px; display: flex; gap: 8px; left: 50%; transform: translateX(-50%); }
+.dot { width: 7px; height: 7px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
+.dot.active { background: var(--primary); width: 20px; border-radius: 10px; }
+
+#swipe-hint { position: fixed; bottom: 15px; width: 100%; text-align: center; opacity: 0.5; font-size: 12px; }
