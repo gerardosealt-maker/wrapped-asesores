@@ -1,18 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
 :root { --accent: #FF8200; --bg: #000; }
-body[data-dev="sendas"] { --accent: #FF8200; } /* Sadasi */
-body[data-dev="meseta"], body[data-dev="acento"] { --accent: #00A3FF; } /* Altta */
+body[data-dev="sendas"] { --accent: #FF8200; } /* Sadasi Naranja */
+body[data-dev="meseta"], body[data-dev="acento"] { --accent: #00A3FF; } /* Altta Azul */
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-user-select: none; font-family: 'Montserrat', sans-serif; }
 body { background: var(--bg); color: white; height: 100vh; overflow: hidden; position: fixed; width: 100%; }
 
-/* Lava Background */
 .lava-bg { position: fixed; inset: 0; z-index: -1; background: #050505; }
-.blob { position: absolute; width: 350px; height: 350px; background: var(--accent); filter: blur(90px); border-radius: 50%; opacity: 0.2; animation: move 15s infinite alternate linear; }
+.blob { position: absolute; width: 350px; height: 350px; background: var(--accent); filter: blur(90px); border-radius: 50%; opacity: 0.15; animation: move 15s infinite alternate linear; }
 @keyframes move { from { transform: translate(-20%, -20%); } to { transform: translate(100%, 100%); } }
 
-/* Stories UI */
 .story-progress { position: fixed; top: 15px; left: 10px; right: 10px; display: flex; gap: 4px; z-index: 1000; }
 .progress-bar { height: 2px; flex: 1; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--accent); width: 0%; }
@@ -23,22 +21,19 @@ body { background: var(--bg); color: white; height: 100vh; overflow: hidden; pos
 .screen { position: absolute; inset: 0; padding: 60px 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; opacity: 0; visibility: hidden; transition: 0.4s; }
 .screen.active { opacity: 1; visibility: visible; }
 
-/* Metrics */
-.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 15px; }
-.metric-box { background: rgba(255,255,255,0.08); padding: 15px; border-radius: 15px; border-bottom: 2px solid var(--accent); }
-.metric-box h3 { font-size: 26px; font-weight: 900; color: var(--accent); }
-.metric-box p { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; margin-top: 5px; opacity: 0.8; }
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 20px; }
+.metric-box { background: rgba(255,255,255,0.08); padding: 18px; border-radius: 15px; border-bottom: 2px solid var(--accent); }
+.metric-box h3 { font-size: 28px; font-weight: 900; color: var(--accent); }
+.metric-box p { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-top: 5px; opacity: 0.8; }
 
-.huge-num { font-size: 70px; font-weight: 900; line-height: 0.9; margin: 10px 0; }
+.huge-num { font-size: 80px; font-weight: 900; line-height: 1; margin: 15px 0; color: var(--accent); }
 .label { color: var(--accent); font-weight: 900; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
-.advisor-photo { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 20px; }
-.glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; }
+.advisor-photo { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 25px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+.glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; border: 1px solid rgba(255,255,255,0.1); }
 
-/* Buttons */
-#startBtn { background: white; color: black; padding: 18px 50px; border-radius: 40px; font-weight: 900; border: none; cursor: pointer; }
-#exportBtn { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 50px; font-weight: 900; margin-top: 20px; cursor: pointer; }
+#startBtn { background: white; color: black; padding: 20px 60px; border-radius: 40px; font-weight: 900; border: none; font-size: 16px; cursor: pointer; }
+#exportBtn { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 50px; font-weight: 900; margin-top: 20px; }
 
-/* Capture Area Fix */
-#capture-area { background: #000; padding: 30px; border-radius: 20px; width: 100%; border: 1px solid rgba(255,255,255,0.1); }
+#capture-area { background: #000; padding: 35px 25px; border-radius: 25px; width: 100%; position: relative; }
 .tap-zones { position: fixed; inset: 0; display: none; z-index: 500; }
 .tap-left, .tap-right { height: 100%; flex: 1; }
