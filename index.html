@@ -1,60 +1,64 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Wrapped 2025 - Grupo Sadasi</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="lava-bg"><div class="blob"></div></div>
-    <div class="story-progress" id="progressRoot"></div>
-    <div class="tap-zones" id="tapZones">
-        <div class="tap-left" id="btnPrev"></div>
-        <div class="tap-right" id="btnNext"></div>
-    </div>
-    <audio id="music" src="music.mp3" loop></audio>
-
-    <main id="app">
+<main id="app">
         <section class="screen active" id="login">
             <h1 style="font-size: 42px; font-weight: 900;">MI 2025<br><span style="color:var(--accent)">WRAPPED.</span></h1>
-            <input id="agentInput" placeholder="ID de Asesor" style="background:none; border:none; border-bottom:2px solid #333; color:white; font-size:24px; text-align:center; margin:50px 0; outline:none; width:80%;">
-            <button id="startBtn">DESCUBRIR</button>
+            <input id="agentInput" placeholder="Tu ID de Éxito">
+            <button id="startBtn">EMPEZAR EL VIAJE</button>
         </section>
 
         <section class="screen story">
             <img class="advisor-photo u-photo">
-            <p class="label">Prepárate,</p>
+            <p class="label">Hola,</p>
             <h2 class="u-name-display" style="font-size: 30px; font-weight: 900;"></h2>
-            <p id="p-intro-txt" class="dynamic-txt"></p>
+            <p class="dynamic-txt">Fuiste pieza clave de la familia Sadasi este año.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">El inicio del viaje</p>
+            <p class="label">Tu alcance</p>
             <h2 class="huge-num" id="u-prospects"></h2>
-            <p style="font-size: 16px; font-weight: 900; letter-spacing: 2px;">PROSPECTOS</p>
+            <p style="font-size: 16px; font-weight: 900; letter-spacing: 2px;">PERSONAS ATENDIDAS</p>
             <p id="p-prospects-txt" class="dynamic-txt"></p>
         </section>
 
         <section class="screen story">
-            <p class="label">Puro movimiento</p>
-            <div class="metrics-grid" style="margin-top:30px;">
-                <div class="metric-box"><h3 id="u-citas"></h3><p>Citas</p></div>
-                <div class="metric-box"><h3 id="u-visits"></h3><p>Visitas</p></div>
-            </div>
-            <p id="p-effort-txt" class="dynamic-txt"></p>
+            <p class="label">El terreno que pisaste</p>
+            <h2 class="huge-num" id="u-visits"></h2>
+            <p style="font-size: 16px; font-weight: 900; letter-spacing: 2px;">VISITAS REALIZADAS</p>
+            <p class="dynamic-txt">Cada recorrido fue un sueño que ayudaste a visualizar.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">Baches en el camino</p>
+            <p class="label">Resiliencia</p>
             <h2 class="huge-num" id="u-cancels" style="color:#ff4b4b"></h2>
             <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px; color:#ff4b4b">CANCELACIONES</p>
             <p id="p-cancels-txt" class="dynamic-txt"></p>
         </section>
 
         <section class="screen story">
-            <p class="label">Tu Consentido</p>
-            <div class="glass" style="padding:45px; margin: 30px 0; border: 2px solid var(--accent);">
+            <p class="label">Tu momento dorado</p>
+            <div class="glass" style="padding:40px; margin: 30px 0;">
+                <h2 id="u-mejorMes" style="font-size:45px; font-weight:900; color:var(--accent)"></h2>
+                <p style="margin-top:10px; font-weight: 700;">Fue tu mes más fuerte</p>
+            </div>
+            <p class="dynamic-txt">Ese mes, simplemente no hubo quien te detuviera.</p>
+        </section>
+
+        <section class="screen story">
+            <p class="label">El fruto del esfuerzo</p>
+            <h2 class="huge-num" id="u-sales"></h2>
+            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px;">VENTAS CERRADAS</p>
+            <p class="dynamic-txt">Convertiste la intención en una decisión de vida.</p>
+        </section>
+
+        <section class="screen story">
+            <p class="label">Meta Final</p>
+            <h2 class="huge-num" id="u-deeds"></h2>
+            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px;">ESCRITURAS LOGRADAS</p>
+            <p class="dynamic-txt">Donde el papel se convierte en realidad y patrimonio.</p>
+        </section>
+
+        <section class="screen story">
+            <p class="label">Tu especialidad</p>
+            <div class="glass" style="padding:40px; margin: 30px 0; border: 2px solid var(--accent);">
                 <h2 id="u-topModel" style="font-size:28px; color:var(--accent); font-weight:900;"></h2>
             </div>
             <p id="p-model-txt" class="dynamic-txt"></p>
@@ -64,26 +68,20 @@
             <div id="capture-area">
                 <div id="f-status-tag" class="elite-badge"></div>
                 <img id="brandLogo" style="max-height: 25px; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto;">
-                <img class="advisor-photo u-photo" style="width: 90px; height: 90px; margin-bottom: 10px;">
-                <h2 class="u-name-display" style="font-size: 20px; font-weight: 900; margin-bottom: 2px;"></h2>
-                <p id="f-dev-label" class="label" style="font-size: 8px; margin-bottom: 15px; opacity: 0.7;"></p>
+                <img class="advisor-photo u-photo" style="width: 85px; height: 85px; margin-bottom: 10px;">
+                <h2 class="u-name-display" style="font-size: 18px; font-weight: 900; margin-bottom: 2px;"></h2>
+                <p id="f-dev-label" class="label" style="font-size: 8px; margin-bottom: 15px;"></p>
                 
                 <div class="metrics-grid">
-                    <div class="metric-box" style="padding:8px;"><p>Escrituras</p><h3 id="f-val2" style="font-size:22px;"></h3></div>
-                    <div class="metric-box" style="padding:8px;"><p>Ventas</p><h3 id="f-val1" style="font-size:22px;"></h3></div>
-                    <div class="metric-box" style="grid-column: span 2; background: var(--accent); color: #000;">
-                        <p style="color:#000; font-weight: 900; opacity: 1;">VALOR ESCRITURADO</p>
-                        <h3 id="f-val3" style="font-size:18px; color:#000;"></h3>
+                    <div class="metric-box" style="padding:10px;"><p>Escrituras</p><h3 id="f-val2"></h3></div>
+                    <div class="metric-box" style="padding:10px;"><p>Ventas</p><h3 id="f-val1"></h3></div>
+                    <div class="metric-box" style="grid-column: span 2; background: var(--accent); color: #000; padding:12px;">
+                        <p style="color:#000; font-weight: 900;">VALOR DEL PATRIMONIO</p>
+                        <h3 id="f-val3" style="font-size:16px; color:#000;"></h3>
                     </div>
                 </div>
-                <p style="margin-top:15px; font-size:7px; opacity:0.5; letter-spacing:2px">#SADASIGROUP #WRAPPED2025</p>
+                <p style="margin-top:15px; font-size:7px; opacity:0.4; letter-spacing:2px">SADASI • ALTA HOMES • 2025</p>
             </div>
-            <button id="exportBtn">DESCARGAR PARA WHATSAPP</button>
+            <button id="exportBtn">COMPARTIR MI ÉXITO</button>
         </section>
     </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
