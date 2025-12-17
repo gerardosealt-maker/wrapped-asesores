@@ -2,16 +2,42 @@ let data = [], current = 0, currentUser = null, storyTimer = null;
 const moneyF = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 
 fetch('./data.json').then(r => r.json()).then(d => {
-    data = d.sort((a, b) => (b.monto_escrituras || 0) - (a.monto_escrituras || 0));
+    data = d;
 }).catch(e => console.error("Error al cargar JSON", e));
 
 document.getElementById('startBtn').onclick = () => {
     const val = document.getElementById('agentInput').value.trim().toLowerCase();
-    currentUser = data.find(u => u.id.toLowerCase() === val || u.name.toLowerCase().includes(val));
-    if (!currentUser) return alert("Usuario no encontrado.");
+    const user = data.find(u => u.id.toLowerCase() === val || u.name.toLowerCase().includes(val));
+    if (!user) return alert("Usuario no encontrado.");
+    
+    // Si el rol incluye "coordinador", sumamos la data de su equipo automáticamente
+    if (user.role.toLowerCase().includes('coordinador')) {
+        currentUser = calculateTeamData(user);
+    } else {
+        currentUser = user;
+    }
+    
     document.getElementById('music').play().catch(() => {});
     initExperience();
 };
+
+function calculateTeamData(coord) {
+    // Busca a todos los asesores del mismo desarrollo que NO sean coordinadores
+    const team = data.filter(u => u.desarrollo === coord.desarrollo && !u.role.toLowerCase().includes('coordinador'));
+    const starAdvisor = [...team].sort((a,b) => b.monto_escrituras - a.monto_escrituras)[0];
+
+    return {
+        ...coord,
+        prospects: team.reduce((sum, u) => sum + (u.prospects || 0), 0),
+        visits: team.reduce((sum, u) => sum + (u.visits || 0), 0),
+        cancelaciones: team.reduce((sum, u) => sum + (u.cancelaciones || 0), 0),
+        sales: team.reduce((sum, u) => sum + (u.sales || 0), 0),
+        deeds: team.reduce((sum, u) => sum + (u.deeds || 0), 0),
+        monto_escrituras: team.reduce((sum, u) => sum + (u.monto_escrituras || 0), 0),
+        asesorEstrella: starAdvisor ? starAdvisor.name : "Equipo Acento",
+        totalTeam: team.length
+    };
+}
 
 function initExperience() {
     document.body.setAttribute('data-dev', currentUser.desarrollo.toLowerCase());
@@ -26,59 +52,51 @@ function initExperience() {
 }
 
 function renderValues(u) {
-    const isCoord = (u.role.toLowerCase() === 'coordinador');
-    const rankPos = data.findIndex(x => x.id === u.id) + 1;
-    const eficiencia = u.visits > 0 ? Math.round((u.sales / u.visits) * 100) + "%" : "0%";
+    const isCoord = u.role.toLowerCase().includes('coordinador');
     
-    // Foto y Nombre
+    // Ranking basado en monto (individual o equipo sumado)
+    const sortedData = [...data].sort((a, b) => b.monto_escrituras - a.monto_escrituras);
+    const rankPos = sortedData.findIndex(x => x.id === u.id) + 1;
+    const eficiencia = u.visits > 0 ? Math.round((u.sales / u.visits) * 100) + "%" : "0%";
+
     document.querySelectorAll('.u-photo').forEach(img => img.src = `${u.name}.jpg`);
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
 
-    // Ajuste de Labels (Coordinador vs Asesor)
     document.getElementById('role-label-intro').textContent = isCoord ? "LÍDER," : "HOLA,";
-    document.getElementById('p-intro-txt').textContent = isCoord ? "Guiaste a tu equipo hacia la cima este 2025." : "Fuiste pieza clave de Sadasi este año.";
+    document.getElementById('p-intro-txt').textContent = isCoord ? `Coordinaste el éxito de ${u.totalTeam} asesores.` : "Fuiste pieza clave de Sadasi este año.";
     
-    document.getElementById('l-p2').textContent = isCoord ? "FUERZA DE EQUIPO" : "EL ALCANCE";
     document.getElementById('l-p2-sub').textContent = isCoord ? "PROSPECTOS EQUIPO" : "PROSPECTOS";
     document.getElementById('u-prospects').textContent = u.prospects;
-    document.getElementById('p-prospects-txt').textContent = isCoord ? "Tu equipo no dejó de recibir interesados." : "¡Mucho contacto, pero tú buscabas el sí!";
+    document.getElementById('p-prospects-txt').textContent = isCoord ? "Tu equipo mantuvo el embudo siempre lleno." : "Cada prospecto fue una oportunidad aprovechada.";
 
-    document.getElementById('l-p3').textContent = isCoord ? "GESTIÓN DE EQUIPO" : "EL TERRENO";
-    document.getElementById('l-p3-sub').textContent = isCoord ? "VISITAS TOTALES" : "VISITAS REALIZADAS";
+    document.getElementById('l-p3-sub').textContent = isCoord ? "VISITAS EQUIPO" : "VISITAS";
     document.getElementById('u-visits').textContent = u.visits;
 
-    document.getElementById('p-cancels-txt').textContent = u.cancelaciones === 0 ? "¡Imbatible! Mantuvieron la cartera intacta." : "De los errores se aprende para cerrar mejor.";
     document.getElementById('u-cancels').textContent = u.cancelaciones;
+    document.getElementById('p-cancels-txt').textContent = u.cancelaciones === 0 ? "¡Impecable! Nada se les escapó." : "Experiencia ganada para cerrar el 2026.";
 
-    document.getElementById('u-mejorMes').textContent = (u.mejorMes || "Exitoso").toUpperCase();
-    document.getElementById('p-mes-txt').textContent = isCoord ? "Tu equipo brilló más que nunca." : "Fue tu mes de mayor productividad.";
+    document.getElementById('u-mejorMes').textContent = (u.mejorMes || "DICIEMBRE").toUpperCase();
+    document.getElementById('p-mes-txt').textContent = isCoord ? "El mes más fuerte de tu equipo." : "Fue tu mes de mayor productividad.";
 
     document.getElementById('u-sales').textContent = u.sales;
-    document.getElementById('p-sales-txt').textContent = isCoord ? "Cierres consolidados bajo tu liderazgo." : "Ventas que transformaron vidas.";
-
     document.getElementById('u-deeds').textContent = u.deeds;
     document.getElementById('u-monto-deeds').textContent = moneyF.format(u.monto_escrituras);
 
     document.getElementById('l-p8').textContent = isCoord ? "ASESOR ESTRELLA" : "TU ESPECIALIDAD";
-    document.getElementById('u-topModel').textContent = isCoord ? (u.asesorEstrella || "Tu Equipo") : u.topModel;
-    document.getElementById('p-model-txt').textContent = isCoord ? "El motor que impulsó tus resultados." : "Nadie domina este modelo como tú.";
+    document.getElementById('u-topModel').textContent = isCoord ? u.asesorEstrella : (u.topModel || "Modelo Sadasi");
+    document.getElementById('p-model-txt').textContent = isCoord ? "El motor de tus resultados grupales." : "Nadie domina este modelo como tú.";
 
-    // Resumen Final e Imagen
-    const status = isCoord ? "LÍDER ESTRATÉGICO 2025" : (u.deeds >= 12 ? "TOP 2% ASESOR LEYENDA ⭐" : "ASESOR ALTO IMPACTO");
-    document.getElementById('f-status-tag').textContent = status;
+    document.getElementById('f-status-tag').textContent = isCoord ? "COORDINADORA MÁSTER" : (u.deeds >= 12 ? "ASESOR LEYENDA ⭐" : "ASESOR ÉLITE");
     document.getElementById('f-val1').textContent = u.sales;
     document.getElementById('f-val2').textContent = u.deeds;
     document.getElementById('f-val-rank').textContent = "#" + rankPos;
-    document.getElementById('f-val-eff').textContent = isCoord ? "ALTA" : eficiencia;
+    document.getElementById('f-val-eff').textContent = isCoord ? "PRO" : eficiencia;
     document.getElementById('f-dev-label').textContent = `${u.role.toUpperCase()} | ${u.desarrollo.toUpperCase()}`;
 
-    // Frase picante Ranking
     const rankMsg = document.getElementById('p-rank-msg');
     if(rankPos <= 3) rankMsg.textContent = "¡Cuidado! Hay un fuera de serie suelto aquí. 🔥";
-    else if(rankPos <= 10) rankMsg.textContent = "¡Estás en la élite del desarrollo! 🚀";
-    else rankMsg.textContent = "¡Vas por el Top 10 en 2026! 💪";
+    else rankMsg.textContent = "¡Estás en la élite de Sadasi! 🚀";
 
-    // Textos de etiquetas en la tabla del resumen
     document.getElementById('f-l1').textContent = isCoord ? "Escrit. Equipo" : "Escrituras";
     document.getElementById('f-l2').textContent = isCoord ? "Ventas Equipo" : "Ventas";
 }
@@ -102,7 +120,7 @@ function showStory(index) {
         if (i === index) bar.classList.add('active');
     });
     current = index;
-    if (index === 8) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+    if (index === 9) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     resetTimer();
 }
 
@@ -119,12 +137,10 @@ document.getElementById('btnNext').onclick = () => {
 document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
 
 document.getElementById('exportBtn').onclick = function() {
-    this.innerText = "CAPTURA LISTA...";
     html2canvas(document.getElementById('capture-area'), { backgroundColor: "#000", scale: 2 }).then(canvas => {
         const link = document.createElement('a');
         link.download = `Wrapped2025_${currentUser.name}.png`;
         link.href = canvas.toDataURL();
         link.click();
-        this.innerText = "GUARDAR MI HISTORIA";
     });
 };
