@@ -1,93 +1,133 @@
+let data = [], current = 0, currentUser = null, storyTimer = null;
+const STORY_DURATION = 5000;
 const moneyF = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
-let data = [], current = 0, currentUser = null;
 
 // Cargar Datos
-fetch('./data.json').then(r => r.json()).then(d => { data = d; });
+fetch('./data.json').then(r => r.json()).then(d => data = d);
 
+// Iniciar sesión
 document.getElementById('startBtn').onclick = () => {
     const val = document.getElementById('agentInput').value.trim();
     currentUser = data.find(u => u.id === val || u.name.toLowerCase().includes(val.toLowerCase()));
-    
-    if (!currentUser) return alert("Asesor no encontrado.");
-    
+    if (!currentUser) return alert("ID no encontrado");
+
     initExperience();
-    document.getElementById('music').play().catch(() => {});
-    nextScreen();
 };
 
 function initExperience() {
-    const user = currentUser;
-    // UI Theme
-    document.body.setAttribute('data-dev', user.desarrollo.toLowerCase());
-    const logoImg = (user.desarrollo.toLowerCase() === 'sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
-    document.getElementById('brandLogo').src = logoImg;
+    document.body.setAttribute('data-role', currentUser.role);
+    document.body.setAttribute('data-dev', currentUser.desarrollo.toLowerCase());
     
-    // Data Binding
-    document.getElementById('u-photo').src = `${user.name}.jpg`;
-    document.getElementById('u-mejorMes').textContent = user.mejorMes;
-    document.getElementById('u-ventasMes').textContent = user.ventasMejorMes;
-    document.getElementById('u-accuracy').textContent = ((user.sales/user.visits)*100).toFixed(0) + "%";
-    document.getElementById('u-visits').textContent = user.visits;
-    document.getElementById('u-sales').textContent = user.sales;
-    document.getElementById('u-cancels').textContent = user.cancelaciones;
+    renderData();
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('tapZones').style.display = 'flex';
     
-    // Final Summary
-    document.getElementById('f-name').textContent = user.name;
-    document.getElementById('f-dev').textContent = `Desarrollo ${user.desarrollo}`;
-    document.getElementById('f-sales').textContent = user.sales;
-    document.getElementById('f-money').textContent = moneyF.format(user.monto_escrituras);
-    document.getElementById('f-model').textContent = user.topModels[0].name;
-
-    createProgressBars();
+    initProgressBars();
+    startStoryLoop();
 }
 
-function createProgressBars() {
-    const root = document.getElementById('progressRoot');
-    const screens = document.querySelectorAll('.screen');
-    root.innerHTML = '';
-    screens.forEach((_, i) => {
-        if(i === 0) return;
-        const bar = document.createElement('div');
-        bar.className = 'progress-bar';
-        bar.innerHTML = '<div class="progress-fill"></div>';
-        root.appendChild(bar);
-    });
-}
+function renderData() {
+    const u = currentUser;
+    const logo = (u.desarrollo.toLowerCase() === 'sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
+    document.getElementById('brandLogo').src = logo;
+    document.getElementById('u-photo-intro').src = `${u.name}.jpg`;
+    document.getElementById('u-photo-final').src = `${u.name}.jpg`;
+    document.getElementById('u-name').textContent = u.name;
 
-function nextScreen() {
-    const screens = document.querySelectorAll('.screen');
-    const bars = document.querySelectorAll('.progress-bar');
-
-    if (current < screens.length - 1) {
-        screens[current].classList.add('past');
-        screens[current].classList.remove('active');
-        current++;
-        screens[current].classList.add('active');
-        
-        if(current > 0) bars[current - 1].classList.add('active');
+    if (u.role === 'asesor') {
+        document.getElementById('u-saludo').textContent = "Hola, Asesor";
+        document.getElementById('u-mejorMes').textContent = u.mejorMes;
+        document.getElementById('u-ventasMes').textContent = u.ventasMejorMes;
+        document.getElementById('u-prospects').textContent = u.prospects;
+        document.getElementById('u-cancels').textContent = u.cancelaciones;
+        document.getElementById('f-role').textContent = "Asesor " + u.desarrollo;
+        document.getElementById('f-val1').textContent = u.sales;
+        document.getElementById('f-val2').textContent = moneyF.format(u.monto_escrituras);
+    } else {
+        document.getElementById('u-saludo').textContent = "Hola, Coordinador";
+        document.getElementById('c-equipoSales').textContent = u.equipoSales;
+        document.getElementById('c-devName').textContent = u.desarrollo;
+        document.getElementById('c-estrella').textContent = u.asesorEstrella;
+        document.getElementById('c-eficiencia').textContent = u.eficienciaEquipo;
+        document.getElementById('f-role').textContent = "Coordinador " + u.desarrollo;
+        document.getElementById('f-label1').textContent = "Ventas Equipo";
+        document.getElementById('f-val1').textContent = u.equipoSales;
+        document.getElementById('f-label2').textContent = "Monto Total";
+        document.getElementById('f-val2').textContent = moneyF.format(u.equipoMonto);
     }
 }
 
-// Mobile Gestures
-let touchStart = 0;
-document.addEventListener('touchstart', e => touchStart = e.touches[0].clientY);
-document.addEventListener('touchend', e => {
-    let touchEnd = e.changedTouches[0].clientY;
-    if (touchStart - touchEnd > 70) nextScreen();
-});
+function initProgressBars() {
+    const root = document.getElementById('progressRoot');
+    const storiesCount = document.querySelectorAll('.story').length;
+    root.innerHTML = '';
+    for(let i=0; i<storiesCount; i++) {
+        root.innerHTML += '<div class="progress-bar"><div class="progress-fill"></div></div>';
+    }
+}
 
-// Export
-document.getElementById('exportBtn').onclick = function() {
-    this.style.display = 'none';
-    html2canvas(document.getElementById('story-final'), {
-        backgroundColor: '#0b0b0b',
-        scale: 2,
-        useCORS: true
-    }).then(canvas => {
+function startStoryLoop() {
+    showStory(current);
+}
+
+function showStory(index) {
+    const stories = document.querySelectorAll('.story');
+    const bars = document.querySelectorAll('.progress-bar');
+    
+    stories.forEach(s => s.classList.remove('active'));
+    stories[index].classList.add('active');
+
+    bars.forEach((bar, i) => {
+        bar.classList.remove('active', 'completed');
+        if (i < index) bar.classList.add('completed');
+        if (i === index) bar.classList.add('active');
+    });
+
+    current = index;
+    resetTimer();
+}
+
+function resetTimer() {
+    clearInterval(storyTimer);
+    storyTimer = setInterval(() => {
+        if (current < document.querySelectorAll('.story').length - 1) next();
+        else clearInterval(storyTimer);
+    }, STORY_DURATION);
+}
+
+function next() {
+    if (current < document.querySelectorAll('.story').length - 1) showStory(current + 1);
+}
+function prev() {
+    if (current > 0) showStory(current - 1);
+}
+
+// Eventos de Navegación y Pausa
+const zones = document.getElementById('tapZones');
+document.getElementById('btnNext').onclick = next;
+document.getElementById('btnPrev').onclick = prev;
+
+const handlePause = (pause) => {
+    const fill = document.querySelector('.progress-bar.active .progress-fill');
+    if (fill) fill.style.animationPlayState = pause ? 'paused' : 'running';
+    pause ? clearInterval(storyTimer) : resetTimer();
+};
+
+zones.onmousedown = () => handlePause(true);
+zones.onmouseup = () => handlePause(false);
+zones.ontouchstart = () => handlePause(true);
+zones.ontouchend = () => handlePause(false);
+
+// Exportar Foto
+document.getElementById('exportBtn').onclick = (e) => {
+    e.stopPropagation();
+    const btn = e.target;
+    btn.style.opacity = '0';
+    html2canvas(document.getElementById('story-final'), { backgroundColor:'#000', scale:2 }).then(canvas => {
         const link = document.createElement('a');
-        link.download = `Wrapped_${currentUser.name}.png`;
+        link.download = `Wrapped_2024.png`;
         link.href = canvas.toDataURL();
         link.click();
-        this.style.display = 'block';
+        btn.style.opacity = '1';
     });
 };
