@@ -1,42 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
 :root { --accent: #FF8200; --bg: #000; }
-body[data-dev="sendas"] { --accent: #FF8200; }
-body[data-dev="meseta"] { --accent: #00A3FF; }
-body[data-dev="acento"] { --accent: #D4AF37; }
+body[data-dev="sendas"] { --accent: #FF8200; } /* Sadasi */
+body[data-dev="meseta"], body[data-dev="acento"] { --accent: #00A3FF; } /* Altta */
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-user-select: none; font-family: 'Montserrat', sans-serif; }
 body { background: var(--bg); color: white; height: 100vh; overflow: hidden; position: fixed; width: 100%; }
 
-/* Barras de Progreso */
+/* Lava Lamp Background */
+.lava-bg { position: fixed; inset: 0; z-index: -1; background: #050505; }
+.blob { position: absolute; width: 350px; height: 350px; background: var(--accent); filter: blur(90px); border-radius: 50%; opacity: 0.25; animation: move 15s infinite alternate ease-in-out; }
+@keyframes move { from { transform: translate(-10%, -10%); } to { transform: translate(100%, 100%); } }
+
+/* Stories Logic */
 .story-progress { position: fixed; top: 15px; left: 10px; right: 10px; display: flex; gap: 4px; z-index: 1000; }
 .progress-bar { height: 2px; flex: 1; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--accent); width: 0%; }
-
 .progress-bar.active .progress-fill { animation: progressFill 5s linear forwards; }
-.progress-bar.completed .progress-fill { width: 100%; animation: none; }
+.progress-bar.completed .progress-fill { width: 100%; }
 @keyframes progressFill { from { width: 0%; } to { width: 100%; } }
 
-/* Pantallas */
-.screen { position: absolute; inset: 0; padding: 60px 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; opacity: 0; visibility: hidden; transition: opacity 0.4s ease; }
+.screen { position: absolute; inset: 0; padding: 60px 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; opacity: 0; visibility: hidden; transition: 0.4s; }
 .screen.active { opacity: 1; visibility: visible; }
+
+/* Metrics Grid */
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; margin-top: 20px; }
+.metric-box { background: rgba(255,255,255,0.06); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+.metric-box h3 { font-size: 28px; font-weight: 900; color: var(--accent); }
+.metric-box p { font-size: 9px; letter-spacing: 1px; opacity: 0.7; text-transform: uppercase; margin-top: 5px; }
+
+.huge-num { font-size: 70px; font-weight: 900; line-height: 0.9; margin: 10px 0; }
+.label { color: var(--accent); font-weight: 900; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+.advisor-photo { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 20px; }
 
 /* Tap Zones */
 .tap-zones { position: fixed; inset: 0; display: none; z-index: 500; }
 .tap-left { width: 30%; height: 100%; }
 .tap-right { width: 70%; height: 100%; }
 
-/* UI Elements */
-.label { color: var(--accent); letter-spacing: 4px; font-weight: 900; font-size: 10px; text-transform: uppercase; }
-.huge-num { font-size: 85px; font-weight: 900; line-height: 0.8; margin: 20px 0; }
-.highlight { color: var(--accent); }
-.advisor-photo { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 20px; background: #222; }
-.glass-card { background: rgba(255,255,255,0.08); backdrop-filter: blur(15px); border-radius: 25px; padding: 25px; width: 100%; border: 1px solid rgba(255,255,255,0.1); }
-
-/* Visibilidad por Rol */
-.coord-only, .asesor-only { display: none; width: 100%; flex-direction: column; align-items: center; }
+.asesor-only, .coord-only { display: none; width: 100%; flex-direction: column; align-items: center; }
 body[data-role="asesor"] .asesor-only { display: flex; }
 body[data-role="coordinador"] .coord-only { display: flex; }
-
-#startBtn { background: white; color: black; border: none; padding: 18px 45px; border-radius: 30px; font-weight: 900; cursor: pointer; }
-#exportBtn { background: var(--accent); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 900; width: 100%; margin-top: 20px; cursor: pointer; }
