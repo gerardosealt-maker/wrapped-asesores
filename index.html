@@ -1,28 +1,89 @@
-<main id="app">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Wrapped 2025 - Grupo Sadasi</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap">
+    <style>
+        :root { --accent: #FF8200; --bg: #000; }
+        body[data-dev="sendas"] { --accent: #FF8200; }
+        body[data-dev="meseta"], body[data-dev="acento"] { --accent: #00A3FF; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-user-select: none; font-family: 'Montserrat', sans-serif; }
+        body { background: #000; color: white; height: 100vh; overflow: hidden; position: fixed; width: 100%; }
+
+        /* Fondo Animado */
+        .lava-bg { position: fixed; inset: 0; z-index: -1; background: #050505; }
+        .blob { position: absolute; width: 350px; height: 350px; background: var(--accent); filter: blur(80px); border-radius: 50%; opacity: 0.2; animation: move 15s infinite alternate linear; }
+        @keyframes move { from { transform: translate(-20%, -20%); } to { transform: translate(80%, 80%); } }
+
+        /* Barras de Progreso */
+        .story-progress { position: fixed; top: 15px; left: 10px; right: 10px; display: flex; gap: 4px; z-index: 1000; display: none; }
+        .progress-bar { height: 3px; flex: 1; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #fff; width: 0%; }
+        .progress-bar.active .progress-fill { animation: progressFill 5s linear forwards; background: var(--accent); }
+        .progress-bar.completed .progress-fill { width: 100%; background: var(--accent); }
+        @keyframes progressFill { from { width: 0%; } to { width: 100%; } }
+
+        /* Pantallas */
+        .screen { position: absolute; inset: 0; padding: 60px 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; opacity: 0; visibility: hidden; transition: 0.4s; }
+        .screen.active { opacity: 1; visibility: visible; }
+
+        #login input { background: rgba(255,255,255,0.05); border: 2px solid #333; border-radius: 15px; color: white; font-size: 20px; padding: 15px; text-align: center; width: 85%; margin-bottom: 30px; outline: none; }
+        #startBtn { background: #fff; color: #000; padding: 20px 50px; border-radius: 50px; font-weight: 900; border: none; cursor: pointer; }
+
+        .huge-num { font-size: 80px; font-weight: 900; line-height: 1; color: var(--accent); }
+        .label { color: var(--accent); font-weight: 900; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
+        .dynamic-txt { margin-top: 30px; font-style: italic; opacity: 0.8; font-size: 14px; }
+        
+        .advisor-photo { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 20px; }
+        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 20px; }
+        .metric-box { background: rgba(255,255,255,0.08); padding: 15px; border-radius: 15px; border-bottom: 3px solid var(--accent); }
+        .metric-box h3 { font-size: 26px; font-weight: 900; color: var(--accent); }
+        .metric-box p { font-size: 9px; text-transform: uppercase; opacity: 0.7; }
+
+        .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; padding: 30px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1); }
+        .elite-badge { background: #fff; color: #000; font-weight: 900; font-size: 10px; padding: 6px 15px; border-radius: 50px; margin-bottom: 15px; }
+
+        #capture-area { background: #000; padding: 30px 20px; border-radius: 25px; width: 100%; border: 1px solid rgba(255,255,255,0.2); }
+        #exportBtn { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 50px; font-weight: 900; margin-top: 20px; cursor: pointer; }
+
+        .tap-zones { position: fixed; inset: 0; display: none; z-index: 500; }
+        .tap-left, .tap-right { height: 100%; flex: 1; }
+    </style>
+</head>
+<body>
+    <div class="lava-bg"><div class="blob"></div></div>
+    <div class="story-progress" id="progressRoot"></div>
+    <div class="tap-zones" id="tapZones"><div class="tap-left" id="btnPrev"></div><div class="tap-right" id="btnNext"></div></div>
+    <audio id="music" src="music.mp3" loop></audio>
+
+    <main id="app">
         <section class="screen active" id="login">
-            <h1 style="font-size: 42px; font-weight: 900;">MI 2025<br><span style="color:var(--accent)">WRAPPED.</span></h1>
-            <input id="agentInput" placeholder="Tu ID de Éxito">
-            <button id="startBtn">EMPEZAR EL VIAJE</button>
+            <h1 style="font-size: 38px; font-weight: 900; margin-bottom: 40px;">MI 2025<br><span style="color:var(--accent)">WRAPPED.</span></h1>
+            <input id="agentInput" placeholder="Introduce tu ID o Nombre">
+            <button id="startBtn">COMENZAR</button>
         </section>
 
         <section class="screen story">
-            <img class="advisor-photo u-photo">
+            <img class="u-photo advisor-photo">
             <p class="label">Hola,</p>
-            <h2 class="u-name-display" style="font-size: 30px; font-weight: 900;"></h2>
+            <h2 class="u-name-display" style="font-size: 28px; font-weight: 900;"></h2>
             <p class="dynamic-txt">Fuiste pieza clave de la familia Sadasi este año.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">Tu alcance</p>
+            <p class="label">El inicio de todo</p>
             <h2 class="huge-num" id="u-prospects"></h2>
-            <p style="font-size: 16px; font-weight: 900; letter-spacing: 2px;">PERSONAS ATENDIDAS</p>
+            <p style="font-size: 16px; font-weight: 900; letter-spacing: 2px;">PROSPECTOS</p>
             <p id="p-prospects-txt" class="dynamic-txt"></p>
         </section>
 
         <section class="screen story">
-            <p class="label">El terreno que pisaste</p>
+            <p class="label">Kilómetros recorridos</p>
             <h2 class="huge-num" id="u-visits"></h2>
-            <p style="font-size: 16px; font-weight: 900; letter-spacing: 2px;">VISITAS REALIZADAS</p>
+            <p style="font-size: 16px; font-weight: 900; letter-spacing: 2px;">VISITAS AL DESARROLLO</p>
             <p class="dynamic-txt">Cada recorrido fue un sueño que ayudaste a visualizar.</p>
         </section>
 
@@ -35,53 +96,143 @@
 
         <section class="screen story">
             <p class="label">Tu momento dorado</p>
-            <div class="glass" style="padding:40px; margin: 30px 0;">
-                <h2 id="u-mejorMes" style="font-size:45px; font-weight:900; color:var(--accent)"></h2>
+            <div class="glass">
+                <h2 id="u-mejorMes" style="font-size:40px; font-weight:900; color:var(--accent)"></h2>
                 <p style="margin-top:10px; font-weight: 700;">Fue tu mes más fuerte</p>
             </div>
-            <p class="dynamic-txt">Ese mes, simplemente no hubo quien te detuviera.</p>
+            <p class="dynamic-txt">En este mes, simplemente fuiste imparable.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">El fruto del esfuerzo</p>
+            <p class="label">Cierres logrados</p>
             <h2 class="huge-num" id="u-sales"></h2>
-            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px;">VENTAS CERRADAS</p>
+            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px;">VENTAS</p>
             <p class="dynamic-txt">Convertiste la intención en una decisión de vida.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">Meta Final</p>
+            <p class="label">Meta Finalizada</p>
             <h2 class="huge-num" id="u-deeds"></h2>
-            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px;">ESCRITURAS LOGRADAS</p>
-            <p class="dynamic-txt">Donde el papel se convierte en realidad y patrimonio.</p>
+            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px;">ESCRITURAS</p>
+            <p class="dynamic-txt">Aquí es donde los sueños se vuelven patrimonio.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">Tu especialidad</p>
-            <div class="glass" style="padding:40px; margin: 30px 0; border: 2px solid var(--accent);">
-                <h2 id="u-topModel" style="font-size:28px; color:var(--accent); font-weight:900;"></h2>
+            <p class="label">Tu Especialidad</p>
+            <div class="glass" style="border: 2px solid var(--accent);">
+                <h2 id="u-topModel" style="font-size:26px; color:var(--accent); font-weight:900;"></h2>
             </div>
-            <p id="p-model-txt" class="dynamic-txt"></p>
+            <p class="dynamic-txt">Te convertiste en experto de este prototipo.</p>
         </section>
 
         <section class="screen story" id="story-final">
             <div id="capture-area">
                 <div id="f-status-tag" class="elite-badge"></div>
-                <img id="brandLogo" style="max-height: 25px; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto;">
-                <img class="advisor-photo u-photo" style="width: 85px; height: 85px; margin-bottom: 10px;">
-                <h2 class="u-name-display" style="font-size: 18px; font-weight: 900; margin-bottom: 2px;"></h2>
+                <img id="brandLogo" style="max-height: 20px; margin-bottom: 20px; display: block; margin: 0 auto 20px auto;">
+                <img class="u-photo advisor-photo" style="width: 90px; height: 90px;">
+                <h2 class="u-name-display" style="font-size: 20px; font-weight: 900; margin-bottom: 2px;"></h2>
                 <p id="f-dev-label" class="label" style="font-size: 8px; margin-bottom: 15px;"></p>
                 
                 <div class="metrics-grid">
-                    <div class="metric-box" style="padding:10px;"><p>Escrituras</p><h3 id="f-val2"></h3></div>
-                    <div class="metric-box" style="padding:10px;"><p>Ventas</p><h3 id="f-val1"></h3></div>
-                    <div class="metric-box" style="grid-column: span 2; background: var(--accent); color: #000; padding:12px;">
-                        <p style="color:#000; font-weight: 900;">VALOR DEL PATRIMONIO</p>
-                        <h3 id="f-val3" style="font-size:16px; color:#000;"></h3>
+                    <div class="metric-box"><p>Escrituras</p><h3 id="f-val2"></h3></div>
+                    <div class="metric-box"><p>Ventas</p><h3 id="f-val1"></h3></div>
+                    <div class="metric-box" style="grid-column: span 2; background: var(--accent); color: #000;">
+                        <p style="color:#000; font-weight:900;">VALOR ESCRITURADO</p>
+                        <h3 id="f-val3" style="font-size:18px; color:#000;"></h3>
                     </div>
                 </div>
-                <p style="margin-top:15px; font-size:7px; opacity:0.4; letter-spacing:2px">SADASI • ALTA HOMES • 2025</p>
+                <p style="margin-top:15px; font-size:7px; opacity:0.4; letter-spacing:2px">SADASI • WRAPPED 2025</p>
             </div>
-            <button id="exportBtn">COMPARTIR MI ÉXITO</button>
+            <button id="exportBtn">DESCARGAR RESULTADOS</button>
         </section>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        let data = [], current = 0, currentUser = null, storyTimer = null;
+        const moneyF = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
+
+        fetch('./data.json').then(r => r.json()).then(d => data = d).catch(e => console.error("Error cargando JSON", e));
+
+        document.getElementById('startBtn').onclick = () => {
+            const val = document.getElementById('agentInput').value.trim();
+            currentUser = data.find(u => u.id.toLowerCase() === val.toLowerCase() || u.name.toLowerCase().includes(val.toLowerCase()));
+            if (!currentUser) return alert("ID no encontrado");
+            document.getElementById('music').play().catch(() => {});
+            initExperience();
+        };
+
+        function initExperience() {
+            document.body.setAttribute('data-dev', currentUser.desarrollo.toLowerCase());
+            document.getElementById('brandLogo').src = (currentUser.desarrollo.toLowerCase() === 'sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
+            document.getElementById('progressRoot').style.display = 'flex';
+            renderValues(currentUser);
+            document.getElementById('login').classList.remove('active');
+            document.getElementById('tapZones').style.display = 'flex';
+            initProgressBars();
+            showStory(0);
+        }
+
+        function renderValues(u) {
+            const status = (u.deeds >= 12) ? "TOP 2% ASESOR LEYENDA ⭐" : (u.deeds >= 8 ? "TOP 10% ASESOR ÉLITE 🚀" : "ASESOR ALTO IMPACTO");
+            document.querySelectorAll('.u-photo').forEach(img => img.src = `${u.name}.jpg`);
+            document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
+            document.getElementById('u-prospects').textContent = u.prospects;
+            document.getElementById('u-visits').textContent = u.visits;
+            document.getElementById('u-cancels').textContent = u.cancelaciones;
+            document.getElementById('u-mejorMes').textContent = u.mejorMes.toUpperCase();
+            document.getElementById('u-sales').textContent = u.sales;
+            document.getElementById('u-deeds').textContent = u.deeds;
+            document.getElementById('u-topModel').textContent = u.topModel;
+            document.getElementById('f-status-tag').textContent = status;
+            document.getElementById('f-val1').textContent = u.sales;
+            document.getElementById('f-val2').textContent = u.deeds;
+            document.getElementById('f-val3').textContent = moneyF.format(u.monto_escrituras);
+            document.getElementById('f-dev-label').textContent = `${u.role.toUpperCase()} | ${u.desarrollo.toUpperCase()}`;
+            document.getElementById('p-prospects-txt').textContent = u.prospects > 140 ? "¡Eres un imán de prospectos!" : "Calidad sobre cantidad, ¡bien hecho!";
+            document.getElementById('p-cancels-txt').textContent = u.cancelaciones === 0 ? "¡Impecable! Cartera intacta este año." : "Baches superados, ¡nada te detuvo!";
+        }
+
+        function initProgressBars() {
+            const root = document.getElementById('progressRoot');
+            const count = document.querySelectorAll('.story').length;
+            root.innerHTML = '';
+            for (let i = 0; i < count; i++) root.innerHTML += '<div class="progress-bar"><div class="progress-fill"></div></div>';
+        }
+
+        function showStory(index) {
+            const stories = document.querySelectorAll('.story');
+            const bars = document.querySelectorAll('.progress-bar');
+            if (index >= stories.length) return;
+            stories.forEach(s => s.classList.remove('active'));
+            stories[index].classList.add('active');
+            bars.forEach((bar, i) => {
+                bar.classList.remove('active', 'completed');
+                if (i < index) bar.classList.add('completed');
+                if (i === index) bar.classList.add('active');
+            });
+            current = index;
+            if (index === stories.length - 1) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(storyTimer);
+            storyTimer = setInterval(() => { if (current < 8) showStory(current + 1); }, 5000);
+        }
+
+        document.getElementById('btnNext').onclick = () => { if (current < 8) showStory(current + 1); };
+        document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
+
+        document.getElementById('exportBtn').onclick = function() {
+            html2canvas(document.getElementById('capture-area'), { backgroundColor: "#000", scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Wrapped2025_${currentUser.name}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        };
+    </script>
+</body>
+</html>
