@@ -1,19 +1,24 @@
 [
   { 
-    "id": "6017", "role": "asesor", "name": "Patricia Almanza", "desarrollo": "Sendas",
-    "prospects": 120, "visits": 45, "sales": 9, "totalDeeds": 7, "monto_escrituras": 28500000, "cancelaciones": 2,
-    "monthlyData": { "Ene": {"sales":1}, "Feb": {"sales":0}, "Mar": {"sales":2}, "Abr": {"sales":0}, "May": {"sales":1}, "Jun": {"sales":0}, "Jul": {"sales":2}, "Ago": {"sales":1}, "Sep": {"sales":0}, "Oct": {"sales":1}, "Nov": {"sales":0}, "Dic": {"sales":1} }
+    "id": "6017", "role": "asesor", "name": "Patricia Almanza", "desarrollo": "Sadasi",
+    "prospects": 120, "visits": 45, "sales": 9, "totalDeeds": 7, "monto_escrituras": 28500000,
+    "monthlyData": { "Ene": 1, "Feb": 0, "Mar": 2, "Abr": 0, "May": 1, "Jun": 0, "Jul": 3, "Ago": 1, "Sep": 0, "Oct": 1, "Nov": 0, "Dic": 0 },
+    "topModels": [
+      { "name": "Modelo Roble", "sales": 3 },
+      { "name": "Modelo Fresno", "sales": 2 },
+      { "name": "Modelo Pino", "sales": 1 }
+    ]
   },
   { 
-    "id": "6330", "role": "asesor", "name": "Maria Zuñiga", "desarrollo": "Sendas",
-    "prospects": 40, "visits": 15, "sales": 10, "totalDeeds": 8, "monto_escrituras": 32000000, "cancelaciones": 0,
-    "monthlyData": { "Ene": {"sales":2}, "Feb": {"sales":1}, "Mar": {"sales":1}, "Abr": {"sales":1}, "May": {"sales":0}, "Jun": {"sales":2}, "Jul": {"sales":0}, "Ago": {"sales":0}, "Sep": {"sales":1}, "Oct": {"sales":0}, "Nov": {"sales":1}, "Dic": {"sales":1} }
+    "id": "7001", "role": "asesor", "name": "Carlos Gomez", "desarrollo": "Altta",
+    "prospects": 95, "visits": 35, "sales": 10, "totalDeeds": 8, "monto_escrituras": 40000000,
+    "monthlyData": { "Ene": 2, "Feb": 1, "Mar": 3, "Abr": 1, "May": 1, "Jun": 0, "Jul": 1, "Ago": 1, "Sep": 0, "Oct": 0, "Nov": 1, "Dic": 0 },
+    "topModels": [
+      { "name": "Residencia Plata", "sales": 4 },
+      { "name": "Residencia Oro", "sales": 3 },
+      { "name": "Residencia Diamante", "sales": 2 }
+    ]
   },
-  { 
-    "id": "5544", "role": "asesor", "name": "Juan Perez", "desarrollo": "Acento",
-    "prospects": 85, "visits": 30, "sales": 12, "totalDeeds": 10, "monto_escrituras": 45000000, "cancelaciones": 1,
-    "monthlyData": { "Ene": {"sales":3}, "Feb": {"sales":2}, "Mar": {"sales":1}, "Abr": {"sales":2}, "May": {"sales":1}, "Jun": {"sales":0}, "Jul": {"sales":1}, "Ago": {"sales":0}, "Sep": {"sales":0}, "Oct": {"sales":1}, "Nov": {"sales":1}, "Dic": {"sales":0} }
-  },
-  { "id": "COORD-SENDAS", "role": "coordinador", "name": "Gerardo Ruiz", "desarrollo": "Sendas" },
-  { "id": "COORD-ACENTO", "role": "coordinador", "name": "Elena Peña", "desarrollo": "Acento" }
+  { "id": "COORD-SADASI", "role": "coordinador", "name": "Gerardo Ruiz", "desarrollo": "Sadasi" },
+  { "id": "COORD-ALTTA", "role": "coordinador", "name": "Elena Peña", "desarrollo": "Altta" }
 ]
