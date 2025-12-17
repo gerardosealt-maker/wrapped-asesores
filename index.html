@@ -1,83 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Wrapped 2024 - Sadasi & Altta</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrapped 2024</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <audio id="music" src="music.mp3" loop></audio>
+    <main id="app">
+        <section id="login" class="screen active">
+            <div id="brandHeader"></div>
+            <h1>TU AÑO EN NÚMEROS</h1>
+            <p style="opacity:0.6">Ingresa tu ID de asesor o coordinador</p>
+            <input id="agentInput" placeholder="Ej. 6017" />
+            <button id="startBtn" disabled>VER MI WRAPPED</button>
+        </section>
 
-<audio id="music" src="music.mp3" loop></audio>
+        <section class="screen intro-screen">
+            <h2 id="roleTitle"></h2>
+            <p class="metric" id="welcome" style="font-size: 40px;"></p>
+            <p class="story" id="introCopy"></p>
+        </section>
 
-<main id="app">
-  <section id="login" class="screen active">
-    <div id="brandHeader"></div>
-    <h1 class="glow-text">Tu 2024 en Números</h1>
-    <p>Ingresa tu ID personal</p>
-    <input id="agentInput" placeholder="Ej. 6017" />
-    <button id="startBtn" disabled>Comenzar experiencia</button>
-  </section>
+        <section class="screen advisor-only">
+            <h2>Prospectos</h2>
+            <p class="metric" id="prospectsNum"></p>
+            <p class="story">Nuevas oportunidades que llegaron a tus manos este año.</p>
+        </section>
 
-  <section class="screen intro-screen">
-      <p class="metric" id="welcome"></p>
-      <h2 id="roleTitle" class="accent-text"></h2>
-      <p class="story" id="introCopy"></p>
-  </section>
+        <section class="screen advisor-only">
+            <h2>Certeza de Cierre</h2>
+            <p class="metric" id="accuracyNum"></p>
+            <p class="story">De cada 10 citas, lograste cerrar este porcentaje. ¡Eficacia pura!</p>
+        </section>
 
-  <section class="screen advisor-only best-month-screen">
-    <h2>Tu mes imparable</h2>
-    <p class="metric" id="bestMonthName"></p>
-    <p class="story" id="bestMonthCopy"></p>
-  </section>
+        <section class="screen advisor-only">
+            <h2>Tu Mes Imparable</h2>
+            <p class="metric" id="bestMonthName" style="color:var(--secondary)"></p>
+            <p class="story" id="bestMonthCopy"></p>
+        </section>
 
-  <section class="screen advisor-only money-screen">
-    <h2>Impacto Económico</h2>
-    <p class="metric" id="moneyValue"></p>
-    <p class="story">Monto total escriturado generado este año.</p>
-  </section>
+        <section class="screen advisor-only">
+            <h2>Valor Escriturado</h2>
+            <p class="metric" id="moneyValue" style="font-size: 38px;"></p>
+            <p class="story">Este es el monto total que moviste en el mercado inmobiliario.</p>
+        </section>
 
-  <section class="screen coord-only coordinator-dashboard">
-    <h2 id="teamName"></h2>
-    <div class="summary-grid">
-        <div class="summary-card"><p id="teamSales"></p><small>Ventas Totales</small></div>
-        <div class="summary-card"><p id="teamDeeds"></p><small>Escrituras</small></div>
-    </div>
-    <div class="money-card"><p id="teamMoney"></p><small>VALOR DEL DESARROLLO</small></div>
-  </section>
+        <section class="screen advisor-only">
+            <h2>Resiliencia</h2>
+            <p class="metric" id="cancelNum"></p>
+            <p class="story">Obstáculos que solo te hicieron más fuerte para el 2025.</p>
+        </section>
 
-  <section class="screen coord-only team-month-screen">
-    <h2>Punto Máximo de Operación</h2>
-    <p class="metric" id="teamBestMonth"></p>
-    <p class="story" id="teamMonthCopy">Este fue el mes donde todo el equipo operó a su máxima capacidad.</p>
-  </section>
+        <section class="screen coord-only">
+            <h2 id="teamName"></h2>
+            <div class="glass-card">
+                <p id="teamSales" class="metric" style="font-size: 60px;"></p>
+                <small>VENTAS TOTALES EQUIPO</small>
+            </div>
+            <div class="highlight-box">
+                <p id="teamMoney"></p>
+                <small>VALOR TOTAL DESARROLLO</small>
+            </div>
+        </section>
 
-  <section class="screen coord-only insight-screen">
-    <h2>Análisis de Certeza</h2>
-    <div class="insight-box highlight">
-        <small>MÁS CERTERO (Ventas vs Citas)</small>
-        <h3 id="topAccuracyName"></h3>
-        <p id="topAccuracyStats" class="story"></p>
-    </div>
-    <div class="insight-box" style="margin-top: 15px;">
-        <small>MVP DEL AÑO (Volumen)</small>
-        <h3 id="topSalesName"></h3>
-    </div>
-  </section>
+        <section class="screen coord-only">
+            <h2>Pico de Operación</h2>
+            <p class="metric" id="teamBestMonth" style="color:var(--secondary)"></p>
+            <p class="story">El mes donde tu equipo demostró su mayor poder de cierre.</p>
+        </section>
 
-  <section class="screen summary-screen">
-    <h2 id="finalTitle">Tu Legado 2024</h2>
-    <div id="finalMetrics" class="final-grid"></div>
-    <div id="action-buttons">
-        <button id="exportBtn" class="primary-action">Guardar para Historias</button>
-    </div>
-  </section>
+        <section class="screen coord-only">
+            <h2>Análisis de Talento</h2>
+            <div class="glass-card">
+                <small>EL MÁS CERTERO</small>
+                <h3 id="topAccuracyName" style="color:var(--primary); font-size: 28px; margin: 10px 0;"></h3>
+                <p id="topAccuracyStats" style="opacity:0.7"></p>
+            </div>
+        </section>
 
-  <div id="navigation-dots"></div>
-  <div id="swipe-hint"><p>Desliza para continuar 👇</p></div>
-</main>
+        <section class="screen summary-screen">
+            <h1>2024</h1>
+            <h2 style="color:white">TU LEGADO</h2>
+            <div id="finalMetrics" style="display:flex; gap:10px; width:100%; margin:20px 0;"></div>
+            <button id="exportBtn">GUARDAR RECUERDO</button>
+        </section>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="app.js"></script>
+        <div id="navigation-dots"></div>
+        <div id="swipe-hint">Desliza para continuar 👇</div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
