@@ -1,231 +1,140 @@
-let data, current = 0, advisor, averageSales;
+let data, current = 0, currentUser;
 const screens = document.querySelectorAll('.screen');
-const music = document.getElementById('music'); 
-const startButton = document.getElementById('startBtn');
-const agentInput = document.getElementById('agentInput'); 
-const navigationDots = document.getElementById('navigation-dots');
-const swipeHint = document.getElementById('swipe-hint');
-const exportButton = document.getElementById('exportBtn');
-const whatsappShareBtn = document.getElementById('whatsappShareBtn'); 
+const music = document.getElementById('music');
+const money = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 
-
-// DATOS DE PRUEBA TEMPORALES para simular la estructura completa
-const TEMP_DATA_EXTENSION = {
-    totalDeeds: 7,
-    monthlyData: {
-        "Ene": { "sales": 1, "deeds": 0 }, "Feb": { "sales": 0, "deeds": 0 }, 
-        "Mar": { "sales": 2, "deeds": 1 }, "Abr": { "sales": 0, "deeds": 0 }, 
-        "May": { "sales": 1, "deeds": 1 }, "Jun": { "sales": 0, "deeds": 0 }, 
-        "Jul": { "sales": 2, "deeds": 2 }, "Ago": { "sales": 1, "deeds": 1 }, 
-        "Sep": { "sales": 0, "deeds": 0 }, "Oct": { "sales": 1, "deeds": 1 }, 
-        "Nov": { "sales": 0, "deeds": 0 }, "Dic": { "sales": 1, "deeds": 1 }
-    }
-};
-
-function findBestMonth(monthlyData) {
-    let bestMonth = '';
-    let maxScore = -1;
-    const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-
-    for (const month of months) {
-        const score = (monthlyData[month].sales * 3) + (monthlyData[month].deeds * 5); 
-        if (score > maxScore) {
-            maxScore = score;
-            bestMonth = month;
-        }
-    }
-    return { name: bestMonth, score: maxScore };
-}
-
-
-// 1. CARGA DE DATOS, CÁLCULO DE PROMEDIOS Y HABILITACIÓN DEL BOTÓN
+// 1. CARGA DE DATOS
 fetch('./data.json')
   .then(r => r.json())
   .then(j => {
       data = j;
-      // CORRECCIÓN CLAVE: Error de paréntesis en la función reduce arreglado
-      const totalSales = data.reduce((sum, a) => sum + a.sales, 0);
-      averageSales = totalSales / data.length;
-  })
-  .then(() => {
-    // ESTA LÍNEA AHORA SE EJECUTA CORRECTAMENTE
-    agentInput.addEventListener('input', () => {
-        startButton.disabled = agentInput.value.trim().length === 0;
-    });
-    initDots();
+      document.getElementById('agentInput').addEventListener('input', (e) => {
+          document.getElementById('startBtn').disabled = e.target.value.length < 3;
+      });
   });
 
-// 2. LÓGICA DE INICIO Y CARGA DE MÉTRICAS
-startButton.addEventListener('click', () => {
-  const id = agentInput.value.trim(); 
-  advisor = data.find(a => a.id === id);
-  if (!advisor) return alert('ID no encontrado. Por favor, verifica tu número.');
-  
-  advisor = {...advisor, ...TEMP_DATA_EXTENSION};
+// 2. INICIO DE EXPERIENCIA
+document.getElementById('startBtn').onclick = () => {
+    const id = document.getElementById('agentInput').value.trim();
+    currentUser = data.find(u => u.id === id);
 
-  // --- CÁLCULO DE MÉTRICAS CLAVE Y INSIGHTS ---
-  const prospectConversion = (advisor.appointments / advisor.prospects) * 100;
-  const saleConversion = (advisor.sales / advisor.appointments) * 100;
-  const salesDifference = advisor.sales - averageSales;
-  const bestMonthData = findBestMonth(advisor.monthlyData);
-  const bestMonthStats = advisor.monthlyData[bestMonthData.name];
-  
-  // --- PANTALLAS (Asignación de Contenido) ---
-  document.getElementById('welcome').textContent = advisor.name;
-  document.getElementById('name').textContent = advisor.sales > 10 ? 'NIVEL MASTER' : 'BASE SÓLIDA';
-  document.getElementById('introCopy').textContent =
-    advisor.sales > 10
-      ? 'Constancia pura. Esto no es suerte, es consistencia en acción.'
-      : 'Todo gran cierre empieza con una intención firme. Listo para el próximo ciclo.';
+    if (!currentUser) return alert("ID no encontrado");
 
-  document.getElementById('prospects').textContent = advisor.prospects;
-  document.getElementById('prospectsCopy').textContent =
-    prospectConversion >= 50
-      ? `Tuviste una conversión de ${prospectConversion.toFixed(0)}% de prospecto a cita. ¡Enfoque de cirujano!`
-      : `Registraste ${advisor.prospects} prospectos. Menos ruido, más enfoque para el seguimiento este año.`;
+    setupBrand(currentUser.desarrollo);
+    
+    if (currentUser.role === 'asesor') {
+        setupAdvisor(currentUser);
+    } else {
+        setupCoordinator(currentUser);
+    }
 
-  document.getElementById('appointments').textContent = advisor.appointments;
-  document.getElementById('appointmentsCopy').textContent =
-    saleConversion >= 30
-      ? `Un impresionante ${saleConversion.toFixed(0)}% de tus citas se cerraron. ¡Eficacia pura!`
-      : `Lograste ${advisor.appointments} citas. Cada una es un aprendizaje valioso. ¡A refinar el cierre!`;
+    startExperience();
+};
 
-  document.getElementById('sales').textContent = advisor.sales;
-  document.getElementById('salesCopy').textContent =
-    advisor.sales > 8
-      ? 'Conversión real. Nivel pro y resultados tangibles. ¡Sigue así!'
-      : 'Base sólida para el próximo ciclo. Usa estos aprendizajes para romper tus metas.';
-      
-  document.getElementById('deeds').textContent = advisor.totalDeeds;
-  document.getElementById('deedsCopy').textContent =
-    advisor.totalDeeds > 5
-      ? `Tuviste ${advisor.totalDeeds} escrituras. ¡La meta se ve cerca, sigue monetizando ese esfuerzo!`
-      : `Registraste ${advisor.totalDeeds} escrituras. El volumen es importante, pero la calidad se traduce en cierres.`;
+function setupBrand(des) {
+    const logoUrl = (des === 'Sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
+    document.getElementById('brandHeader').innerHTML = `<img src="${logoUrl}" style="max-height: 60px;">`;
+}
 
-  document.getElementById('bestMonth').textContent = bestMonthData.name.toUpperCase();
-  document.getElementById('bestMonthCopy').textContent = 
-      `En ${bestMonthData.name}, lograste ${bestMonthStats.sales} ventas y ${bestMonthStats.deeds} escrituras. ¡Tu mejor desempeño del año! Enfoca tu energía en replicar ese éxito.`;
+function setupAdvisor(user) {
+    document.getElementById('welcome').textContent = user.name;
+    document.getElementById('roleTitle').textContent = `Asesor de ${user.desarrollo}`;
+    document.getElementById('introCopy').textContent = "Tu esfuerzo transformó vidas este año.";
+    document.getElementById('cancellations').textContent = user.cancelaciones;
+    document.getElementById('moneyValue').textContent = money.format(user.monto_escrituras);
 
-  // --- Lógica del Resumen Final con 3 Métricas ---
-  document.getElementById('finalSales').textContent = advisor.sales;
-  document.getElementById('finalDeeds').textContent = advisor.totalDeeds;
-  document.getElementById('finalMonth').textContent = bestMonthData.name.toUpperCase();
-  // ------------------------------------
+    document.querySelectorAll('.coord-only').forEach(el => el.remove());
 
-  document.getElementById('summary').textContent =
-    salesDifference > 0
-        ? `Superaste el promedio del equipo de ${averageSales.toFixed(1)} cierres por ${salesDifference.toFixed(1)} unidades. ¡Tu impacto es enorme!`
-        : `Tu base de ${advisor.sales} cierres es un excelente punto de partida. El promedio del equipo fue de ${averageSales.toFixed(1)}. ¡A superar esa marca el próximo año!`;
+    const accuracy = ((user.sales / user.appointments) * 100).toFixed(0);
+    document.getElementById('finalMetrics').innerHTML = `
+        <div class="summary-card"><h3>${user.sales}</h3><small>Ventas</small></div>
+        <div class="summary-card"><h3>${accuracy}%</h3><small>Certeza</small></div>
+        <div class="summary-card"><h3>${user.totalDeeds}</h3><small>Escrituras</small></div>
+    `;
+}
 
+function setupCoordinator(coord) {
+    const team = data.filter(u => u.role === 'asesor' && u.desarrollo === coord.desarrollo);
+    document.getElementById('welcome').textContent = coord.name;
+    document.getElementById('roleTitle').textContent = `Coordinador ${coord.desarrollo}`;
+    document.getElementById('introCopy').textContent = "Aquí el impacto de tu liderazgo.";
 
-  // EL BOTÓN INICIA EN current=0, lo forzamos a pasar a current=1
-  screens[0].classList.remove('active');
-  current = 1;
-  screens[current].classList.add('active');
-  updateDots();
-  swipeHint.style.display = 'block';
-  swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
+    const tSales = team.reduce((s, a) => s + a.sales, 0);
+    const tDeeds = team.reduce((s, a) => s + a.totalDeeds, 0);
+    const tMoney = team.reduce((s, a) => s + a.monto_escrituras, 0);
 
-  music.play().catch(()=>{}); 
-});
+    document.getElementById('teamSales').textContent = tSales;
+    document.getElementById('teamDeeds').textContent = tDeeds;
+    document.getElementById('teamMoney').textContent = money.format(tMoney);
 
-// 3. FUNCIONES DE NAVEGACIÓN Y PUNTOS
+    // ANALÍTICA DE CERTEZA
+    let bestAcc = -1, accurateA = null, topS = team[0];
+    team.forEach(a => {
+        const acc = a.sales / a.appointments;
+        if (acc > bestAcc) { bestAcc = acc; accurateA = a; }
+        if (a.sales > topS.sales) topS = a;
+    });
+
+    document.getElementById('topAccuracyName').textContent = accurateA.name;
+    document.getElementById('topAccuracyStats').textContent = `Efectividad del ${(bestAcc*100).toFixed(0)}% de cierre por cita.`;
+    document.getElementById('topSalesName').textContent = topS.name;
+
+    document.querySelectorAll('.advisor-only').forEach(el => el.remove());
+    document.getElementById('finalMetrics').innerHTML = `
+        <div class="summary-card"><h3>${tSales}</h3><small>Ventas Equipo</small></div>
+        <div class="summary-card"><h3>${tDeeds}</h3><small>Escrituras</small></div>
+    `;
+}
+
+// 3. NAVEGACIÓN
+function startExperience() {
+    screens[0].classList.remove('active');
+    current = 1;
+    screens[current].classList.add('active');
+    music.play().catch(()=>{});
+    initDots();
+}
+
 function initDots() {
-  for (let i = 1; i < screens.length; i++) {
-    const dot = document.createElement('div');
-    dot.classList.add('dot');
-    navigationDots.appendChild(dot);
-  }
+    const dotsCont = document.getElementById('navigation-dots');
+    const actualScreens = document.querySelectorAll('.screen');
+    actualScreens.forEach((_, i) => {
+        if(i === 0) return;
+        const d = document.createElement('div');
+        d.className = 'dot';
+        dotsCont.appendChild(d);
+    });
+    updateDots();
 }
 
 function updateDots() {
-    const dots = document.querySelectorAll('#navigation-dots .dot');
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === (current - 1)); 
-    });
+    const ds = document.querySelectorAll('.dot');
+    ds.forEach((d, i) => d.classList.toggle('active', i === current - 1));
 }
 
 function next() {
-  if (current < screens.length - 1) { 
-      screens[current].classList.remove('active'); 
-      current++;
-      screens[current].classList.add('active');
-      updateDots();
-      
-      swipeHint.style.display = (current === screens.length - 1) ? 'none' : 'block';
-      if (current > 0 && current < screens.length - 1) swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
-  }
-}
-
-function prev() {
-    if (current === 1) { 
-        screens[current].classList.remove('active');
-        current = 0; // Regresamos al Login
-        screens[current].classList.add('active');
-        music.pause();
-        swipeHint.style.display = 'none'; 
+    const activeScreens = document.querySelectorAll('.screen');
+    if (current < activeScreens.length - 1) {
+        activeScreens[current].classList.remove('active');
+        current++;
+        activeScreens[current].classList.add('active');
         updateDots();
-    } 
-    else if (current > 1) { 
-        screens[current].classList.remove('active');
-        current--;
-        screens[current].classList.add('active');
-        updateDots();
-        swipeHint.style.display = 'block';
-        swipeHint.querySelector('p').textContent = 'Desliza ↑ o ↓';
     }
 }
 
-// 4. NAVEGACIÓN POR SWIPE (Táctil)
 let startY = 0;
-document.addEventListener('touchstart', e => {
-    if (current > 0 && current < screens.length) { 
-        startY = e.touches[0].clientY;
-    }
-});
-
+document.addEventListener('touchstart', e => startY = e.touches[0].clientY);
 document.addEventListener('touchend', e => {
-  if (current > 0 && current < screens.length) {
-      const deltaY = startY - e.changedTouches[0].clientY;
-      
-      if (deltaY > 50) next(); 
-      else if (deltaY < -50) prev(); 
-  }
+    const delta = startY - e.changedTouches[0].clientY;
+    if (delta > 50) next();
 });
 
-
-// 5. EXPORTAR IMAGEN (html2canvas)
-exportButton.onclick = () => {
-    const screenToCapture = screens[current]; 
-    
-    navigationDots.style.display = 'none';
-    swipeHint.style.display = 'none';
-    document.getElementById('action-buttons').style.display = 'none'; 
-
-    html2canvas(screenToCapture, {
-        allowTaint: true,
-        useCORS: true,
-        scale: 2 
-    }).then(function(canvas) {
-        navigationDots.style.display = 'flex';
-        swipeHint.style.display = 'block';
-        document.getElementById('action-buttons').style.display = 'flex'; 
-
+// 4. EXPORTAR
+document.getElementById('exportBtn').onclick = () => {
+    html2canvas(document.querySelector('.summary-screen')).then(canvas => {
         const link = document.createElement('a');
-        link.download = `Wrapped_${advisor.name.replace(/\s/g, '_')}_${advisor.id}.png`;
-        link.href = canvas.toDataURL('image/png');
+        link.download = 'MiWrapped2024.png';
+        link.href = canvas.toDataURL();
         link.click();
-        
-        alert('¡Recuerdo guardado con éxito! Abre tu Instagram o WhatsApp para subirlo a tus Historias/Estados.');
     });
-};
-
-// 6. LÓGICA DE COMPARTIR EN WHATSAPP (Enlace)
-whatsappShareBtn.onclick = () => {
-    const shareText = `¡Mira mi #Wrapped de Asesor de Ventas! Logré ${advisor.sales} ventas y ${advisor.totalDeeds || 'N/A'} escrituras este año. ¡Vamos por más! 🚀 #Ventas #Éxito #MiWrapped`;
-    const encodedText = encodeURIComponent(shareText);
-    const appLink = encodeURIComponent(window.location.href);
-
-    const url = `https://wa.me/?text=${encodedText}%20${appLink}`;
-    window.open(url, '_blank');
 };
