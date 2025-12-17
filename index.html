@@ -2,24 +2,26 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Wrapped 2024</title>
+  <title>Wrapped 2024 - Sadasi & Altta</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
 <audio id="music" src="music.mp3" loop></audio>
 
 <main id="app">
   <section id="login" class="screen active">
     <div id="brandHeader"></div>
-    <h1>Wrapped 2024</h1>
-    <input id="agentInput" placeholder="ID de acceso" />
-    <button id="startBtn" disabled>Iniciar</button>
+    <h1 class="glow-text">Tu 2024 en Números</h1>
+    <p>Ingresa tu ID personal</p>
+    <input id="agentInput" placeholder="Ej. 6017" />
+    <button id="startBtn" disabled>Comenzar experiencia</button>
   </section>
 
   <section class="screen intro-screen">
       <p class="metric" id="welcome"></p>
-      <h2 id="roleTitle"></h2>
+      <h2 id="roleTitle" class="accent-text"></h2>
       <p class="story" id="introCopy"></p>
   </section>
 
@@ -32,34 +34,47 @@
   <section class="screen advisor-only money-screen">
     <h2>Impacto Económico</h2>
     <p class="metric" id="moneyValue"></p>
-    <p class="story">Monto total escriturado este año.</p>
+    <p class="story">Monto total escriturado generado este año.</p>
   </section>
 
   <section class="screen coord-only coordinator-dashboard">
     <h2 id="teamName"></h2>
     <div class="summary-grid">
-        <div class="summary-card"><p id="teamSales"></p><small>Ventas</small></div>
+        <div class="summary-card"><p id="teamSales"></p><small>Ventas Totales</small></div>
         <div class="summary-card"><p id="teamDeeds"></p><small>Escrituras</small></div>
     </div>
-    <div class="money-card"><p id="teamMoney"></p><small>VALOR DESARROLLO</small></div>
+    <div class="money-card"><p id="teamMoney"></p><small>VALOR DEL DESARROLLO</small></div>
+  </section>
+
+  <section class="screen coord-only team-month-screen">
+    <h2>Punto Máximo de Operación</h2>
+    <p class="metric" id="teamBestMonth"></p>
+    <p class="story" id="teamMonthCopy">Este fue el mes donde todo el equipo operó a su máxima capacidad.</p>
   </section>
 
   <section class="screen coord-only insight-screen">
-    <h2>Asesor Estrella</h2>
-    <div class="insight-box">
-        <small>MÁS CERTERO (Cierres/Citas)</small>
+    <h2>Análisis de Certeza</h2>
+    <div class="insight-box highlight">
+        <small>MÁS CERTERO (Ventas vs Citas)</small>
         <h3 id="topAccuracyName"></h3>
         <p id="topAccuracyStats" class="story"></p>
+    </div>
+    <div class="insight-box" style="margin-top: 15px;">
+        <small>MVP DEL AÑO (Volumen)</small>
+        <h3 id="topSalesName"></h3>
     </div>
   </section>
 
   <section class="screen summary-screen">
-    <h2>Resumen 2024</h2>
-    <div id="finalMetrics"></div>
-    <button id="exportBtn">Descargar PNG</button>
+    <h2 id="finalTitle">Tu Legado 2024</h2>
+    <div id="finalMetrics" class="final-grid"></div>
+    <div id="action-buttons">
+        <button id="exportBtn" class="primary-action">Guardar para Historias</button>
+    </div>
   </section>
 
   <div id="navigation-dots"></div>
+  <div id="swipe-hint"><p>Desliza para continuar 👇</p></div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
