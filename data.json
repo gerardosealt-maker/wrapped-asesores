@@ -8,7 +8,8 @@
   { "id": "AS-SEN-01", "role": "asesor", "name": "Paola Enriquez", "desarrollo": "Sendas", "prospects": 95, "citas": 70, "visits": 35, "sales": 9, "deeds": 7, "monto_escrituras": 22000000, "cancelaciones": 1, "mejorMes": "Marzo", "ventasMejorMes": 3, "topModel": "Modelo Roble" },
   { "id": "AS-SEN-02", "role": "asesor", "name": "Claudia Campia", "desarrollo": "Sendas", "prospects": 90, "citas": 65, "visits": 32, "sales": 8, "deeds": 6, "monto_escrituras": 20000000, "cancelaciones": 2, "mejorMes": "Abril", "ventasMejorMes": 3, "topModel": "Modelo Pino" },
   { "id": "AS-SEN-03", "role": "asesor", "name": "César Arreola", "desarrollo": "Sendas", "prospects": 100, "citas": 75, "visits": 38, "sales": 10, "deeds": 8, "monto_escrituras": 24000000, "cancelaciones": 0, "mejorMes": "Junio", "ventasMejorMes": 4, "topModel": "Modelo Sauce" },
-  { "id": "CO-ACE", "role": "coordinador", "name": "Hugo Torres", "desarrollo": "Acento", "equipoSales": 210, "equipoMonto": 580000000, "equipoCancelaciones": 6, "asesorEstrella": "Ulises Torres", "eficienciaEquipo": "91%", "modeloEstrella": "Residencia Diamante" },
+  { "id": "CO-ACE", "role": "coordinador", "name": "Mayra Múñoz", "desarrollo": "Acento", "equipoSales": 210, "equipoMonto": 580000000, "equipoCancelaciones": 6, "asesorEstrella": "Ulises Torres", "eficienciaEquipo": "91%", "modeloEstrella": "Residencia Diamante" },
   { "id": "CO-MES", "role": "coordinador", "name": "Marta Solis", "desarrollo": "Meseta", "equipoSales": 160, "equipoMonto": 420000000, "equipoCancelaciones": 8, "asesorEstrella": "Patricia Almanza", "eficienciaEquipo": "84%", "modeloEstrella": "Residencia Oro" },
   { "id": "CO-SEN", "role": "coordinador", "name": "Gerardo Ruiz", "desarrollo": "Sendas", "equipoSales": 145, "equipoMonto": 315000000, "equipoCancelaciones": 12, "asesorEstrella": "César Arreola", "eficienciaEquipo": "78%", "modeloEstrella": "Modelo Pino" }
 ]
+
