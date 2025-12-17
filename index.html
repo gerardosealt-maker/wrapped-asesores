@@ -2,86 +2,92 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Wrapped 2025</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="lava-bg"><div class="blob"></div></div>
     <div class="story-progress" id="progressRoot"></div>
     <div class="tap-zones" id="tapZones">
         <div class="tap-left" id="btnPrev"></div>
         <div class="tap-right" id="btnNext"></div>
     </div>
+    <audio id="music" src="music.mp3" loop></audio>
 
     <main id="app">
         <section class="screen active" id="login">
-            <h1 style="font-size: 45px; font-weight: 900; margin-bottom: 40px;">MI 2025<br><span style="color:var(--accent)">WRAPPED</span></h1>
-            <input id="agentInput" placeholder="ID de Asesor o Coordinador" style="background:none; border:none; border-bottom:2px solid #333; color:white; font-size:20px; text-align:center; margin-bottom:40px; outline:none; width:80%;">
-            <button id="startBtn">EMPEZAR</button>
+            <h1 style="font-size: 42px; font-weight: 900;">TU 2025<br><span style="color:var(--accent)">WRAPPED.</span></h1>
+            <input id="agentInput" placeholder="Introduce tu ID" style="background:none; border:none; border-bottom:2px solid #333; color:white; font-size:22px; text-align:center; margin:40px 0; outline:none; width:80%;">
+            <button id="startBtn" style="background:white; color:black; padding:18px 45px; border-radius:40px; font-weight:900; border:none;">DESCUBRIR MI AÑO</button>
         </section>
 
         <section class="screen story">
-            <img id="u-photo-intro" class="advisor-photo" src="">
-            <p class="label" id="u-saludo"></p>
-            <h2 id="u-name" style="font-size: 30px; font-weight: 900; margin-top: 10px;"></h2>
+            <img id="u-photo-intro" class="advisor-photo">
+            <p class="label">El 2025 fue tuyo,</p>
+            <h2 id="u-name" style="font-size: 32px; font-weight: 900;"></h2>
+            <p style="margin-top:20px; opacity:0.7">Prepárate para ver lo que construiste.</p>
         </section>
 
         <section class="screen story">
+            <p class="label">La máquina de ventas</p>
             <div class="asesor-only">
-                <p class="label">Tu mejor mes</p>
-                <h2 id="u-mejorMes" class="huge-num"></h2>
-                <p>Lograste <span id="u-ventasMes" class="highlight" style="font-weight:900;"></span> cierres.</p>
+                <div class="metrics-grid">
+                    <div class="metric-box"><h3 id="u-prospects"></h3><p>Prospectos</p></div>
+                    <div class="metric-box"><h3 id="u-citas"></h3><p>Citas</p></div>
+                    <div class="metric-box" style="grid-column: span 2;"><h3 id="u-visits"></h3><p>Visitas Realizadas</p></div>
+                </div>
+                <p style="margin-top:20px; font-style:italic">"No es suerte, es disciplina."</p>
             </div>
             <div class="coord-only">
-                <p class="label">Impacto Total</p>
+                <p class="label">Liderazgo en Equipo</p>
                 <h2 id="c-equipoSales" class="huge-num"></h2>
-                <p>Ventas del equipo en <span class="highlight" id="c-devName"></span>.</p>
+                <p>Ventas totales en <span class="highlight" id="c-devName"></span>.</p>
             </div>
         </section>
 
         <section class="screen story">
+            <p class="label">Resultados Tangibles</p>
             <div class="asesor-only">
-                <p class="label">Prospectos</p>
-                <h2 id="u-prospects" class="huge-num"></h2>
-                <p>Atendidos con excelencia.</p>
+                <div class="metrics-grid">
+                    <div class="metric-box"><h3 id="u-sales"></h3><p>Ventas</p></div>
+                    <div class="metric-box"><h3 id="u-deeds"></h3><p>Escrituras</p></div>
+                </div>
+                <h2 id="u-monto" style="font-size:36px; margin-top:30px; font-weight:900;"></h2>
+                <p class="label" style="font-size:9px">Valor de tu patrimonio generado</p>
             </div>
             <div class="coord-only">
                 <p class="label">Asesor Estrella</p>
-                <div class="glass-card">
-                    <h2 id="c-estrella" style="font-size:32px; color:var(--accent); font-weight:900;"></h2>
-                    <p style="margin-top:10px">Máximo rendimiento en el equipo.</p>
+                <div class="metric-box" style="width:100%; padding:30px;">
+                    <h2 id="c-estrella" style="font-size:30px; color:var(--accent)"></h2>
                 </div>
+                <p style="margin-top:20px">El motor de tu desarrollo.</p>
             </div>
         </section>
 
         <section class="screen story">
+            <p class="label">Tu Momento de Gloria</p>
             <div class="asesor-only">
-                <p class="label">Resiliencia</p>
-                <p class="huge-num" id="u-cancels" style="color:#ff4b4b"></p>
-                <p>Cancelaciones que nos hicieron más fuertes.</p>
+                <h2 id="u-mejorMes" class="huge-num"></h2>
+                <p>En este mes nada te detuvo:</p>
+                <h3 class="highlight" style="font-size:30px"><span id="u-ventasMes"></span> CIERRES</h3>
             </div>
             <div class="coord-only">
-                <p class="label">Eficiencia</p>
-                <p class="huge-num" id="c-eficiencia"></p>
-                <p>De efectividad en el desarrollo.</p>
+                <p class="label">Eficiencia Grupal</p>
+                <h2 id="c-eficiencia" class="huge-num"></h2>
+                <p>De efectividad este 2025.</p>
             </div>
         </section>
 
         <section class="screen story" id="story-final">
-            <img id="brandLogo" style="max-height:40px; margin-bottom:25px">
-            <img id="u-photo-final" class="advisor-photo" style="width:110px; height:110px">
-            <h2 id="f-name" style="font-size:26px; font-weight:900"></h2>
-            <p id="f-role" class="label" style="opacity:0.6; margin-bottom:25px"></p>
-            
-            <div class="glass-card" style="text-align:left;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:12px"> 
-                    <span id="f-label1">Ventas</span> <b id="f-val1" class="highlight"></b> 
-                </div>
-                <div style="display:flex; justify-content:space-between"> 
-                    <span id="f-label2">Escriturado</span> <b id="f-val2"></b> 
-                </div>
+            <img id="brandLogo" style="max-height:35px; margin-bottom:20px">
+            <img id="u-photo-final" class="advisor-photo" style="width:100px; height:100px">
+            <h2 id="f-name" style="font-size:24px; font-weight:900"></h2>
+            <div class="metrics-grid" style="margin-top:15px">
+                <div class="metric-box"><h3 id="f-val1"></h3><p id="f-lbl1">Ventas</p></div>
+                <div class="metric-box"><h3 id="f-val2"></h3><p id="f-lbl2">Escrituras</p></div>
             </div>
-            <button id="exportBtn">GUARDAR RECUERDO</button>
+            <button id="exportBtn">COMPARTIR MI 2025</button>
         </section>
     </main>
 
