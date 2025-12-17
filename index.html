@@ -17,80 +17,64 @@
 
     <main id="app">
         <section class="screen active" id="login">
-            <h1 style="font-size: 42px; font-weight: 900;">TU 2025<br><span style="color:var(--accent)">WRAPPED.</span></h1>
+            <h1 style="font-size: 42px; font-weight: 900;">MI 2025<br><span style="color:var(--accent)">WRAPPED.</span></h1>
             <input id="agentInput" placeholder="Introduce tu ID" style="background:none; border:none; border-bottom:2px solid #333; color:white; font-size:22px; text-align:center; margin:40px 0; outline:none; width:80%;">
-            <button id="startBtn" style="background:white; color:black; padding:18px 45px; border-radius:40px; font-weight:900; border:none;">DESCUBRIR MI AÑO</button>
+            <button id="startBtn">EMPEZAR</button>
         </section>
 
         <section class="screen story">
             <img id="u-photo-intro" class="advisor-photo">
             <p class="label">El 2025 fue tuyo,</p>
             <h2 id="u-name" style="font-size: 32px; font-weight: 900;"></h2>
-            <p style="margin-top:20px; opacity:0.7">Prepárate para ver lo que construiste.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">La máquina de ventas</p>
-            <div class="asesor-only">
-                <div class="metrics-grid">
-                    <div class="metric-box"><h3 id="u-prospects"></h3><p>Prospectos</p></div>
-                    <div class="metric-box"><h3 id="u-citas"></h3><p>Citas</p></div>
-                    <div class="metric-box" style="grid-column: span 2;"><h3 id="u-visits"></h3><p>Visitas Realizadas</p></div>
-                </div>
-                <p style="margin-top:20px; font-style:italic">"No es suerte, es disciplina."</p>
+            <p class="label">El camino al éxito</p>
+            <div class="metrics-grid">
+                <div class="metric-box"><h3 id="u-prospects"></h3><p>Prospectos</p></div>
+                <div class="metric-box"><h3 id="u-citas"></h3><p>Citas</p></div>
+                <div class="metric-box"><h3 id="u-visits"></h3><p>Visitas</p></div>
+                <div class="metric-box"><h3 id="u-cancels" style="color:#ff4b4b"></h3><p>Cancelaciones</p></div>
             </div>
-            <div class="coord-only">
-                <p class="label">Liderazgo en Equipo</p>
-                <h2 id="c-equipoSales" class="huge-num"></h2>
-                <p>Ventas totales en <span class="highlight" id="c-devName"></span>.</p>
-            </div>
+            <p style="margin-top:20px; font-style:italic; font-size:12px;">"La resiliencia separa a los buenos de los mejores."</p>
         </section>
 
         <section class="screen story">
-            <p class="label">Resultados Tangibles</p>
-            <div class="asesor-only">
-                <div class="metrics-grid">
-                    <div class="metric-box"><h3 id="u-sales"></h3><p>Ventas</p></div>
-                    <div class="metric-box"><h3 id="u-deeds"></h3><p>Escrituras</p></div>
-                </div>
-                <h2 id="u-monto" style="font-size:36px; margin-top:30px; font-weight:900;"></h2>
-                <p class="label" style="font-size:9px">Valor de tu patrimonio generado</p>
-            </div>
-            <div class="coord-only">
-                <p class="label">Asesor Estrella</p>
-                <div class="metric-box" style="width:100%; padding:30px;">
-                    <h2 id="c-estrella" style="font-size:30px; color:var(--accent)"></h2>
-                </div>
-                <p style="margin-top:20px">El motor de tu desarrollo.</p>
+            <p class="label">Dominio del Producto</p>
+            <p style="margin-bottom:20px;" id="model-text"></p>
+            <div class="glass" style="padding:40px; border: 2px solid var(--accent);">
+                <h2 id="u-topModel" style="font-size:32px; color:var(--accent); font-weight:900;"></h2>
             </div>
         </section>
 
         <section class="screen story">
-            <p class="label">Tu Momento de Gloria</p>
-            <div class="asesor-only">
-                <h2 id="u-mejorMes" class="huge-num"></h2>
-                <p>En este mes nada te detuvo:</p>
-                <h3 class="highlight" style="font-size:30px"><span id="u-ventasMes"></span> CIERRES</h3>
+            <p class="label">Impacto Real</p>
+            <div class="metrics-grid">
+                <div class="metric-box"><h3 id="u-sales"></h3><p>Ventas</p></div>
+                <div class="metric-box"><h3 id="u-deeds"></h3><p>Escrituras</p></div>
             </div>
-            <div class="coord-only">
-                <p class="label">Eficiencia Grupal</p>
-                <h2 id="c-eficiencia" class="huge-num"></h2>
-                <p>De efectividad este 2025.</p>
-            </div>
+            <h2 id="u-monto" style="font-size:32px; margin-top:30px; font-weight:900;"></h2>
+            <p class="label" style="font-size:9px; margin-top:10px">Valor total escriturado</p>
         </section>
 
         <section class="screen story" id="story-final">
-            <img id="brandLogo" style="max-height:35px; margin-bottom:20px">
-            <img id="u-photo-final" class="advisor-photo" style="width:100px; height:100px">
-            <h2 id="f-name" style="font-size:24px; font-weight:900"></h2>
-            <div class="metrics-grid" style="margin-top:15px">
-                <div class="metric-box"><h3 id="f-val1"></h3><p id="f-lbl1">Ventas</p></div>
-                <div class="metric-box"><h3 id="f-val2"></h3><p id="f-lbl2">Escrituras</p></div>
+            <div id="capture-area">
+                <img id="brandLogo" style="max-height: 30px; margin-bottom: 20px;">
+                <img id="u-photo-final" class="advisor-photo" style="width: 100px; height: 100px;">
+                <h2 id="f-name" style="font-size: 24px; font-weight: 900;"></h2>
+                <p id="f-dev-label" class="label" style="font-size: 10px; margin-bottom: 20px;"></p>
+                <div class="metrics-grid">
+                    <div class="metric-box"><p id="f-lbl1">Ventas</p><h3 id="f-val1"></h3></div>
+                    <div class="metric-box"><p id="f-lbl2">Escrituras</p><h3 id="f-val2"></h3></div>
+                    <div class="metric-box" style="grid-column: span 2;"><p>Monto Proyectado</p><h3 id="f-val3" style="font-size:22px;"></h3></div>
+                </div>
+                <p style="margin-top: 15px; font-size: 8px; opacity: 0.5;">WRAPPED 2025 • GRUPO SADASI</p>
             </div>
-            <button id="exportBtn">COMPARTIR MI 2025</button>
+            <button id="exportBtn">DESCARGAR RESUMEN</button>
         </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="app.js"></script>
 </body>
