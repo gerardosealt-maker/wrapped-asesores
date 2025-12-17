@@ -17,8 +17,7 @@ function initExperience() {
     document.body.setAttribute('data-role', u.role);
     document.body.setAttribute('data-dev', u.desarrollo.toLowerCase());
     
-    // CORRECCIÓN DE LOGOS
-    // Sendas -> Sadasi | Meseta/Acento -> Altta Homes
+    // Logo por Desarrollo
     const logo = (u.desarrollo.toLowerCase() === 'sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
     document.getElementById('brandLogo').src = logo;
 
@@ -30,42 +29,49 @@ function initExperience() {
 }
 
 function renderValues(u) {
-    // Generales
-    document.getElementById('u-photo-intro').src = `${u.name}.jpg`;
-    document.getElementById('u-photo-final').src = `${u.name}.jpg`;
+    document.querySelectorAll('.advisor-photo').forEach(img => img.src = `${u.name}.jpg`);
     document.getElementById('u-name').textContent = u.name;
     document.getElementById('f-name').textContent = u.name;
+    document.getElementById('f-dev-label').textContent = `${u.role.toUpperCase()} | ${u.desarrollo.toUpperCase()}`;
 
     if (u.role === 'asesor') {
+        document.getElementById('model-text').textContent = "El modelo que más vendiste:";
         document.getElementById('u-prospects').textContent = u.prospects;
         document.getElementById('u-citas').textContent = u.citas;
         document.getElementById('u-visits').textContent = u.visits;
+        document.getElementById('u-cancels').textContent = u.cancelaciones;
+        document.getElementById('u-topModel').textContent = u.topModel;
         document.getElementById('u-sales').textContent = u.sales;
         document.getElementById('u-deeds').textContent = u.deeds;
         document.getElementById('u-monto').textContent = moneyF.format(u.monto_escrituras);
-        document.getElementById('u-mejorMes').textContent = u.mejorMes;
-        document.getElementById('u-ventasMes').textContent = u.ventasMejorMes;
         // Final Card
         document.getElementById('f-val1').textContent = u.sales;
         document.getElementById('f-val2').textContent = u.deeds;
+        document.getElementById('f-val3').textContent = moneyF.format(u.monto_escrituras);
     } else {
-        document.getElementById('c-equipoSales').textContent = u.equipoSales;
-        document.getElementById('c-devName').textContent = u.desarrollo;
-        document.getElementById('c-estrella').textContent = u.asesorEstrella;
-        document.getElementById('c-eficiencia').textContent = u.eficienciaEquipo;
+        document.getElementById('model-text').textContent = "Tendencia del Desarrollo:";
+        document.getElementById('u-prospects').textContent = u.equipoSales;
+        document.getElementById('u-citas').textContent = u.eficienciaEquipo;
+        document.getElementById('u-visits').textContent = u.asesorEstrella;
+        document.getElementById('u-cancels').textContent = u.equipoCancelaciones;
+        document.getElementById('u-topModel').textContent = u.modeloEstrella;
+        document.getElementById('u-sales').textContent = u.equipoSales;
+        document.getElementById('u-deeds').textContent = u.equipoCancelaciones + " Canc.";
+        document.getElementById('u-monto').textContent = moneyF.format(u.equipoMonto);
         // Final Card
         document.getElementById('f-lbl1').textContent = "Ventas Equipo";
         document.getElementById('f-val1').textContent = u.equipoSales;
-        document.getElementById('f-lbl2').textContent = "Monto Total";
-        document.getElementById('f-val2').textContent = (u.equipoMonto / 1000000).toFixed(1) + "M";
+        document.getElementById('f-lbl2').textContent = "Modelo Estrella";
+        document.getElementById('f-val2').textContent = u.modeloEstrella;
+        document.getElementById('f-val3').textContent = moneyF.format(u.equipoMonto);
     }
 }
 
 function initProgressBars() {
     const root = document.getElementById('progressRoot');
-    const storiesCount = document.querySelectorAll('.story').length;
+    const count = document.querySelectorAll('.story').length;
     root.innerHTML = '';
-    for(let i=0; i<storiesCount; i++) root.innerHTML += '<div class="progress-bar"><div class="progress-fill"></div></div>';
+    for(let i=0; i<count; i++) root.innerHTML += '<div class="progress-bar"><div class="progress-fill"></div></div>';
 }
 
 function showStory(index) {
@@ -79,18 +85,23 @@ function showStory(index) {
         if (i === index) bar.classList.add('active');
     });
     current = index;
+    
+    // EFECTO CONFETI AL FINAL
+    if (index === stories.length - 1) {
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [getComputedStyle(document.body).getPropertyValue('--accent')] });
+    }
     resetTimer();
 }
 
 function resetTimer() {
     clearInterval(storyTimer);
     storyTimer = setInterval(() => {
-        if (current < document.querySelectorAll('.story').length - 1) showStory(current + 1);
+        if (current < 5) showStory(current + 1);
         else clearInterval(storyTimer);
     }, 5000);
 }
 
-// Navegación y Pausa
+// Navegación & Pausa
 document.getElementById('btnNext').onclick = () => { if(current < 5) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if(current > 0) showStory(current - 1); };
 
@@ -106,12 +117,12 @@ zones.onmouseup = () => togglePause(false);
 zones.ontouchstart = () => togglePause(true);
 zones.ontouchend = () => togglePause(false);
 
-document.getElementById('exportBtn').onclick = (e) => {
-    e.stopPropagation();
-    html2canvas(document.getElementById('story-final'), { backgroundColor:'#000', scale:2 }).then(canvas => {
+document.getElementById('exportBtn').onclick = function() {
+    const target = document.getElementById('capture-area');
+    html2canvas(target, { backgroundColor: "#000", scale: 2, useCORS: true }).then(canvas => {
         const link = document.createElement('a');
-        link.download = `Wrapped_2024.png`;
-        link.href = canvas.toDataURL();
+        link.download = `Wrapped2025_${currentUser.name}.png`;
+        link.href = canvas.toDataURL("image/png");
         link.click();
     });
 };
