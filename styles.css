@@ -1,60 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-
 :root {
-  --primary: #00E88D; /* Verde Neón */
-  --secondary: #7000FF; /* Morado Eléctrico */
-  --bg: #000000;
-  --glass: rgba(255, 255, 255, 0.1);
+  --primary: #00E88D;
+  --accent: #7000FF;
+  --bg: #000;
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: var(--bg); color: white; height: 100vh; overflow: hidden; }
 
-body { 
-    background-color: var(--bg);
-    background-image: radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
-                      radial-gradient(circle at 90% 80%, rgba(0, 232, 141, 0.15) 0%, transparent 40%);
-    color: white; height: 100vh; overflow: hidden; 
-}
-
-/* Pantallas y Animaciones */
 .screen {
-  position: absolute; inset: 0; padding: 40px 30px;
+  position: absolute; inset: 0; padding: 40px;
   display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center; opacity: 0; transform: translateY(30px) scale(0.9);
-  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); pointer-events: none;
+  text-align: center; opacity: 0; 
+  transform: translateY(100%); /* Preparado abajo para subir */
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.screen.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.screen.active { opacity: 1; transform: translateY(0); }
+.screen.past { transform: translateY(-100%); opacity: 0; } /* Se va hacia arriba */
 
-/* Tipografía de Impacto */
-h1 { font-size: 42px; font-weight: 900; line-height: 1; margin-bottom: 10px; }
-h2 { font-size: 24px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; color: var(--primary); }
-.metric { font-size: 80px; font-weight: 900; margin: 10px 0; color: white; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
-.story { font-size: 19px; opacity: 0.8; max-width: 320px; line-height: 1.4; }
+/* Estilos de Métricas */
+.label { font-size: 14px; text-transform: uppercase; letter-spacing: 4px; color: var(--primary); margin-bottom: 10px; }
+.metric-big { font-size: 90px; font-weight: 900; line-height: 1; margin: 10px 0; }
+.money-big { font-size: 45px; font-weight: 900; color: var(--primary); }
+.story-text { font-size: 20px; opacity: 0.8; max-width: 300px; margin-top: 20px; font-weight: 300; }
 
-/* Tarjetas y Contenedores */
-.glass-card {
-    background: var(--glass); backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.1); padding: 25px;
-    border-radius: 24px; width: 100%; margin: 15px 0;
-}
+/* Tarjetas de Coordinador */
+.coord-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; width: 100%; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px; }
 
-.highlight-box {
-    background: linear-gradient(135deg, var(--primary), #00a86b);
-    color: black; padding: 20px; border-radius: 20px; width: 100%; font-weight: 700;
-}
+/* Botones y Login */
+#agentInput { background: #1a1a1a; border: 1px solid #333; padding: 20px; color: white; border-radius: 15px; width: 100%; margin: 20px 0; font-size: 18px; text-align: center; }
+#startBtn { background: var(--primary); color: #000; border: none; padding: 20px; border-radius: 40px; width: 100%; font-weight: 900; cursor: pointer; }
+#startBtn:disabled { opacity: 0.3; }
 
-/* Login */
-#agentInput { 
-    background: #111; border: 2px solid #333; padding: 20px; color: white; 
-    border-radius: 15px; width: 100%; margin: 20px 0; text-align: center; font-size: 18px;
-}
-#startBtn { 
-    background: var(--primary); color: black; border: none; padding: 20px; 
-    border-radius: 40px; font-weight: 900; width: 100%; font-size: 16px;
-    box-shadow: 0 10px 30px rgba(0, 232, 141, 0.3); cursor: pointer;
-}
-
-/* Navegación */
-#navigation-dots { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
-.dot { width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
-.dot.active { background: var(--primary); width: 24px; border-radius: 10px; }
+#navigation-dots { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; }
+.dot { width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; transition: 0.3s; }
+.dot.active { background: var(--primary); height: 20px; border-radius: 10px; }
