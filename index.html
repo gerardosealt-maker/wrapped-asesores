@@ -12,9 +12,10 @@
 
 <main id="app">
   <section id="login" class="screen active">
-    <div id="brandHeader"></div> <h1>Wrapped 2024</h1>
-    <p>Ingresa tu ID</p>
-    <input id="agentInput" placeholder="Ej. 6017 o COORD-SENDAS" inputmode="text" />
+    <div id="brandHeader"></div>
+    <h1>Wrapped 2024</h1>
+    <p>Ingresa tu ID de acceso</p>
+    <input id="agentInput" placeholder="Ej. 6017 o COORD-SENDAS" />
     <button id="startBtn" disabled>Iniciar experiencia</button>
   </section>
 
@@ -32,7 +33,7 @@
 
   <section class="screen advisor-only money-screen">
     <h2>Tu impacto económico</h2>
-    <p class="metric" id="moneyValue" style="font-size: 42px;"></p>
+    <p class="metric" id="moneyValue"></p>
     <p class="story">Monto total generado en escrituración este año.</p>
   </section>
 
@@ -41,7 +42,7 @@
     <div class="summary-grid">
         <div class="summary-card">
             <p class="summary-metric" id="teamSales"></p>
-            <small>Ventas Totales</small>
+            <small>Ventas Equipo</small>
         </div>
         <div class="summary-card">
             <p class="summary-metric" id="teamDeeds"></p>
@@ -49,7 +50,7 @@
         </div>
     </div>
     <div class="money-card">
-        <p id="teamMoney" style="font-size: 28px; font-weight: 900;"></p>
+        <p id="teamMoney"></p>
         <small>VALOR TOTAL DEL DESARROLLO</small>
     </div>
   </section>
@@ -57,21 +58,22 @@
   <section class="screen coord-only insight-screen">
     <h2>Análisis de Certeza</h2>
     <div class="insight-box">
-        <p class="story">El asesor más <strong>certero</strong> (mayor cierre por cita) fue:</p>
-        <h3 id="topAccuracyName" style="font-size: 32px; color: #00E88D; margin: 10px 0;"></h3>
+        <p class="story">El asesor más <strong>certero</strong> fue:</p>
+        <h3 id="topAccuracyName"></h3>
         <p id="topAccuracyStats" class="story"></p>
     </div>
-    <div class="insight-box" style="margin-top: 20px;">
-        <p class="story">El <strong>MVP</strong> (más ventas) fue:</p>
-        <h3 id="topSalesName" style="font-size: 32px; color: #FFD700; margin: 10px 0;"></h3>
+    <div class="insight-box" style="margin-top: 15px;">
+        <p class="story">El <strong>MVP</strong> (mayor volumen) fue:</p>
+        <h3 id="topSalesName"></h3>
     </div>
   </section>
 
   <section class="screen summary-screen">
     <h2 id="finalTitle">Tu Legado 2024</h2>
-    <div id="finalMetrics">
-        </div>
-    <button id="exportBtn">Guardar Certificado</button>
+    <div id="finalMetrics"></div>
+    <div id="action-buttons">
+        <button id="exportBtn" class="primary-action">Guardar Certificado</button>
+    </div>
   </section>
 
   <div id="navigation-dots"></div>
