@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Wrapped 2025</title>
+    <title>Wrapped 2025 - Grupo Sadasi</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,43 +18,45 @@
     <main id="app">
         <section class="screen active" id="login">
             <h1 style="font-size: 42px; font-weight: 900;">MI 2025<br><span style="color:var(--accent)">WRAPPED.</span></h1>
-            <input id="agentInput" placeholder="ID de Asesor" style="background:none; border:none; border-bottom:2px solid #333; color:white; font-size:24px; text-align:center; margin:50px 0; outline:none; width:80%;">
-            <button id="startBtn">DESCUBRIR</button>
+            <input id="agentInput" placeholder="Introduce tu ID" style="background:none; border:none; border-bottom:2px solid #333; color:white; font-size:24px; text-align:center; margin:50px 0; outline:none; width:80%;">
+            <button id="startBtn">COMENZAR</button>
         </section>
 
         <section class="screen story">
             <img class="advisor-photo u-photo">
             <p class="label">El 2025 fue tuyo,</p>
             <h2 class="u-name-display" style="font-size: 34px; font-weight: 900;"></h2>
+            <p style="margin-top:20px; opacity:0.6">Esto es lo que construiste.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">El inicio de todo</p>
+            <p class="label">El origen de la meta</p>
             <h2 class="huge-num" id="u-prospects"></h2>
-            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px;">PROSPECTOS ATENDIDOS</p>
-            <p style="margin-top:40px; font-style:italic; opacity:0.8">"Cada contacto fue una semilla para el éxito."</p>
+            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px;">PROSPECTOS</p>
+            <p id="p-prospects-txt" class="dynamic-txt"></p>
         </section>
 
         <section class="screen story">
             <p class="label">Tu labor de campo</p>
             <div class="metrics-grid">
-                <div class="metric-box"><h3 id="u-citas"></h3><p>Citas Agendadas</p></div>
-                <div class="metric-box"><h3 id="u-visits"></h3><p>Visitas Reales</p></div>
+                <div class="metric-box"><h3 id="u-citas"></h3><p>Citas</p></div>
+                <div class="metric-box"><h3 id="u-visits"></h3><p>Visitas</p></div>
             </div>
-            <p style="margin-top:40px; font-weight: 700;">Transformaste el interés en compromiso.</p>
+            <p style="margin-top:40px; font-weight: 700;">Convertiste el interés en presencia real.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">Obstáculos superados</p>
+            <p class="label">Superación</p>
             <h2 class="huge-num" id="u-cancels" style="color:#ff4b4b"></h2>
             <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px; color:#ff4b4b">CANCELACIONES</p>
-            <p style="margin-top:40px; font-style:italic; opacity:0.8">"No todas las batallas se ganan, pero tú seguiste adelante."</p>
+            <p id="p-cancels-txt" class="dynamic-txt"></p>
         </section>
 
         <section class="screen story">
-            <p class="label" id="model-label">Tu Ganador</p>
-            <div class="glass" style="padding:35px; margin: 25px 0;">
-                <h2 id="u-topModel" style="font-size:30px; color:var(--accent); font-weight:900;"></h2>
+            <div id="p-status-tag" class="elite-badge"></div>
+            <p class="label" id="model-label">Tu Modelo Estrella</p>
+            <div class="glass" style="padding:30px; margin: 20px 0; border: 1px solid var(--accent);">
+                <h2 id="u-topModel" style="font-size:28px; color:var(--accent); font-weight:900;"></h2>
             </div>
             <div class="metrics-grid">
                 <div class="metric-box"><h3 id="u-sales"></h3><p>Ventas</p></div>
@@ -64,17 +66,17 @@
 
         <section class="screen story" id="story-final">
             <div id="capture-area">
-                <img id="brandLogo" style="max-height: 28px; margin-bottom: 25px;">
-                <img class="advisor-photo u-photo" style="width: 110px; height: 110px;">
-                <h2 class="u-name-display" style="font-size: 26px; font-weight: 900; margin-bottom: 5px;"></h2>
-                <p id="f-dev-label" class="label" style="font-size: 10px; margin-bottom: 25px;"></p>
+                <img id="brandLogo" style="max-height: 25px; margin-bottom: 20px;">
+                <img class="advisor-photo u-photo" style="width: 100px; height: 100px;">
+                <h2 class="u-name-display" style="font-size: 22px; font-weight: 900; margin-bottom:5px;"></h2>
+                <p id="f-dev-label" class="label" style="font-size: 10px; margin-bottom: 20px;"></p>
                 <div class="metrics-grid">
-                    <div class="metric-box" style="padding:12px;"><p id="f-lbl1">Ventas</p><h3 id="f-val1" style="font-size:26px;"></h3></div>
-                    <div class="metric-box" style="padding:12px;"><p id="f-lbl2">Escrituras</p><h3 id="f-val2" style="font-size:26px;"></h3></div>
-                    <div class="metric-box" style="grid-column: span 2;"><p>Patrimonio Generado 2025</p><h3 id="f-val3" style="font-size:22px;"></h3></div>
+                    <div class="metric-box" style="padding:10px;"><p id="f-lbl1">Ventas</p><h3 id="f-val1"></h3></div>
+                    <div class="metric-box" style="padding:10px;"><p id="f-lbl2">Escrituras</p><h3 id="f-val2"></h3></div>
+                    <div class="metric-box" style="grid-column: span 2;"><p>Valor Generado 2025</p><h3 id="f-val3" style="font-size:22px;"></h3></div>
                 </div>
             </div>
-            <button id="exportBtn">COMPARTIR MI 2025</button>
+            <button id="exportBtn">GUARDAR MI ÉXITO</button>
         </section>
     </main>
 
