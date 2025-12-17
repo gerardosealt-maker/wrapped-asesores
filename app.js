@@ -1,6 +1,7 @@
 let data = [], current = 0, currentUser = null, storyTimer = null;
 const moneyF = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 
+// CARGA DE DATOS
 fetch('./data.json').then(r => r.json()).then(d => { data = d; });
 
 document.getElementById('startBtn').onclick = () => {
@@ -16,80 +17,90 @@ document.getElementById('startBtn').onclick = () => {
 
 function processCoordinator(coord) {
     const team = data.filter(u => u.desarrollo === coord.desarrollo && u.role === 'asesor');
-    
     return {
         ...coord,
         isBoss: true,
         prospects: team.reduce((s, a) => s + (a.prospects || 0), 0),
         visits: team.reduce((s, a) => s + (a.visits || 0), 0),
         citas: team.reduce((s, a) => s + (a.citas || 0), 0),
-        deeds: team.reduce((s, a) => s + (a.deeds || 0), 0), // SUMA DE ESCRITURAS DE EQUIPO
+        deeds: team.reduce((s, a) => s + (a.deeds || 0), 0), // SUMATORIA REAL DE ESCRITURAS
         sales: coord.equipoSales,
         monto_escrituras: coord.equipoMonto,
         cancelaciones: coord.equipoCancelaciones,
         topModel: coord.modeloEstrella,
         asesorEstrella: coord.asesorEstrella,
         eficiencia: coord.eficienciaEquipo,
-        mejorMes: coord.mejorMes || "Diciembre", // Dato del JSON
-        ventasMejorMes: team.reduce((s, a) => s + (a.ventasMejorMes || 0), 0), // Suma de impacto mensual
-        totalTeam: team.length
+        mejorMes: coord.mejorMes || "Diciembre",
+        ventasMejorMes: team.reduce((s, a) => s + (a.ventasMejorMes || 0), 0)
     };
 }
 
 function renderValues(u) {
-    // CORRECCIÓN DE FOTO: Quita acentos y cambia espacios por guion bajo
+    // Foto: Convierte "Mayra Muñoz" en "Mayra_Munoz.jpg"
     const fileName = u.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_');
     document.querySelectorAll('.u-photo').forEach(img => img.src = `${fileName}.jpg`);
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
 
-    // Pantalla 1: Intro
+    // 1. INTRO
     document.getElementById('role-label-intro').textContent = u.isBoss ? "LA JEFA / EL JEFE," : "HOLA,";
     document.getElementById('p-intro-txt').textContent = u.isBoss 
-        ? `Llevar las riendas de ${u.desarrollo} no es para cualquiera. Aquí el éxito de tu equipo.` 
+        ? `Llevar las riendas de ${u.desarrollo} requiere colmillo. Aquí los números de tu mando.` 
         : `Un año de perseguir cierres y no soltar ni un solo prospecto.`;
 
-    // Pantalla 2: Prospectos
+    // 2. PROSPECTOS
     document.getElementById('u-prospects').textContent = u.prospects;
+    document.getElementById('p-prospects-txt').textContent = u.isBoss
+        ? `Tu equipo trajo a ${u.prospects} interesados. ¡Vaya forma de llenar el embudo!`
+        : `De ${u.prospects} personas, lograste que pusieran el ojo en nosotros.`;
 
-    // Pantalla 3: Visitas
+    // 3. VISITAS
     document.getElementById('u-visits').textContent = u.visits;
+    document.getElementById('p-visits-txt').textContent = u.isBoss
+        ? `Lograron ${u.visits} visitas. Tu equipo no dejó de mostrar casas ni un segundo.`
+        : `Atendiste ${u.visits} visitas. El desgaste de suela valió la pena.`;
 
-    // Pantalla 4: Cancelaciones
+    // 4. CANCELACIONES (Jiribilla pura)
     document.getElementById('u-cancels').textContent = u.cancelaciones;
+    document.getElementById('p-cancels-txt').textContent = u.isBoss
+        ? `Solo ${u.cancelaciones} bajas. Eso es tener el control total del cierre, Capitán.`
+        : `¿Bajas? Solo gajes del oficio. Lo importante es cómo te levantaste de esas.`;
 
-    // Pantalla 5: MEJOR MES (Dorado)
+    // 5. MEJOR MES
     document.getElementById('u-mejorMes').textContent = u.mejorMes.toUpperCase();
     document.getElementById('p-mes-txt').textContent = u.isBoss 
         ? `En ${u.mejorMes} tu equipo cerró ${u.ventasMejorMes} ventas. ¡Imbatibles!`
         : `Tu mejor racha: ${u.ventasMejorMes} cierres solo en este mes.`;
 
-    // Pantalla 6: Ventas
+    // 6. VENTAS
     document.getElementById('u-sales').textContent = u.sales;
+    document.getElementById('p-sales-txt').textContent = u.isBoss
+        ? `¡${u.sales} ventas! El marcador no miente: eres líder de puros ganadores.`
+        : `Cerraste ${u.sales} ventas. Ese colmillo para el negocio está más afilado que nunca.`;
 
-    // Pantalla 7: ESCRITURAS (Ahora con número para coordinadores)
+    // 7. ESCRITURAS
     document.getElementById('u-deeds').textContent = u.deeds;
     document.getElementById('u-monto-deeds').textContent = moneyF.format(u.monto_escrituras);
 
-    // Pantalla 8: Top
+    // 8. TOP DEL AÑO
     if (u.isBoss) {
         document.getElementById('l-p8').textContent = "TU PIEZA CLAVE";
         document.getElementById('u-topModel').textContent = u.asesorEstrella;
-        document.getElementById('p-model-txt').textContent = `El motor que impulsó los resultados de ${u.desarrollo}.`;
+        document.getElementById('p-model-txt').textContent = `Quien más te ayudó a empujar el barco de ${u.desarrollo}. ¡Vaya dupla!`;
     } else {
         document.getElementById('l-p8').textContent = "TU FAVORITO";
         document.getElementById('u-topModel').textContent = u.topModel;
-        document.getElementById('p-model-txt').textContent = `Dominas la venta del ${u.topModel} como nadie.`;
+        document.getElementById('p-model-txt').textContent = `Nadie domina la venta del ${u.topModel} con la maestría que tú lo haces.`;
     }
 
-    // Pantalla 9: Final
+    // 9. RESUMEN FINAL
     document.getElementById('f-status-tag').textContent = u.isBoss ? "LIDERAZGO NIVEL SADASI" : "ASESOR DE ALTO IMPACTO";
     document.getElementById('f-val1').textContent = u.sales;
-    document.getElementById('f-val2').textContent = u.deeds; // Muestra escrituras en el resumen
+    document.getElementById('f-val2').textContent = u.deeds;
     document.getElementById('f-val-eff').textContent = u.isBoss ? u.eficiencia : Math.round((u.sales/u.visits)*100) + "%";
     document.getElementById('f-dev-label').textContent = `${u.role.toUpperCase()} | ${u.desarrollo.toUpperCase()}`;
 }
 
-// ... Resto de funciones (Navegación, Progress Bars, Export) se mantienen igual ...
+// FUNCIONES DE SISTEMA
 function initProgressBars() {
     const root = document.getElementById('progressRoot');
     const count = document.querySelectorAll('.story').length;
