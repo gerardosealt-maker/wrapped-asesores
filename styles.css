@@ -1,336 +1,37 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
-}
-
-body {
-  background: #000;
-  color: white;
-  height: 100vh;
-  overflow: hidden;
-}
-
-#app {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-  /* Gradiente base con animación */
-  background: radial-gradient(circle at top, #1A1A1A 0%, #000 70%);
-  background-size: 300% 300%; 
-  animation: backgroundPan 10s ease infinite alternate; 
-}
-
-@keyframes backgroundPan {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 100% 100%; }
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+body { background: #000; color: white; height: 100vh; overflow: hidden; }
 
 .screen {
-  position: absolute;
-  inset: 0;
-  padding: 32px 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; 
-  text-align: center;
-  opacity: 0;
-  transform: translateY(40px);
-  transition:
-    opacity .8s cubic-bezier(.22,.61,.36,1),
-    transform .8s cubic-bezier(.22,.61,.36,1);
-  pointer-events: none;
-  z-index: 1;
+  position: absolute; inset: 0; padding: 40px 20px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; opacity: 0; transform: translateY(20px);
+  transition: all 0.6s ease; pointer-events: none;
 }
+.screen.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
-.screen.active {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  z-index: 2;
+.metric { font-size: 64px; font-weight: 900; margin: 20px 0; color: #00E88D; }
+#moneyValue { font-size: 38px; }
+.story { font-size: 18px; opacity: 0.8; max-width: 300px; }
+
+input { 
+  background: #222; border: none; padding: 15px; color: white; 
+  border-radius: 10px; width: 80%; margin: 20px 0; text-align: center; 
 }
-
-/* --- ESTILOS DE TIPOGRAFÍA DE ALTO IMPACTO --- */
-h1 {
-  font-size: 38px;
-  font-weight: 900;
-  margin-bottom: 24px;
+button { 
+  background: #00E88D; color: black; border: none; padding: 15px 30px; 
+  border-radius: 30px; font-weight: bold; cursor: pointer; width: 80%;
 }
+button:disabled { background: #555; cursor: not-allowed; }
 
-h2 {
-  font-size: 20px;
-  margin-bottom: 8px;
-  opacity: 0.7; 
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
+/* Dashboard Cards */
+.summary-grid { display: flex; gap: 10px; width: 100%; margin: 20px 0; }
+.summary-card { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; flex: 1; }
+.summary-card h3 { font-size: 28px; color: #00E88D; }
+.money-card { background: #00E88D; color: black; padding: 20px; border-radius: 15px; width: 100%; }
+.money-card p { font-size: 24px; font-weight: 900; }
+.insight-box { background: #111; padding: 20px; border-radius: 15px; border: 1px solid #333; width: 100%; }
 
-.metric {
-  font-size: 80px; 
-  font-weight: 900;
-  margin: 30px 0;
-  line-height: 1;
-}
-
-.story {
-  font-size: 20px;
-  line-height: 1.4;
-  opacity: 0.9;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-/* Estilo específico para la pantalla de introducción */
-.intro-screen .metric {
-    font-size: 60px; 
-    font-weight: 900;
-    margin-bottom: 5px; 
-    text-transform: uppercase;
-}
-.intro-screen h2 {
-    font-size: 28px;
-    color: #00E88D; 
-    margin-top: 5px;
-    margin-bottom: 20px;
-    opacity: 1;
-}
-
-
-/* --- ANIMACIONES DE LOS ELEMENTOS INTERNOS --- */
-.screen h2, .screen .metric, .screen .story, .screen button, #action-buttons, #finalMetrics {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.6s cubic-bezier(.22,.61,.36,1);
-}
-
-.screen.active h2 {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.3s;
-}
-
-.screen.active .metric {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.5s;
-}
-
-/* Animación ajustada para el nuevo bloque de métricas */
-.screen.active #finalMetrics {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.5s;
-}
-
-.screen.active .story {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.7s;
-}
-.screen.active button, .screen.active #action-buttons {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.9s;
-}
-
-
-/* --- ESTILOS DE INTERACCIÓN (Input/Button) --- */
-input {
-  margin: 20px auto;
-  padding: 16px;
-  font-size: 20px;
-  width: 85%;
-  border-radius: 14px;
-  border: none;
-  text-align: center;
-  background: #2A2A2A;
-  color: white;
-}
-
-button {
-  margin-top: 20px;
-  padding: 16px;
-  font-size: 18px;
-  border-radius: 16px;
-  border: none;
-  background: #00E88D; 
-  color: black;
-  font-weight: 700;
-  cursor: pointer;
-  width: 85%;
-}
-
-/* --- GRADIENTES ESPECÍFICOS POR SECCIÓN --- */
-.prospects-screen {
-  background: radial-gradient(circle at bottom right, #4A00E0 0%, #200060 100%);
-}
-
-.appointments-screen {
-  background: radial-gradient(circle at top left, #FF4B2B 0%, #802515 100%);
-}
-
-.sales-screen {
-  background: radial-gradient(circle at bottom, #00C9FF 0%, #157980 100%);
-}
-
-.deeds-screen { 
-  background: radial-gradient(circle at center, #9370DB 0%, #4B0082 100%);
-}
-
-.best-month-screen { 
-  background: radial-gradient(circle at top, #7FFF00 0%, #3CB371 100%);
-}
-
-/* --- ESTILO DE PANTALLA DE RESUMEN (Summary Screen) --- */
-.summary-screen {
-    background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
-    color: black;
-}
-.summary-screen h2, .summary-screen .story {
-    color: #111;
-    opacity: 1;
-}
-
-/* Ajuste de tipografía en el resumen para hacerlo más limpio */
-.summary-screen h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-.summary-screen .story {
-    font-size: 18px;
-    margin-top: 20px;
-}
-
-/* Nuevo estilo para el contenedor de métricas en el resumen */
-#finalMetrics {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 90%;
-    margin: 30px auto 30px auto; 
-    padding: 15px 0;
-    background: rgba(255, 255, 255, 0.1); 
-    border-radius: 12px;
-}
-
-.summary-card {
-    text-align: center;
-    padding: 5px 10px;
-    /* Para que los 3 elementos quepan bien en pantallas angostas */
-    flex: 1; 
-    min-width: 0;
-}
-
-.summary-metric {
-    font-size: 32px; 
-    font-weight: 900;
-    color: #111; 
-    line-height: 1.1;
-    margin-bottom: 5px;
-    /* Para que el texto no se corte */
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis; 
-}
-
-.summary-card small {
-    display: block;
-    font-size: 12px;
-    opacity: 0.8;
-    color: #333;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-
-/* Contenedor de botones de acción */
-#action-buttons {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
-}
-
-/* Botones de acción simplificados */
-#action-buttons button {
-    margin: 8px 0; 
-    width: 85%;
-    font-weight: 700;
-    padding: 14px;
-}
-
-/* Botón principal (Guardar PNG) */
-.primary-action {
-    background: #111; 
-    color: white;
-}
-
-/* Botón secundario (Compartir Enlace WhatsApp) */
-.secondary-action {
-    background: #25D366; 
-    color: white;
-    font-weight: 600;
-}
-
-
-/* --- RESPONSIVIDAD DE LA PANTALLA FINAL (Ajuste fino) --- */
-@media (max-width: 400px) {
-    /* Apilamos las métricas en pantallas pequeñas para mayor claridad */
-    #finalMetrics {
-        flex-direction: column; 
-        padding: 15px;
-        gap: 15px;
-    }
-    .summary-card {
-        width: 100%;
-        padding: 0;
-    }
-    .summary-metric {
-        font-size: 40px;
-    }
-}
-
-
-/* --- INDICADORES DE NAVEGACIÓN --- */
-#navigation-dots {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-  z-index: 10;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-.dot.active {
-  background: #00E88D; 
-  transform: scale(1.2);
-}
-
-#swipe-hint {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.6;
-    font-size: 14px;
-    z-index: 10;
-    animation: pulse 2s infinite; 
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.8; }
-}
+#navigation-dots { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.dot { width: 8px; height: 8px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+.dot.active { background: #00E88D; }
+#swipe-hint { position: fixed; bottom: 10px; width: 100%; text-align: center; font-size: 12px; opacity: 0.5; }
