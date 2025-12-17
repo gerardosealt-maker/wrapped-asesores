@@ -1,11 +1,19 @@
 [
   { 
     "id": "6017", "role": "asesor", "name": "Patricia Almanza", "desarrollo": "Sendas",
-    "prospects": 62, "appointments": 45, "visits": 31, "sales": 9, "cancelaciones": 2, "totalDeeds": 7, "monto_escrituras": 28500000,
-    "monthlyData": {
-        "Ene": {"sales":1}, "Feb": {"sales":0}, "Mar": {"sales":2}, "Abr": {"sales":0}, "May": {"sales":1}, "Jun": {"sales":0}, 
-        "Jul": {"sales":2}, "Ago": {"sales":1}, "Sep": {"sales":0}, "Oct": {"sales":1}, "Nov": {"sales":0}, "Dic": {"sales":1}
-    }
+    "prospects": 120, "visits": 45, "sales": 9, "totalDeeds": 7, "monto_escrituras": 28500000, "cancelaciones": 2,
+    "monthlyData": { "Ene": {"sales":1}, "Feb": {"sales":0}, "Mar": {"sales":2}, "Abr": {"sales":0}, "May": {"sales":1}, "Jun": {"sales":0}, "Jul": {"sales":2}, "Ago": {"sales":1}, "Sep": {"sales":0}, "Oct": {"sales":1}, "Nov": {"sales":0}, "Dic": {"sales":1} }
   },
-  { "id": "COORD-SENDAS", "role": "coordinador", "name": "Gerardo Ruiz", "desarrollo": "Sendas" }
+  { 
+    "id": "6330", "role": "asesor", "name": "Maria Zuñiga", "desarrollo": "Sendas",
+    "prospects": 40, "visits": 15, "sales": 10, "totalDeeds": 8, "monto_escrituras": 32000000, "cancelaciones": 0,
+    "monthlyData": { "Ene": {"sales":2}, "Feb": {"sales":1}, "Mar": {"sales":1}, "Abr": {"sales":1}, "May": {"sales":0}, "Jun": {"sales":2}, "Jul": {"sales":0}, "Ago": {"sales":0}, "Sep": {"sales":1}, "Oct": {"sales":0}, "Nov": {"sales":1}, "Dic": {"sales":1} }
+  },
+  { 
+    "id": "5544", "role": "asesor", "name": "Juan Perez", "desarrollo": "Acento",
+    "prospects": 85, "visits": 30, "sales": 12, "totalDeeds": 10, "monto_escrituras": 45000000, "cancelaciones": 1,
+    "monthlyData": { "Ene": {"sales":3}, "Feb": {"sales":2}, "Mar": {"sales":1}, "Abr": {"sales":2}, "May": {"sales":1}, "Jun": {"sales":0}, "Jul": {"sales":1}, "Ago": {"sales":0}, "Sep": {"sales":0}, "Oct": {"sales":1}, "Nov": {"sales":1}, "Dic": {"sales":0} }
+  },
+  { "id": "COORD-SENDAS", "role": "coordinador", "name": "Gerardo Ruiz", "desarrollo": "Sendas" },
+  { "id": "COORD-ACENTO", "role": "coordinador", "name": "Elena Peña", "desarrollo": "Acento" }
 ]
