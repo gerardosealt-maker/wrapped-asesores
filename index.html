@@ -2,94 +2,80 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Wrapped Asesores</title>
+  <title>Wrapped 2024 - Sadasi & Altta</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
 
 <audio id="music" src="music.mp3" loop></audio>
 
 <main id="app">
-
-  <section id="login" class="screen active"> 
-    <h1>Tu año en números</h1>
-    <p>Ingresa tu ID de asesor</p>
-    <input id="agentInput" placeholder="Ej. 6017" inputmode="numeric" />
+  <section id="login" class="screen active">
+    <div id="brandHeader"></div> <h1>Wrapped 2024</h1>
+    <p>Ingresa tu ID</p>
+    <input id="agentInput" placeholder="Ej. 6017 o COORD-SENDAS" inputmode="text" />
     <button id="startBtn" disabled>Iniciar experiencia</button>
-    <small>Mejor con audífonos 🎧</small>
   </section>
 
   <section class="screen intro-screen">
-    <p class="metric" id="welcome"></p> 
-    <h2 id="name"></h2>
-    <p class="story" id="introCopy"></p>
+      <p class="metric" id="welcome"></p>
+      <h2 id="roleTitle"></h2>
+      <p class="story" id="introCopy"></p>
   </section>
 
-  <section class="screen prospects-screen">
-    <h2>Prospectos generados</h2>
-    <p class="metric" id="prospects"></p>
-    <p class="story" id="prospectsCopy"></p>
+  <section class="screen advisor-only cancellations-screen">
+    <h2>Resiliencia</h2>
+    <p class="metric" id="cancellations"></p>
+    <p class="story">Cancelaciones que no te detuvieron. Cada "no" es aprendizaje.</p>
   </section>
 
-  <section class="screen appointments-screen">
-    <h2>Citas logradas</h2>
-    <p class="metric" id="appointments"></p>
-    <p class="story" id="appointmentsCopy"></p>
+  <section class="screen advisor-only money-screen">
+    <h2>Tu impacto económico</h2>
+    <p class="metric" id="moneyValue" style="font-size: 42px;"></p>
+    <p class="story">Monto total generado en escrituración este año.</p>
   </section>
 
-  <section class="screen sales-screen">
-    <h2>Ventas realizadas</h2>
-    <p class="metric" id="sales"></p>
-    <p class="story" id="salesCopy"></p>
+  <section class="screen coord-only coordinator-dashboard">
+    <h2 id="teamName">Tu Equipo</h2>
+    <div class="summary-grid">
+        <div class="summary-card">
+            <p class="summary-metric" id="teamSales"></p>
+            <small>Ventas Totales</small>
+        </div>
+        <div class="summary-card">
+            <p class="summary-metric" id="teamDeeds"></p>
+            <small>Escrituras</small>
+        </div>
+    </div>
+    <div class="money-card">
+        <p id="teamMoney" style="font-size: 28px; font-weight: 900;"></p>
+        <small>VALOR TOTAL DEL DESARROLLO</small>
+    </div>
   </section>
 
-  <section class="screen deeds-screen">
-    <h2>Escrituras realizadas</h2>
-    <p class="metric" id="deeds"></p>
-    <p class="story" id="deedsCopy"></p>
-  </section>
-
-  <section class="screen best-month-screen">
-    <h2>Tu mes de mayor impacto</h2>
-    <p class="metric" id="bestMonth"></p>
-    <p class="story" id="bestMonthCopy"></p>
+  <section class="screen coord-only insight-screen">
+    <h2>Análisis de Certeza</h2>
+    <div class="insight-box">
+        <p class="story">El asesor más <strong>certero</strong> (mayor cierre por cita) fue:</p>
+        <h3 id="topAccuracyName" style="font-size: 32px; color: #00E88D; margin: 10px 0;"></h3>
+        <p id="topAccuracyStats" class="story"></p>
+    </div>
+    <div class="insight-box" style="margin-top: 20px;">
+        <p class="story">El <strong>MVP</strong> (más ventas) fue:</p>
+        <h3 id="topSalesName" style="font-size: 32px; color: #FFD700; margin: 10px 0;"></h3>
+    </div>
   </section>
 
   <section class="screen summary-screen">
-    <h2>Tu Legado del Año</h2>
-    
+    <h2 id="finalTitle">Tu Legado 2024</h2>
     <div id="finalMetrics">
-        <div class="summary-card">
-            <p class="summary-metric" id="finalSales"></p>
-            <small>Ventas Logradas</small>
         </div>
-        <div class="summary-card">
-            <p class="summary-metric" id="finalDeeds"></p>
-            <small>Escrituras Totales</small>
-        </div>
-        <div class="summary-card">
-            <p class="summary-metric" id="finalMonth"></p>
-            <small>Mes de Mayor Impacto</small>
-        </div>
-    </div>
-    
-    <p class="story" id="summary"></p> 
-    
-    <div id="action-buttons">
-        <button id="exportBtn" class="primary-action">Guardar para Historias (PNG)</button>
-        <button id="whatsappShareBtn" class="share-btn secondary-action" data-platform="whatsapp">
-            Compartir enlace en WhatsApp
-        </button>
-    </div>
+    <button id="exportBtn">Guardar Certificado</button>
   </section>
-    
-  <div id="navigation-dots"></div>
-  <div id="swipe-hint">
-      <p>Desliza para continuar 👇</p>
-  </div>
 
+  <div id="navigation-dots"></div>
+  <div id="swipe-hint"><p>Desliza para continuar 👇</p></div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
