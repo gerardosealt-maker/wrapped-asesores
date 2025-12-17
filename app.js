@@ -4,71 +4,51 @@ const moneyF = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MX
 fetch('./data.json').then(r => r.json()).then(j => {
     data = j;
     document.getElementById('agentInput').oninput = e => {
-        document.getElementById('startBtn').disabled = e.target.value.length < 3;
+        document.getElementById('startBtn').disabled = e.target.value.length < 1;
     };
 });
 
 document.getElementById('startBtn').onclick = () => {
-    const id = document.getElementById('agentInput').value.trim();
-    currentUser = data.find(u => u.id === id);
-    if (!currentUser) return alert("ID no encontrado");
+    const val = document.getElementById('agentInput').value.trim();
+    currentUser = data.find(u => u.id === val || u.name.includes(val));
+    if (!currentUser) return alert("No se encontró el asesor.");
 
-    setupExperience(currentUser);
-    document.getElementById('music').play().catch(()=>{});
+    renderApp(currentUser);
     nextScreen();
 };
 
-function setupExperience(user) {
-    // Configurar Marca y Tema
-    document.body.setAttribute('data-theme', user.desarrollo.toLowerCase());
-    const logoImg = (user.desarrollo === 'Sadasi') ? 'logo-sadasi.png' : 'logo-altta.png';
-    document.getElementById('brandLogoLogin').innerHTML = `<img src="${logoImg}" style="max-height:60px">`;
-    document.getElementById('brandLogoStory').src = logoImg;
+function renderApp(user) {
+    // Definir Desarrollo para el Tema CSS
+    const devKey = user.desarrollo.toLowerCase();
+    document.body.setAttribute('data-dev', devKey);
 
-    // Configurar Fotos (Busca por Nombre del Asesor)
-    const photoPath = `${user.name}.jpg`; 
-    document.getElementById('u-photo').src = photoPath;
-    document.getElementById('u-photo-final').src = photoPath;
+    // Logos Dinámicos
+    const logoImg = (devKey === 'sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
+    document.getElementById('brandLogo').src = logoImg;
 
-    // Datos Generales
-    document.getElementById('u-name').textContent = user.name;
-    document.getElementById('u-intro').textContent = "Transformaste miedos en firmas este 2024.";
+    // Foto por Nombre
+    document.getElementById('u-photo').src = `${user.name}.jpg`;
 
-    // Gráfico
-    const chart = document.getElementById('chart');
-    chart.innerHTML = '';
-    const maxVal = Math.max(...Object.values(user.monthlyData), 1);
-    for (let mes in user.monthlyData) {
-        const h = (user.monthlyData[mes] / maxVal) * 100;
-        chart.innerHTML += `<div class="bar-wrapper"><div class="bar" style="height:${h}%"></div><span style="font-size:8px; opacity:0.5">${mes}</span></div>`;
-    }
+    // Llenar Datos
+    document.getElementById('u-mejorMes').textContent = user.mejorMes;
+    document.getElementById('u-ventasMes').textContent = user.ventasMejorMes;
+    document.getElementById('u-prospects').textContent = user.prospects;
+    document.getElementById('u-visits').textContent = user.visits;
+    document.getElementById('u-accuracy').textContent = ((user.sales/user.visits)*100).toFixed(0) + "%";
+    document.getElementById('u-cancels').textContent = user.cancelaciones;
 
-    if(user.role === 'asesor') {
-        // Top Modelos
-        const list = document.getElementById('topModelsList');
-        list.innerHTML = '';
-        user.topModels.forEach(m => {
-            list.innerHTML += `<li><span>${m.name}</span><strong>${m.sales}</strong></li>`;
-        });
-
-        // Métricas
-        document.getElementById('p-prospects').textContent = user.prospects;
-        document.getElementById('p-visits').textContent = user.visits;
-        document.getElementById('p-accuracy').textContent = ((user.sales/user.visits)*100).toFixed(0) + "%";
-        
-        // Final Story
-        document.getElementById('finalName').textContent = user.name;
-        document.getElementById('finalRole').textContent = `Asesor ${user.desarrollo}`;
-        document.getElementById('f-sales').textContent = user.sales;
-        document.getElementById('f-money').textContent = moneyF.format(user.monto_escrituras);
-    }
+    // Resumen Final
+    document.getElementById('f-name').textContent = user.name;
+    document.getElementById('f-dev').textContent = `Desarrollo ${user.desarrollo}`;
+    document.getElementById('f-sales').textContent = user.sales;
+    document.getElementById('f-money').textContent = moneyF.format(user.monto_escrituras);
+    document.getElementById('f-model').textContent = user.topModels[0].name;
 
     initDots();
 }
 
-// Navegación Swipe
 function nextScreen() {
-    const screens = document.querySelectorAll('.screen:not(.coord-only)');
+    const screens = document.querySelectorAll('.screen');
     if (current < screens.length - 1) {
         screens[current].classList.add('past');
         screens[current].classList.remove('active');
@@ -81,16 +61,16 @@ function nextScreen() {
 function initDots() {
     const container = document.getElementById('navigation-dots');
     container.innerHTML = '';
-    const activeScreens = document.querySelectorAll('.screen:not(.coord-only)');
-    activeScreens.forEach((_, i) => { if(i>0) container.innerHTML += '<div class="dot"></div>'; });
-    updateDots();
+    document.querySelectorAll('.screen').forEach((_, i) => {
+        if(i > 0) container.innerHTML += `<div class="dot ${i === current ? 'active' : ''}"></div>`;
+    });
 }
 
 function updateDots() {
-    const dots = document.querySelectorAll('.dot');
-    dots.forEach((d, i) => d.classList.toggle('active', i === current - 1));
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current - 1));
 }
 
+// Swipe y Exportación
 let startY = 0;
 document.addEventListener('touchstart', e => startY = e.touches[0].clientY);
 document.addEventListener('touchend', e => {
@@ -99,10 +79,13 @@ document.addEventListener('touchend', e => {
 });
 
 document.getElementById('exportBtn').onclick = () => {
-    html2canvas(document.getElementById('story-final-screen'), { scale: 2 }).then(canvas => {
+    const btn = document.getElementById('exportBtn');
+    btn.style.display = 'none'; // Ocultar botón en la captura
+    html2canvas(document.getElementById('story-final'), { backgroundColor: '#000', scale: 2 }).then(canvas => {
         const link = document.createElement('a');
-        link.download = `Wrapped2024_${currentUser.name}.png`;
+        link.download = `Wrapped_${currentUser.name}.png`;
         link.href = canvas.toDataURL();
         link.click();
+        btn.style.display = 'block';
     });
 };
