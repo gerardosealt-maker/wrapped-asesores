@@ -7,88 +7,81 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="bg-glow"></div>
     <audio id="music" src="music.mp3" loop></audio>
+
     <main id="app">
-        <section class="screen active" id="screen-0">
-            <div id="brandHeader"></div>
-            <h1 style="font-size: 40px; font-weight: 900;">2024<br>WRAPPED</h1>
-            <input id="agentInput" placeholder="Tu ID de Asesor" />
-            <button id="startBtn" disabled>COMENZAR</button>
+        <section class="screen active" id="login">
+            <div id="brandLogo"></div>
+            <h1>TU 2025<br>EN RESUMEN</h1>
+            <input id="agentInput" placeholder="Ingresa tu ID" />
+            <button id="startBtn" disabled>VER MI EXPERIENCIA</button>
         </section>
 
         <section class="screen">
-            <p class="label">Hola,</p>
-            <p class="metric-big" id="userName" style="font-size: 40px;"></p>
-            <p class="story-text" id="userIntro"></p>
+            <p class="label">¡Hola!</p>
+            <p class="metric-huge" id="u-name" style="font-size: 42px;"></p>
+            <p class="story-text" id="u-intro"></p>
         </section>
 
         <section class="screen advisor-only">
-            <p class="label">El inicio de todo</p>
-            <p class="metric-big" id="p-prospects"></p>
-            <p class="story-text">Prospectos atendidos. Cada uno una historia diferente.</p>
+            <p class="label">Oportunidades</p>
+            <p class="metric-huge" id="p-prospects"></p>
+            <p class="story-text">Prospectos que confiaron en tu atención este año.</p>
         </section>
 
         <section class="screen advisor-only">
-            <p class="label">Presencia</p>
-            <p class="metric-big" id="p-visits"></p>
-            <p class="story-text">Visitas logradas. Aquí es donde la magia ocurre.</p>
+            <p class="label">Conexiones</p>
+            <p class="metric-huge" id="p-visits"></p>
+            <p class="story-text">Visitas realizadas. Donde los proyectos se vuelven realidad.</p>
         </section>
 
         <section class="screen advisor-only">
-            <p class="label">Resultados</p>
-            <p class="metric-big" id="p-sales"></p>
-            <p class="story-text">Ventas cerradas. Tu esfuerzo rindiendo frutos.</p>
+            <p class="label">Cierres exitosos</p>
+            <p class="metric-huge" id="p-sales"></p>
+            <p class="story-text">Ventas concretadas. ¡Felicidades por cada una!</p>
         </section>
 
         <section class="screen advisor-only">
-            <p class="label">Impacto Real</p>
-            <p class="metric-big" id="p-deeds"></p>
-            <p class="label">Que equivalen a:</p>
-            <p class="money-big" id="p-money"></p>
+            <p class="label">Impacto Económico</p>
+            <p class="money-text" id="p-money"></p>
+            <div class="glass-card">
+                <p id="p-deeds" style="font-size: 24px; font-weight: 900;"></p>
+                <small>ESCRITURAS TOTALES</small>
+            </div>
         </section>
 
         <section class="screen advisor-only">
-            <p class="label">Tu Nivel de Certeza</p>
-            <p class="metric-big" id="p-accuracy"></p>
-            <p class="story-text">De cada 10 visitas, este es tu porcentaje de éxito.</p>
-        </section>
-
-        <section class="screen advisor-only">
-            <p class="label">Tu Mes Dorado</p>
-            <p class="metric-big" id="p-bestMonth" style="color: var(--accent);"></p>
-            <p class="story-text" id="p-bestMonthStory"></p>
+            <p class="label">Certeza de Cierre</p>
+            <p class="metric-huge" id="p-accuracy" style="color:var(--primary)"></p>
+            <p class="story-text">Este es tu porcentaje de efectividad de venta por cada visita.</p>
         </section>
 
         <section class="screen coord-only">
-            <p class="label">Impacto Global</p>
-            <div class="coord-card">
-                <small>VENTAS EQUIPO</small>
-                <p class="metric-big" id="c-sales" style="font-size: 60px;"></p>
+            <p class="label" id="c-teamName"></p>
+            <div class="glass-card">
+                <p class="metric-huge" id="c-sales" style="font-size: 65px;"></p>
+                <small>VENTAS TOTALES DEL EQUIPO</small>
             </div>
-            <div class="coord-card" style="background: var(--primary); color: #000;">
-                <small>VALOR GENERADO</small>
+            <div class="glass-card" style="background:var(--primary); color:black">
                 <p id="c-money" style="font-size: 28px; font-weight: 900;"></p>
+                <small>MONTO TOTAL DEL DESARROLLO</small>
             </div>
         </section>
 
         <section class="screen coord-only">
-            <p class="label">Talento Destacado</p>
-            <div class="coord-card">
-                <small>EL MÁS CERTERO (Conversion)</small>
-                <p id="c-topAccName" style="color:var(--primary); font-size: 24px; margin: 10px 0;"></p>
-                <p id="c-topAccStats" style="font-size: 14px; opacity: 0.7;"></p>
-            </div>
-            <div class="coord-card">
-                <small>MES MÁS FUERTE DEL EQUIPO</small>
-                <p id="c-bestMonth" style="font-size: 30px; font-weight: 900;"></p>
+            <p class="label">Análisis de Certeza</p>
+            <div class="glass-card">
+                <p class="label" style="color:white; opacity:0.6">EL ASESOR MÁS CERTERO</p>
+                <p id="c-bestAccName" style="font-size: 32px; font-weight: 900; color:var(--primary); margin:10px 0;"></p>
+                <p id="c-bestAccStats" class="story-text" style="font-size: 14px;"></p>
             </div>
         </section>
 
         <section class="screen" id="summary-screen">
-            <p class="label">2024 Resumen</p>
-            <div id="final-stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin: 20px 0;">
-                </div>
-            <button id="exportBtn" style="background: white; color: black; padding: 15px; border-radius: 10px; width: 100%; border: none; font-weight: bold;">GUARDAR IMAGEN</button>
+            <p class="label">Resumen 2025</p>
+            <div id="final-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; margin: 20px 0;"></div>
+            <button id="exportBtn" class="glass-card" style="margin-top:20px; color:white; font-weight: 900;">DESCARGAR CERTIFICADO</button>
         </section>
 
         <div id="navigation-dots"></div>
