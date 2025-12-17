@@ -3,25 +3,18 @@
     "id": "6017", "role": "asesor", "name": "Patricia Almanza", "desarrollo": "Sendas",
     "prospects": 120, "visits": 45, "sales": 11, "totalDeeds": 7, "monto_escrituras": 28500000,
     "cancelaciones": 2, "mejorMes": "Julio", "ventasMejorMes": 4,
-    "topModels": [
-      { "name": "Modelo Roble", "sales": 5 },
-      { "name": "Modelo Fresno", "sales": 4 }
-    ]
+    "topModels": [{"name": "Modelo Roble", "sales": 5}]
   },
   { 
     "id": "7001", "role": "asesor", "name": "Carlos Gomez", "desarrollo": "Meseta",
     "prospects": 95, "visits": 35, "sales": 10, "totalDeeds": 8, "monto_escrituras": 40000000,
     "cancelaciones": 1, "mejorMes": "Marzo", "ventasMejorMes": 3,
-    "topModels": [
-      { "name": "Residencia Plata", "sales": 6 }
-    ]
+    "topModels": [{"name": "Residencia Plata", "sales": 6}]
   },
   { 
     "id": "5544", "role": "asesor", "name": "Laura Flores", "desarrollo": "Acento",
     "prospects": 110, "visits": 40, "sales": 12, "totalDeeds": 10, "monto_escrituras": 50000000,
     "cancelaciones": 0, "mejorMes": "Noviembre", "ventasMejorMes": 5,
-    "topModels": [
-      { "name": "Residencia Zafiro", "sales": 8 }
-    ]
+    "topModels": [{"name": "Residencia Zafiro", "sales": 8}]
   }
 ]
