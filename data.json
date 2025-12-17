@@ -1,24 +1,27 @@
 [
   { 
-    "id": "6017", "role": "asesor", "name": "Patricia Almanza", "desarrollo": "Sadasi",
-    "prospects": 120, "visits": 45, "sales": 9, "totalDeeds": 7, "monto_escrituras": 28500000,
-    "monthlyData": { "Ene": 1, "Feb": 0, "Mar": 2, "Abr": 0, "May": 1, "Jun": 0, "Jul": 3, "Ago": 1, "Sep": 0, "Oct": 1, "Nov": 0, "Dic": 0 },
+    "id": "6017", "role": "asesor", "name": "Patricia Almanza", "desarrollo": "Sendas",
+    "prospects": 120, "visits": 45, "sales": 11, "totalDeeds": 7, "monto_escrituras": 28500000,
+    "cancelaciones": 2, "mejorMes": "Julio", "ventasMejorMes": 4,
     "topModels": [
-      { "name": "Modelo Roble", "sales": 3 },
-      { "name": "Modelo Fresno", "sales": 2 },
-      { "name": "Modelo Pino", "sales": 1 }
+      { "name": "Modelo Roble", "sales": 5 },
+      { "name": "Modelo Fresno", "sales": 4 }
     ]
   },
   { 
-    "id": "7001", "role": "asesor", "name": "Carlos Gomez", "desarrollo": "Altta",
+    "id": "7001", "role": "asesor", "name": "Carlos Gomez", "desarrollo": "Meseta",
     "prospects": 95, "visits": 35, "sales": 10, "totalDeeds": 8, "monto_escrituras": 40000000,
-    "monthlyData": { "Ene": 2, "Feb": 1, "Mar": 3, "Abr": 1, "May": 1, "Jun": 0, "Jul": 1, "Ago": 1, "Sep": 0, "Oct": 0, "Nov": 1, "Dic": 0 },
+    "cancelaciones": 1, "mejorMes": "Marzo", "ventasMejorMes": 3,
     "topModels": [
-      { "name": "Residencia Plata", "sales": 4 },
-      { "name": "Residencia Oro", "sales": 3 },
-      { "name": "Residencia Diamante", "sales": 2 }
+      { "name": "Residencia Plata", "sales": 6 }
     ]
   },
-  { "id": "COORD-SADASI", "role": "coordinador", "name": "Gerardo Ruiz", "desarrollo": "Sadasi" },
-  { "id": "COORD-ALTTA", "role": "coordinador", "name": "Elena Peña", "desarrollo": "Altta" }
+  { 
+    "id": "5544", "role": "asesor", "name": "Laura Flores", "desarrollo": "Acento",
+    "prospects": 110, "visits": 40, "sales": 12, "totalDeeds": 10, "monto_escrituras": 50000000,
+    "cancelaciones": 0, "mejorMes": "Noviembre", "ventasMejorMes": 5,
+    "topModels": [
+      { "name": "Residencia Zafiro", "sales": 8 }
+    ]
+  }
 ]
