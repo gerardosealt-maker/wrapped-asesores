@@ -3,26 +3,12 @@ const screens = document.querySelectorAll('.screen');
 const music = document.getElementById('music');
 const money = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 
-fetch('./data.json')
-  .then(r => r.json())
-  .then(j => {
-      data = j;
-      document.getElementById('agentInput').oninput = (e) => {
-          document.getElementById('startBtn').disabled = e.target.value.length < 3;
-      };
-  });
-
-function findBestMonth(monthlyData) {
-    if(!monthlyData) return { name: "N/A", score: 0 };
-    let best = { name: '', score: -1 };
-    for (const [month, stats] of Object.entries(monthlyData)) {
-        const score = (stats.sales * 3) + (stats.deeds * 5);
-        if (score > best.score) {
-            best = { name: month, score: score, sales: stats.sales, deeds: stats.deeds };
-        }
-    }
-    return best;
-}
+fetch('./data.json').then(r => r.json()).then(j => {
+    data = j;
+    document.getElementById('agentInput').oninput = (e) => {
+        document.getElementById('startBtn').disabled = e.target.value.length < 3;
+    };
+});
 
 document.getElementById('startBtn').onclick = () => {
     const id = document.getElementById('agentInput').value.trim();
@@ -30,21 +16,28 @@ document.getElementById('startBtn').onclick = () => {
     if (!currentUser) return alert("ID no encontrado");
 
     setupBrand(currentUser.desarrollo);
-    
+
     if (currentUser.role === 'asesor') {
+        const accuracy = ((currentUser.sales / currentUser.appointments) * 100).toFixed(0);
         const best = findBestMonth(currentUser.monthlyData);
-        document.getElementById('welcome').textContent = `¡Hola, ${currentUser.name}!`;
-        document.getElementById('roleTitle').textContent = `Asesor de ${currentUser.desarrollo}`;
-        document.getElementById('bestMonthName').textContent = best.name.toUpperCase();
-        document.getElementById('bestMonthCopy').textContent = `En ${best.name} lograste ${best.sales} ventas. ¡Tu mejor momento del año!`;
-        document.getElementById('moneyValue').textContent = money.format(currentUser.monto_escrituras);
+
+        document.getElementById('welcome').textContent = currentUser.name;
+        document.getElementById('roleTitle').textContent = `ASESOR ${currentUser.desarrollo}`;
+        document.getElementById('introCopy').textContent = "Tu dedicación construyó el camino al éxito.";
         
+        // Asignación de valores
+        document.getElementById('prospectsNum').textContent = currentUser.prospects;
+        document.getElementById('accuracyNum').textContent = accuracy + "%";
+        document.getElementById('bestMonthName').textContent = best.name.toUpperCase();
+        document.getElementById('bestMonthCopy').textContent = `En ${best.name} lograste tu máximo de cierres.`;
+        document.getElementById('moneyValue').textContent = money.format(currentUser.monto_escrituras);
+        document.getElementById('cancelNum').textContent = currentUser.cancelaciones;
+
         document.querySelectorAll('.coord-only').forEach(el => el.remove());
         
         document.getElementById('finalMetrics').innerHTML = `
-            <div class="summary-card"><p>${currentUser.sales}</p><small>Ventas</small></div>
-            <div class="summary-card"><p>${best.name}</p><small>Mejor Mes</small></div>
-            <div class="summary-card"><p>${((currentUser.sales/currentUser.appointments)*100).toFixed(0)}%</p><small>Certeza</small></div>
+            <div class="glass-card"><p style="font-size:24px; color:var(--primary)">${currentUser.sales}</p><small>VENTAS</small></div>
+            <div class="glass-card"><p style="font-size:24px; color:var(--primary)">${accuracy}%</p><small>CERTEZA</small></div>
         `;
     } else {
         setupCoordinator(currentUser);
@@ -54,54 +47,51 @@ document.getElementById('startBtn').onclick = () => {
 
 function setupCoordinator(coord) {
     const team = data.filter(u => u.role === 'asesor' && u.desarrollo === coord.desarrollo);
-    document.getElementById('teamName').textContent = `Liderando ${coord.desarrollo}`;
-    document.getElementById('welcome').textContent = coord.name;
-    document.getElementById('roleTitle').textContent = `Coord. de ${coord.desarrollo}`;
-    document.getElementById('introCopy').textContent = "Tu visión guió al equipo hacia resultados extraordinarios.";
-
     const tSales = team.reduce((s, a) => s + a.sales, 0);
-    const tDeeds = team.reduce((s, a) => s + a.totalDeeds, 0);
     const tMoney = team.reduce((s, a) => s + a.monto_escrituras, 0);
 
+    document.getElementById('welcome').textContent = coord.name;
+    document.getElementById('roleTitle').textContent = `LÍDER ${coord.desarrollo}`;
+    document.getElementById('teamName').textContent = `EQUIPO ${coord.desarrollo}`;
     document.getElementById('teamSales').textContent = tSales;
-    document.getElementById('teamDeeds').textContent = tDeeds;
     document.getElementById('teamMoney').textContent = money.format(tMoney);
 
-    // --- CÁLCULO MES FUERTE DEL EQUIPO ---
+    // Mes Fuerte Equipo
     const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
     let teamBest = { name: '', score: -1 };
-
     months.forEach(m => {
-        let monthTotal = team.reduce((sum, a) => sum + (a.monthlyData[m]?.sales || 0), 0);
-        if (monthTotal > teamBest.score) {
-            teamBest = { name: m, score: monthTotal };
-        }
+        let mSum = team.reduce((sum, a) => sum + (a.monthlyData[m]?.sales || 0), 0);
+        if(mSum > teamBest.score) teamBest = { name: m, score: mSum };
     });
     document.getElementById('teamBestMonth').textContent = teamBest.name.toUpperCase();
-    document.getElementById('teamMonthCopy').textContent = `En ${teamBest.name}, tu equipo cerró ${teamBest.score} ventas en conjunto.`;
 
-    // Certeza MVP
-    let bestAcc = -1, accurateA = team[0], topS = team[0];
+    // Certeza
+    let bestAcc = -1, accurateA = team[0];
     team.forEach(a => {
-        const acc = a.sales / a.appointments;
-        if (acc > bestAcc) { bestAcc = acc; accurateA = a; }
-        if (a.sales > topS.sales) topS = a;
+        let acc = a.sales / a.appointments;
+        if(acc > bestAcc) { bestAcc = acc; accurateA = a; }
     });
-
     document.getElementById('topAccuracyName').textContent = accurateA.name;
-    document.getElementById('topAccuracyStats').textContent = `Eficiencia de cierre: ${(bestAcc*100).toFixed(0)}%`;
-    document.getElementById('topSalesName').textContent = topS.name;
+    document.getElementById('topAccuracyStats').textContent = `Cerró el ${(bestAcc*100).toFixed(0)}% de sus citas.`;
 
     document.querySelectorAll('.advisor-only').forEach(el => el.remove());
     document.getElementById('finalMetrics').innerHTML = `
-        <div class="summary-card"><p>${tSales}</p><small>Ventas Equipo</small></div>
-        <div class="summary-card"><p>${teamBest.name}</p><small>Pico de Operación</small></div>
+        <div class="glass-card"><p style="font-size:24px; color:var(--primary)">${tSales}</p><small>TOTAL VENTAS</small></div>
+        <div class="glass-card"><p style="font-size:24px; color:var(--primary)">${teamBest.name}</p><small>MES PICO</small></div>
     `;
 }
 
+function findBestMonth(m) {
+    let b = {name: 'Ene', score: -1};
+    for (let k in m) {
+        if(m[k].sales > b.score) b = {name: k, score: m[k].sales};
+    }
+    return b;
+}
+
 function setupBrand(des) {
-    const logoUrl = (des === 'Sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
-    document.getElementById('brandHeader').innerHTML = `<img src="${logoUrl}" style="max-height: 50px; margin-bottom: 20px;">`;
+    const img = (des === 'Sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
+    document.getElementById('brandHeader').innerHTML = `<img src="${img}" style="max-height: 40px; margin-bottom: 20px;">`;
 }
 
 function startExperience() {
@@ -113,29 +103,27 @@ function startExperience() {
 }
 
 function initDots() {
-    const dotsCont = document.getElementById('navigation-dots');
-    dotsCont.innerHTML = '';
-    const activeScreens = document.querySelectorAll('.screen');
-    activeScreens.forEach((_, i) => {
+    const cont = document.getElementById('navigation-dots');
+    cont.innerHTML = '';
+    document.querySelectorAll('.screen').forEach((_, i) => {
         if(i === 0) return;
-        const d = document.createElement('div');
+        let d = document.createElement('div');
         d.className = 'dot';
-        dotsCont.appendChild(d);
+        cont.appendChild(d);
     });
     updateDots();
 }
 
 function updateDots() {
-    const ds = document.querySelectorAll('.dot');
-    ds.forEach((d, i) => d.classList.toggle('active', i === current - 1));
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current - 1));
 }
 
 function next() {
-    const activeScreens = document.querySelectorAll('.screen');
-    if (current < activeScreens.length - 1) {
-        activeScreens[current].classList.remove('active');
+    const active = document.querySelectorAll('.screen');
+    if (current < active.length - 1) {
+        active[current].classList.remove('active');
         current++;
-        activeScreens[current].classList.add('active');
+        active[current].classList.add('active');
         updateDots();
     }
 }
@@ -143,15 +131,12 @@ function next() {
 let startY = 0;
 document.addEventListener('touchstart', e => startY = e.touches[0].clientY);
 document.addEventListener('touchend', e => {
-    const delta = startY - e.changedTouches[0].clientY;
-    if (delta > 50) next();
+    if (startY - e.changedTouches[0].clientY > 50) next();
 });
 
 document.getElementById('exportBtn').onclick = () => {
-    html2canvas(document.querySelector('.summary-screen'), { backgroundColor: '#121212' }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Wrapped2024_${currentUser.name}.png`;
-        link.href = canvas.toDataURL();
-        link.click();
+    html2canvas(document.querySelector('.summary-screen'), { backgroundColor: '#000' }).then(canvas => {
+        let a = document.createElement('a');
+        a.download = 'Wrapped2024.png'; a.href = canvas.toDataURL(); a.click();
     });
 };
