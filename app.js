@@ -13,18 +13,16 @@ document.getElementById('startBtn').onclick = () => {
 
 function getDynamicContent(u) {
     let phrases = {
-        prospects: "Cada nombre fue una oportunidad perseguida con pasión.",
         cancels: "No todas las batallas se ganan, pero tú seguiste adelante.",
         elite: "FUERZA DE VENTAS 2025"
     };
 
-    if (u.prospects > 140) phrases.prospects = "¡Máquina de prospección! Tu energía no tuvo límites.";
-    if (u.cancelaciones === 0) phrases.cancels = "¡Imbatible! Mantuviste tu cartera perfecta este año.";
+    if (u.cancelaciones === 0) phrases.cancels = "¡Imbatible! Mantuviste tu cartera intacta este año.";
 
     // Lógica de Status Élite
     if (u.role === 'asesor') {
-        if (u.sales >= 15 || u.monto_escrituras > 60000000) phrases.elite = "TOP 2% DE ASESORES ÉLITE";
-        else if (u.sales >= 10) phrases.elite = "TOP 10% DE ALTO RENDIMIENTO";
+        if (u.sales >= 15 || u.monto_escrituras > 60000000) phrases.elite = "TOP 2% ASESOR ÉLITE";
+        else if (u.sales >= 10) phrases.elite = "TOP 10% ALTO RENDIMIENTO";
     } else {
         phrases.elite = "LIDERAZGO DE IMPACTO 2025";
     }
@@ -47,7 +45,6 @@ function renderValues(u) {
     const dyn = getDynamicContent(u);
     document.querySelectorAll('.u-photo').forEach(img => img.src = `${u.name}.jpg`);
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
-    document.getElementById('p-prospects-txt').textContent = dyn.prospects;
     document.getElementById('p-cancels-txt').textContent = dyn.cancels;
     document.getElementById('p-status-tag').textContent = dyn.elite;
     document.getElementById('f-dev-label').textContent = `${u.role.toUpperCase()} | ${u.desarrollo.toUpperCase()}`;
@@ -60,22 +57,25 @@ function renderValues(u) {
         document.getElementById('u-topModel').textContent = u.topModel;
         document.getElementById('u-sales').textContent = u.sales;
         document.getElementById('u-deeds').textContent = u.deeds;
+        document.getElementById('u-monto').textContent = moneyF.format(u.monto_escrituras);
+        
+        // Tarjeta final
         document.getElementById('f-val1').textContent = u.sales;
         document.getElementById('f-val2').textContent = u.deeds;
         document.getElementById('f-val3').textContent = moneyF.format(u.monto_escrituras);
     } else {
-        document.getElementById('model-label').textContent = "Modelo del Desarrollo";
+        // Lógica Coordinador
         document.getElementById('u-prospects').textContent = u.equipoSales;
         document.getElementById('u-citas').textContent = u.eficienciaEquipo;
-        document.getElementById('u-visits').textContent = "Meta Cumplida";
+        document.getElementById('u-visits').textContent = "Resultados Equipo";
         document.getElementById('u-cancels').textContent = u.equipoCancelaciones;
         document.getElementById('u-topModel').textContent = u.modeloEstrella;
         document.getElementById('u-sales').textContent = u.equipoSales;
         document.getElementById('u-deeds').textContent = u.asesorEstrella;
-        document.getElementById('f-lbl1').textContent = "Ventas Eq.";
+        document.getElementById('u-monto').textContent = moneyF.format(u.equipoMonto);
+        
         document.getElementById('f-val1').textContent = u.equipoSales;
-        document.getElementById('f-lbl2').textContent = "Estrella";
-        document.getElementById('f-val2').textContent = u.asesorEstrella;
+        document.getElementById('f-val2').textContent = u.asesorEstrella; // En "Escrituras" ponemos el Asesor Estrella en el resumen del coord
         document.getElementById('f-val3').textContent = moneyF.format(u.equipoMonto);
     }
 }
@@ -120,7 +120,7 @@ zones.onmouseup = () => { resetTimer(); document.querySelector('.progress-bar.ac
 document.getElementById('exportBtn').onclick = function() {
     html2canvas(document.getElementById('capture-area'), { backgroundColor: "#000", scale: 2 }).then(canvas => {
         const link = document.createElement('a');
-        link.download = `Wrapped2025_${currentUser.name}.png`;
+        link.download = `Mi2025_${currentUser.name}.png`;
         link.href = canvas.toDataURL();
         link.click();
     });
