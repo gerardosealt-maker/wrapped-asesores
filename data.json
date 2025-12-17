@@ -9,15 +9,5 @@
         "Oct": {"sales":1,"deeds":1}, "Nov": {"sales":0,"deeds":0}, "Dic": {"sales":1,"deeds":1}
     }
   },
-  { 
-    "id": "6330", "role": "asesor", "name": "Maria Zuñiga", "desarrollo": "Sendas",
-    "prospects": 45, "appointments": 15, "sales": 8, "cancelaciones": 1, "totalDeeds": 6, "monto_escrituras": 24000000,
-    "monthlyData": {
-        "Ene": {"sales":2,"deeds":1}, "Feb": {"sales":1,"deeds":1}, "Mar": {"sales":0,"deeds":0}, 
-        "Abr": {"sales":1,"deeds":1}, "May": {"sales":0,"deeds":0}, "Jun": {"sales":2,"deeds":1}, 
-        "Jul": {"sales":1,"deeds":0}, "Ago": {"sales":0,"deeds":0}, "Sep": {"sales":0,"deeds":0}, 
-        "Oct": {"sales":0,"deeds":0}, "Nov": {"sales":0,"deeds":0}, "Dic": {"sales":1,"deeds":1}
-    }
-  },
   { "id": "COORD-SENDAS", "role": "coordinador", "name": "Gerardo Ruiz", "desarrollo": "Sendas" }
 ]
