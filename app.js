@@ -1,11 +1,16 @@
 let data, current = 0, currentUser;
-const screens = document.querySelectorAll('.screen');
-const music = document.getElementById('music');
-const money = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
+const moneyF = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
+
+// Frases aleatorias para dar variedad
+const introsAsesor = [
+    "Un año de transformar miedos en firmas.",
+    "Cada llave entregada fue un sueño cumplido.",
+    "Hiciste que el 2024 fuera inolvidable."
+];
 
 fetch('./data.json').then(r => r.json()).then(j => {
     data = j;
-    document.getElementById('agentInput').oninput = (e) => {
+    document.getElementById('agentInput').oninput = e => {
         document.getElementById('startBtn').disabled = e.target.value.length < 3;
     };
 });
@@ -15,101 +20,100 @@ document.getElementById('startBtn').onclick = () => {
     currentUser = data.find(u => u.id === id);
     if (!currentUser) return alert("ID no encontrado");
 
-    setupBrand(currentUser.desarrollo);
+    setupExperience(currentUser);
+    document.getElementById('music').play().catch(()=>{});
+    nextScreen();
+};
 
-    if (currentUser.role === 'asesor') {
-        const accuracy = ((currentUser.sales / currentUser.appointments) * 100).toFixed(0);
-        const best = findBestMonth(currentUser.monthlyData);
+function setupExperience(user) {
+    document.getElementById('userName').textContent = user.name;
+    const logoUrl = (user.desarrollo === 'Sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
+    document.getElementById('brandHeader').innerHTML = `<img src="${logoUrl}" style="max-height: 40px; margin-bottom: 20px;">`;
 
-        document.getElementById('welcome').textContent = currentUser.name;
-        document.getElementById('roleTitle').textContent = `ASESOR ${currentUser.desarrollo}`;
-        document.getElementById('introCopy').textContent = "Tu dedicación construyó el camino al éxito.";
+    if (user.role === 'asesor') {
+        document.getElementById('userIntro').textContent = introsAsesor[Math.floor(Math.random()*introsAsesor.length)];
+        document.getElementById('p-prospects').textContent = user.prospects;
+        document.getElementById('p-visits').textContent = user.visits;
+        document.getElementById('p-sales').textContent = user.sales;
+        document.getElementById('p-deeds').textContent = user.totalDeeds;
+        document.getElementById('p-money').textContent = moneyF.format(user.monto_escrituras);
         
-        // Asignación de valores
-        document.getElementById('prospectsNum').textContent = currentUser.prospects;
-        document.getElementById('accuracyNum').textContent = accuracy + "%";
-        document.getElementById('bestMonthName').textContent = best.name.toUpperCase();
-        document.getElementById('bestMonthCopy').textContent = `En ${best.name} lograste tu máximo de cierres.`;
-        document.getElementById('moneyValue').textContent = money.format(currentUser.monto_escrituras);
-        document.getElementById('cancelNum').textContent = currentUser.cancelaciones;
+        const acc = ((user.sales / user.visits) * 100).toFixed(0);
+        document.getElementById('p-accuracy').textContent = acc + "%";
+
+        // Mejor Mes
+        let best = {m: 'Ene', v: -1};
+        for(let m in user.monthlyData) {
+            if(user.monthlyData[m].sales > best.v) best = {m, v: user.monthlyData[m].sales};
+        }
+        document.getElementById('p-bestMonth').textContent = best.m.toUpperCase();
+        document.getElementById('p-bestMonthStory').textContent = `En ${best.m} lograste ${best.v} cierres. ¡Fuiste imparable!`;
 
         document.querySelectorAll('.coord-only').forEach(el => el.remove());
         
-        document.getElementById('finalMetrics').innerHTML = `
-            <div class="glass-card"><p style="font-size:24px; color:var(--primary)">${currentUser.sales}</p><small>VENTAS</small></div>
-            <div class="glass-card"><p style="font-size:24px; color:var(--primary)">${accuracy}%</p><small>CERTEZA</small></div>
+        // Resumen final
+        document.getElementById('final-stats-grid').innerHTML = `
+            <div class="coord-card"><small>VENTAS</small><p>${user.sales}</p></div>
+            <div class="coord-card"><small>MONTO</small><p style="font-size:14px">${moneyF.format(user.monto_escrituras)}</p></div>
         `;
     } else {
-        setupCoordinator(currentUser);
+        // Lógica Coordinador
+        const team = data.filter(u => u.role === 'asesor' && u.desarrollo === user.desarrollo);
+        const tSales = team.reduce((s, a) => s + a.sales, 0);
+        const tMoney = team.reduce((s, a) => s + a.monto_escrituras, 0);
+
+        document.getElementById('userIntro').textContent = "Liderar es inspirar. Mira lo que lograste con tu equipo.";
+        document.getElementById('c-sales').textContent = tSales;
+        document.getElementById('c-money').textContent = moneyF.format(tMoney);
+
+        // Certeza equipo
+        let bAcc = -1, topA = team[0];
+        team.forEach(a => {
+            let ac = a.sales / a.visits;
+            if(ac > bAcc) { bAcc = ac; topA = a; }
+        });
+        document.getElementById('c-topAccName').textContent = topA.name;
+        document.getElementById('c-topAccStats').textContent = `Efectividad de cierre: ${(bAcc*100).toFixed(0)}%`;
+
+        document.querySelectorAll('.advisor-only').forEach(el => el.remove());
+        document.getElementById('final-stats-grid').innerHTML = `
+            <div class="coord-card"><small>EQUIPO</small><p>${tSales}</p></div>
+            <div class="coord-card"><small>VALOR</small><p style="font-size:12px">${moneyF.format(tMoney)}</p></div>
+        `;
     }
-    startExperience();
-};
-
-function setupCoordinator(coord) {
-    const team = data.filter(u => u.role === 'asesor' && u.desarrollo === coord.desarrollo);
-    const tSales = team.reduce((s, a) => s + a.sales, 0);
-    const tMoney = team.reduce((s, a) => s + a.monto_escrituras, 0);
-
-    document.getElementById('welcome').textContent = coord.name;
-    document.getElementById('roleTitle').textContent = `LÍDER ${coord.desarrollo}`;
-    document.getElementById('teamName').textContent = `EQUIPO ${coord.desarrollo}`;
-    document.getElementById('teamSales').textContent = tSales;
-    document.getElementById('teamMoney').textContent = money.format(tMoney);
-
-    // Mes Fuerte Equipo
-    const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-    let teamBest = { name: '', score: -1 };
-    months.forEach(m => {
-        let mSum = team.reduce((sum, a) => sum + (a.monthlyData[m]?.sales || 0), 0);
-        if(mSum > teamBest.score) teamBest = { name: m, score: mSum };
-    });
-    document.getElementById('teamBestMonth').textContent = teamBest.name.toUpperCase();
-
-    // Certeza
-    let bestAcc = -1, accurateA = team[0];
-    team.forEach(a => {
-        let acc = a.sales / a.appointments;
-        if(acc > bestAcc) { bestAcc = acc; accurateA = a; }
-    });
-    document.getElementById('topAccuracyName').textContent = accurateA.name;
-    document.getElementById('topAccuracyStats').textContent = `Cerró el ${(bestAcc*100).toFixed(0)}% de sus citas.`;
-
-    document.querySelectorAll('.advisor-only').forEach(el => el.remove());
-    document.getElementById('finalMetrics').innerHTML = `
-        <div class="glass-card"><p style="font-size:24px; color:var(--primary)">${tSales}</p><small>TOTAL VENTAS</small></div>
-        <div class="glass-card"><p style="font-size:24px; color:var(--primary)">${teamBest.name}</p><small>MES PICO</small></div>
-    `;
-}
-
-function findBestMonth(m) {
-    let b = {name: 'Ene', score: -1};
-    for (let k in m) {
-        if(m[k].sales > b.score) b = {name: k, score: m[k].sales};
-    }
-    return b;
-}
-
-function setupBrand(des) {
-    const img = (des === 'Sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
-    document.getElementById('brandHeader').innerHTML = `<img src="${img}" style="max-height: 40px; margin-bottom: 20px;">`;
-}
-
-function startExperience() {
-    screens[0].classList.remove('active');
-    current = 1;
-    screens[current].classList.add('active');
-    music.play().catch(()=>{});
     initDots();
 }
 
+function nextScreen() {
+    const screens = document.querySelectorAll('.screen');
+    if (current < screens.length - 1) {
+        screens[current].classList.add('past');
+        screens[current].classList.remove('active');
+        current++;
+        screens[current].classList.add('active');
+        updateDots();
+    }
+}
+
+function prevScreen() {
+    const screens = document.querySelectorAll('.screen');
+    if (current > 1) {
+        screens[current].classList.remove('active');
+        current--;
+        screens[current].classList.remove('past');
+        screens[current].classList.add('active');
+        updateDots();
+    }
+}
+
 function initDots() {
-    const cont = document.getElementById('navigation-dots');
-    cont.innerHTML = '';
-    document.querySelectorAll('.screen').forEach((_, i) => {
+    const container = document.getElementById('navigation-dots');
+    const activeScreens = document.querySelectorAll('.screen');
+    activeScreens.forEach((_, i) => {
         if(i === 0) return;
-        let d = document.createElement('div');
-        d.className = 'dot';
-        cont.appendChild(d);
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        container.appendChild(dot);
     });
     updateDots();
 }
@@ -118,25 +122,20 @@ function updateDots() {
     document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current - 1));
 }
 
-function next() {
-    const active = document.querySelectorAll('.screen');
-    if (current < active.length - 1) {
-        active[current].classList.remove('active');
-        current++;
-        active[current].classList.add('active');
-        updateDots();
-    }
-}
-
+// Swipe Vertical
 let startY = 0;
 document.addEventListener('touchstart', e => startY = e.touches[0].clientY);
 document.addEventListener('touchend', e => {
-    if (startY - e.changedTouches[0].clientY > 50) next();
+    const delta = startY - e.changedTouches[0].clientY;
+    if (delta > 50) nextScreen(); // Swipe arriba -> siguiente
+    if (delta < -50) prevScreen(); // Swipe abajo -> anterior
 });
 
 document.getElementById('exportBtn').onclick = () => {
-    html2canvas(document.querySelector('.summary-screen'), { backgroundColor: '#000' }).then(canvas => {
-        let a = document.createElement('a');
-        a.download = 'Wrapped2024.png'; a.href = canvas.toDataURL(); a.click();
+    html2canvas(document.getElementById('summary-screen'), { backgroundColor: '#000' }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'MiResumen2024.png';
+        link.href = canvas.toDataURL();
+        link.click();
     });
 };
