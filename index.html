@@ -18,59 +18,63 @@
     <main id="app">
         <section class="screen active" id="login">
             <h1 style="font-size: 42px; font-weight: 900;">MI 2025<br><span style="color:var(--accent)">WRAPPED.</span></h1>
-            <input id="agentInput" placeholder="Introduce tu ID" style="background:none; border:none; border-bottom:2px solid #333; color:white; font-size:22px; text-align:center; margin:40px 0; outline:none; width:80%;">
-            <button id="startBtn">EMPEZAR</button>
+            <input id="agentInput" placeholder="ID de Asesor" style="background:none; border:none; border-bottom:2px solid #333; color:white; font-size:24px; text-align:center; margin:50px 0; outline:none; width:80%;">
+            <button id="startBtn">DESCUBRIR</button>
         </section>
 
         <section class="screen story">
-            <img id="u-photo-intro" class="advisor-photo">
+            <img class="advisor-photo u-photo">
             <p class="label">El 2025 fue tuyo,</p>
-            <h2 id="u-name" style="font-size: 32px; font-weight: 900;"></h2>
+            <h2 class="u-name-display" style="font-size: 34px; font-weight: 900;"></h2>
         </section>
 
         <section class="screen story">
-            <p class="label">El camino al éxito</p>
+            <p class="label">El inicio de todo</p>
+            <h2 class="huge-num" id="u-prospects"></h2>
+            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px;">PROSPECTOS ATENDIDOS</p>
+            <p style="margin-top:40px; font-style:italic; opacity:0.8">"Cada contacto fue una semilla para el éxito."</p>
+        </section>
+
+        <section class="screen story">
+            <p class="label">Tu labor de campo</p>
             <div class="metrics-grid">
-                <div class="metric-box"><h3 id="u-prospects"></h3><p>Prospectos</p></div>
-                <div class="metric-box"><h3 id="u-citas"></h3><p>Citas</p></div>
-                <div class="metric-box"><h3 id="u-visits"></h3><p>Visitas</p></div>
-                <div class="metric-box"><h3 id="u-cancels" style="color:#ff4b4b"></h3><p>Cancelaciones</p></div>
+                <div class="metric-box"><h3 id="u-citas"></h3><p>Citas Agendadas</p></div>
+                <div class="metric-box"><h3 id="u-visits"></h3><p>Visitas Reales</p></div>
             </div>
-            <p style="margin-top:20px; font-style:italic; font-size:12px;">"La resiliencia separa a los buenos de los mejores."</p>
+            <p style="margin-top:40px; font-weight: 700;">Transformaste el interés en compromiso.</p>
         </section>
 
         <section class="screen story">
-            <p class="label">Dominio del Producto</p>
-            <p style="margin-bottom:20px;" id="model-text"></p>
-            <div class="glass" style="padding:40px; border: 2px solid var(--accent);">
-                <h2 id="u-topModel" style="font-size:32px; color:var(--accent); font-weight:900;"></h2>
-            </div>
+            <p class="label">Obstáculos superados</p>
+            <h2 class="huge-num" id="u-cancels" style="color:#ff4b4b"></h2>
+            <p style="font-size: 18px; font-weight: 900; letter-spacing: 2px; color:#ff4b4b">CANCELACIONES</p>
+            <p style="margin-top:40px; font-style:italic; opacity:0.8">"No todas las batallas se ganan, pero tú seguiste adelante."</p>
         </section>
 
         <section class="screen story">
-            <p class="label">Impacto Real</p>
+            <p class="label" id="model-label">Tu Ganador</p>
+            <div class="glass" style="padding:35px; margin: 25px 0;">
+                <h2 id="u-topModel" style="font-size:30px; color:var(--accent); font-weight:900;"></h2>
+            </div>
             <div class="metrics-grid">
                 <div class="metric-box"><h3 id="u-sales"></h3><p>Ventas</p></div>
                 <div class="metric-box"><h3 id="u-deeds"></h3><p>Escrituras</p></div>
             </div>
-            <h2 id="u-monto" style="font-size:32px; margin-top:30px; font-weight:900;"></h2>
-            <p class="label" style="font-size:9px; margin-top:10px">Valor total escriturado</p>
         </section>
 
         <section class="screen story" id="story-final">
             <div id="capture-area">
-                <img id="brandLogo" style="max-height: 30px; margin-bottom: 20px;">
-                <img id="u-photo-final" class="advisor-photo" style="width: 100px; height: 100px;">
-                <h2 id="f-name" style="font-size: 24px; font-weight: 900;"></h2>
-                <p id="f-dev-label" class="label" style="font-size: 10px; margin-bottom: 20px;"></p>
+                <img id="brandLogo" style="max-height: 28px; margin-bottom: 25px;">
+                <img class="advisor-photo u-photo" style="width: 110px; height: 110px;">
+                <h2 class="u-name-display" style="font-size: 26px; font-weight: 900; margin-bottom: 5px;"></h2>
+                <p id="f-dev-label" class="label" style="font-size: 10px; margin-bottom: 25px;"></p>
                 <div class="metrics-grid">
-                    <div class="metric-box"><p id="f-lbl1">Ventas</p><h3 id="f-val1"></h3></div>
-                    <div class="metric-box"><p id="f-lbl2">Escrituras</p><h3 id="f-val2"></h3></div>
-                    <div class="metric-box" style="grid-column: span 2;"><p>Monto Proyectado</p><h3 id="f-val3" style="font-size:22px;"></h3></div>
+                    <div class="metric-box" style="padding:12px;"><p id="f-lbl1">Ventas</p><h3 id="f-val1" style="font-size:26px;"></h3></div>
+                    <div class="metric-box" style="padding:12px;"><p id="f-lbl2">Escrituras</p><h3 id="f-val2" style="font-size:26px;"></h3></div>
+                    <div class="metric-box" style="grid-column: span 2;"><p>Patrimonio Generado 2025</p><h3 id="f-val3" style="font-size:22px;"></h3></div>
                 </div>
-                <p style="margin-top: 15px; font-size: 8px; opacity: 0.5;">WRAPPED 2025 • GRUPO SADASI</p>
             </div>
-            <button id="exportBtn">DESCARGAR RESUMEN</button>
+            <button id="exportBtn">COMPARTIR MI 2025</button>
         </section>
     </main>
 
