@@ -1,47 +1,79 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
-:root { --accent: #FF8200; --bg: #000; }
+:root {
+    --accent: #FF8200;
+    --bg: #0b0b0b;
+    --card-bg: rgba(255, 255, 255, 0.05);
+}
 
 /* Temas por Desarrollo */
-body[data-dev="sendas"] { --accent: #FF8200; } /* Sadasi Orange */
-body[data-dev="meseta"] { --accent: #00C2FF; } /* Altta Blue */
-body[data-dev="acento"] { --accent: #D4AF37; } /* Gold/Premium */
+body[data-dev="sendas"] { --accent: #FF8200; }
+body[data-dev="meseta"] { --accent: #00A3FF; }
+body[data-dev="acento"] { --accent: #C5A059; }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-body { background: var(--bg); color: white; height: 100vh; overflow: hidden; transition: 0.5s; }
-
-/* Fondo Limpio con Aura */
-.bg-glow {
-  position: fixed; inset: 0; z-index: -1;
-  background: radial-gradient(circle at 50% -20%, var(--accent) 0%, transparent 60%);
-  opacity: 0.2;
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { 
+    background: var(--bg); color: white; font-family: 'Montserrat', sans-serif;
+    height: 100vh; width: 100vw; overflow: hidden; position: fixed;
 }
+
+/* Background Layers */
+.bg-layer {
+    position: fixed; inset: 0; z-index: -1;
+    background: radial-gradient(circle at 50% -10%, var(--accent) 0%, transparent 70%);
+    opacity: 0.15; filter: blur(60px); transition: background 0.8s ease;
+}
+
+main { position: relative; height: 100%; width: 100%; }
 
 .screen {
-  position: absolute; inset: 0; padding: 40px;
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center; opacity: 0; visibility: hidden;
-  transform: scale(0.9); transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    position: absolute; inset: 0; padding: 40px 30px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.screen.active { opacity: 1; visibility: visible; transform: scale(1); }
-.screen.past { opacity: 0; transform: scale(1.1); }
+.screen.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.screen.past { opacity: 0; transform: translateY(-30px); }
 
-/* Tipografía de Alto Impacto */
-.label { color: var(--accent); text-transform: uppercase; font-size: 12px; letter-spacing: 4px; font-weight: 700; margin-bottom: 15px; }
-.metric-huge { font-size: 90px; font-weight: 900; line-height: 0.9; margin: 20px 0; }
-.highlight-box { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); width: 100%; }
+/* Typography */
+.label { color: var(--accent); font-weight: 700; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; }
+.metric-huge { font-size: clamp(70px, 15vw, 100px); font-weight: 900; line-height: 0.8; margin: 15px 0; }
+.sub-text { font-size: 16px; opacity: 0.7; max-width: 280px; line-height: 1.4; }
 
+/* UI Elements */
 .advisor-photo {
-  width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
-  border: 2px solid var(--accent); padding: 5px; margin-bottom: 20px;
+    width: 130px; height: 130px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--accent); padding: 4px; background: var(--bg);
 }
 
-/* Dots de Navegación Vertical */
-#navigation-dots { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; }
-.dot { width: 8px; height: 8px; border: 1px solid var(--accent); border-radius: 50%; transition: 0.4s; }
-.dot.active { background: var(--accent); height: 30px; border-radius: 10px; }
+.highlight-card {
+    background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 25px; width: 100%; margin: 10px 0;
+    backdrop-filter: blur(10px);
+}
 
-/* Botones Estilo Minimal */
-#startBtn { background: white; color: black; border: none; padding: 20px 50px; border-radius: 40px; font-weight: 900; letter-spacing: 1px; cursor: pointer; }
-#exportBtn { background: var(--accent); color: white; border: none; padding: 20px; border-radius: 15px; font-weight: 900; width: 100%; margin-top: 20px; }
+/* Navigation Indicators */
+.story-progress {
+    position: fixed; top: 15px; left: 10px; right: 10px;
+    display: flex; gap: 5px; z-index: 100;
+}
+.progress-bar { 
+    height: 3px; flex: 1; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; 
+}
+.progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s linear; }
+.progress-bar.active .progress-fill { width: 100%; }
+
+/* Buttons & Inputs */
+#agentInput {
+    background: none; border: none; border-bottom: 2px solid rgba(255,255,255,0.2);
+    color: white; font-size: 24px; text-align: center; padding: 10px; width: 100%;
+    margin-bottom: 40px; outline: none; transition: border-color 0.3s;
+}
+#agentInput:focus { border-color: var(--accent); }
+
+#startBtn {
+    background: white; color: black; border: none; padding: 18px 60px;
+    border-radius: 50px; font-weight: 900; font-size: 14px; letter-spacing: 1px;
+}
