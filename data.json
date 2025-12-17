@@ -1,12 +1,10 @@
 [
   { 
     "id": "6017", "role": "asesor", "name": "Patricia Almanza", "desarrollo": "Sendas",
-    "prospects": 62, "appointments": 31, "sales": 9, "cancelaciones": 2, "totalDeeds": 7, "monto_escrituras": 28500000,
+    "prospects": 62, "appointments": 45, "visits": 31, "sales": 9, "cancelaciones": 2, "totalDeeds": 7, "monto_escrituras": 28500000,
     "monthlyData": {
-        "Ene": {"sales":1,"deeds":0}, "Feb": {"sales":0,"deeds":0}, "Mar": {"sales":2,"deeds":1}, 
-        "Abr": {"sales":0,"deeds":0}, "May": {"sales":1,"deeds":1}, "Jun": {"sales":0,"deeds":0}, 
-        "Jul": {"sales":2,"deeds":2}, "Ago": {"sales":1,"deeds":1}, "Sep": {"sales":0,"deeds":0}, 
-        "Oct": {"sales":1,"deeds":1}, "Nov": {"sales":0,"deeds":0}, "Dic": {"sales":1,"deeds":1}
+        "Ene": {"sales":1}, "Feb": {"sales":0}, "Mar": {"sales":2}, "Abr": {"sales":0}, "May": {"sales":1}, "Jun": {"sales":0}, 
+        "Jul": {"sales":2}, "Ago": {"sales":1}, "Sep": {"sales":0}, "Oct": {"sales":1}, "Nov": {"sales":0}, "Dic": {"sales":1}
     }
   },
   { "id": "COORD-SENDAS", "role": "coordinador", "name": "Gerardo Ruiz", "desarrollo": "Sendas" }
