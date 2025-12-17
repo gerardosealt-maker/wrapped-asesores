@@ -1,42 +1,272 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
-:root { --accent: #FF8200; --bg: #000; }
+/* --- VARIABLES Y TEMAS --- */
+:root { 
+    --accent: #FF8200; /* Default Sadasi Naranja */
+    --bg: #000; 
+}
+
+/* Cambio de color dinámico según el desarrollo */
 body[data-dev="sendas"] { --accent: #FF8200; }
-body[data-dev="meseta"], body[data-dev="acento"] { --accent: #00A3FF; }
+body[data-dev="meseta"], body[data-dev="acento"] { --accent: #00A3FF; } /* Altta Azul */
 
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-user-select: none; font-family: 'Montserrat', sans-serif; }
-body { background: var(--bg); color: white; height: 100vh; overflow: hidden; position: fixed; width: 100%; }
+/* --- RESET Y BASE --- */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    -webkit-user-select: none; 
+    font-family: 'Montserrat', sans-serif; 
+}
 
-.lava-bg { position: fixed; inset: 0; z-index: -1; background: #050505; }
-.blob { position: absolute; width: 350px; height: 350px; background: var(--accent); filter: blur(90px); border-radius: 50%; opacity: 0.2; animation: move 15s infinite alternate linear; }
-@keyframes move { from { transform: translate(-20%, -20%); } to { transform: translate(100%, 100%); } }
+body { 
+    background: var(--bg); 
+    color: white; 
+    height: 100vh; 
+    overflow: hidden; 
+    position: fixed; 
+    width: 100%; 
+}
 
-.story-progress { position: fixed; top: 15px; left: 10px; right: 10px; display: flex; gap: 4px; z-index: 1000; }
-.progress-bar { height: 2px; flex: 1; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--accent); width: 0%; }
-.progress-bar.active .progress-fill { animation: progressFill 5s linear forwards; }
-.progress-bar.completed .progress-fill { width: 100%; }
-@keyframes progressFill { from { width: 0%; } to { width: 100%; } }
+/* --- FONDO ANIMADO (LAVA LAMP) --- */
+.lava-bg { 
+    position: fixed; 
+    inset: 0; 
+    z-index: -1; 
+    background: #050505; 
+}
 
-.screen { position: absolute; inset: 0; padding: 60px 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; opacity: 0; visibility: hidden; transition: 0.4s; }
-.screen.active { opacity: 1; visibility: visible; }
+.blob { 
+    position: absolute; 
+    width: 350px; 
+    height: 350px; 
+    background: var(--accent); 
+    filter: blur(80px); 
+    border-radius: 50%; 
+    opacity: 0.25; 
+    animation: move 15s infinite alternate linear; 
+}
 
-.huge-num { font-size: 80px; font-weight: 900; line-height: 1; margin: 10px 0; color: var(--accent); }
-.label { color: var(--accent); font-weight: 900; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
-.elite-badge { background: var(--accent); color: black; font-weight: 900; font-size: 12px; padding: 8px 20px; border-radius: 50px; margin-bottom: 20px; }
-.dynamic-txt { margin-top: 40px; font-style: italic; opacity: 0.8; font-size: 14px; line-height: 1.5; }
+@keyframes move { 
+    from { transform: translate(-20%, -20%); } 
+    to { transform: translate(80%, 80%); } 
+}
 
-.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
-.metric-box { background: rgba(255,255,255,0.08); padding: 15px; border-radius: 15px; border-bottom: 2px solid var(--accent); }
-.metric-box h3 { font-size: 26px; font-weight: 900; color: var(--accent); }
-.metric-box p { font-size: 9px; text-transform: uppercase; margin-top: 5px; opacity: 0.7; }
+/* --- BARRAS DE PROGRESO (ESTILO INSTAGRAM) --- */
+.story-progress { 
+    position: fixed; 
+    top: 15px; 
+    left: 10px; 
+    right: 10px; 
+    display: flex; 
+    gap: 4px; 
+    z-index: 1000; 
+}
 
-.advisor-photo { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 20px; }
-.glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; }
+.progress-bar { 
+    height: 3px; 
+    flex: 1; 
+    background: rgba(255,255,255,0.2); 
+    border-radius: 10px; 
+    overflow: hidden; 
+}
 
-#startBtn { background: white; color: black; padding: 18px 50px; border-radius: 40px; font-weight: 900; border: none; cursor: pointer; }
-#exportBtn { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 50px; font-weight: 900; margin-top: 20px; }
+.progress-fill { 
+    height: 100%; 
+    background: #fff; 
+    width: 0%; 
+}
 
-#capture-area { background: #000; padding: 30px 20px; border-radius: 25px; width: 100%; border: 1px solid rgba(255,255,255,0.1); }
-.tap-zones { position: fixed; inset: 0; display: none; z-index: 500; }
-.tap-left, .tap-right { height: 100%; flex: 1; }
+.progress-bar.active .progress-fill { 
+    animation: progressFill 5s linear forwards; 
+    background: var(--accent);
+}
+
+.progress-bar.completed .progress-fill { 
+    width: 100%; 
+    background: var(--accent);
+}
+
+@keyframes progressFill { 
+    from { width: 0%; } 
+    to { width: 100%; } 
+}
+
+/* --- PANTALLAS (SCREENS) --- */
+.screen { 
+    position: absolute; 
+    inset: 0; 
+    padding: 60px 25px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    opacity: 0; 
+    visibility: hidden; 
+    transition: opacity 0.4s ease; 
+}
+
+.screen.active { 
+    opacity: 1; 
+    visibility: visible; 
+}
+
+/* --- ELEMENTOS DE TEXTO --- */
+.huge-num { 
+    font-size: 85px; 
+    font-weight: 900; 
+    line-height: 1; 
+    margin: 10px 0; 
+    color: var(--accent); 
+    text-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.label { 
+    color: var(--accent); 
+    font-weight: 900; 
+    font-size: 11px; 
+    letter-spacing: 3px; 
+    text-transform: uppercase; 
+}
+
+.dynamic-txt {
+    margin-top: 35px;
+    font-style: italic;
+    color: #fff;
+    font-size: 15px;
+    padding: 0 15px;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.elite-badge { 
+    display: inline-block; 
+    background: #fff; 
+    color: #000; 
+    font-weight: 900; 
+    font-size: 11px; 
+    padding: 6px 18px; 
+    border-radius: 50px; 
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* --- GRID DE MÉTRICAS --- */
+.metrics-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px; 
+    width: 100%; 
+}
+
+.metric-box { 
+    background: rgba(255,255,255,0.08); 
+    padding: 18px; 
+    border-radius: 18px; 
+    border-bottom: 3px solid var(--accent); 
+    backdrop-filter: blur(5px);
+}
+
+.metric-box h3 { 
+    font-size: 30px; 
+    font-weight: 900; 
+    color: var(--accent); 
+}
+
+.metric-box p { 
+    font-size: 10px; 
+    text-transform: uppercase; 
+    margin-top: 5px; 
+    font-weight: 700;
+    opacity: 0.7; 
+}
+
+/* --- IMÁGENES Y CONTENEDORES --- */
+.advisor-photo { 
+    width: 140px; 
+    height: 140px; 
+    border-radius: 50%; 
+    border: 4px solid var(--accent); 
+    object-fit: cover; 
+    margin-bottom: 20px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.glass { 
+    background: rgba(255,255,255,0.05); 
+    backdrop-filter: blur(15px); 
+    border-radius: 25px; 
+    width: 100%; 
+}
+
+/* --- ZONA DE CAPTURA (TARJETA FINAL) --- */
+#capture-area { 
+    background: #000; 
+    padding: 40px 25px; 
+    border-radius: 30px; 
+    width: 100%; 
+    border: 1px solid rgba(255,255,255,0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- BOTONES E INPUTS --- */
+#agentInput {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid #333;
+    border-radius: 15px;
+    color: white;
+    font-size: 20px;
+    padding: 15px;
+    text-align: center;
+    width: 85%;
+    margin-bottom: 30px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#agentInput:focus {
+    border-color: var(--accent);
+}
+
+#startBtn { 
+    background: #fff; 
+    color: #000; 
+    padding: 20px 50px; 
+    border-radius: 50px; 
+    font-weight: 900; 
+    border: none; 
+    font-size: 16px;
+    cursor: pointer; 
+    transition: transform 0.2s;
+}
+
+#startBtn:active { transform: scale(0.95); }
+
+#exportBtn { 
+    background: var(--accent); 
+    color: white; 
+    border: none; 
+    padding: 20px; 
+    width: 100%; 
+    border-radius: 50px; 
+    font-weight: 900; 
+    margin-top: 25px; 
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* --- INTERACCIÓN --- */
+.tap-zones { 
+    position: fixed; 
+    inset: 0; 
+    display: none; 
+    z-index: 500; 
+}
+
+.tap-left, .tap-right { 
+    height: 100%; 
+    flex: 1; 
+}
