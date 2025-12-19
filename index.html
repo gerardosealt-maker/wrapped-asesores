@@ -2,122 +2,128 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Wrapped 2025 - Grupo Sadasi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrapped 2025 - Sadasi & Altta</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <div class="lava-bg"><div class="blob"></div></div>
-    <div class="story-progress" id="progressRoot"></div>
-    <div class="tap-zones" id="tapZones">
-        <div class="tap-left" id="btnPrev"></div>
-        <div class="tap-right" id="btnNext"></div>
+
+    <audio id="music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="login" class="screen active">
+        <div class="login-content">
+            <img src="logo-sadasi.png" id="loginLogo" alt="Logo">
+            <h1>Tu 2025 en Resumen</h1>
+            <p>Ingresa tu nombre para comenzar la experiencia</p>
+            <input type="text" id="agentInput" placeholder="Nombre completo...">
+            <button id="startBtn">DESCUBRIR MI AÑO</button>
+        </div>
     </div>
-    <audio id="music" src="music.mp3" loop></audio>
 
-    <main id="app">
-        <section class="screen active" id="login">
-            <h1 class="main-title">MI 2025<br><span>WRAPPED.</span></h1>
-            <input id="agentInput" placeholder="Escribe tu nombre">
-            <button id="startBtn">COMENZAR EL RECUENTO</button>
-        </section>
+    <div id="capture-area">
+        <div id="progressRoot" style="display:none;"></div>
+        
+        <header id="storyHeader">
+            <img src="logo-sadasi.png" id="brandLogo" class="mini-logo">
+            <span class="u-name-display"></span>
+        </header>
 
-        <section class="screen story">
-            <img class="u-photo advisor-photo">
-            <p class="label" id="role-label-intro">HOLA,</p>
-            <h2 class="u-name-display"></h2>
-            <p class="dynamic-txt" id="p-intro-txt"></p>
-        </section>
-
-        <section class="screen story">
-            <p class="label">EL ALCANCE</p>
-            <h2 class="huge-num" id="u-prospects"></h2>
-            <p class="sub-label" id="l-p2-sub">PROSPECTOS</p>
-            <p id="p-prospects-txt" class="dynamic-txt"></p>
-        </section>
-
-        <section class="screen story">
-            <p class="label">MOVIMIENTO</p>
-            <h2 class="huge-num" id="u-visits"></h2>
-            <p class="sub-label" id="l-p3-sub">VISITAS</p>
-            <p id="p-visits-txt" class="dynamic-txt"></p>
-        </section>
-
-        <section class="screen story">
-            <p class="label">COLMILLO Y RESILIENCIA</p>
-            <h2 class="huge-num" id="u-cancels" style="color:#ff4b4b">0</h2>
-            <p class="sub-label" style="color:#ff4b4b">BAJAS DEL AÑO</p>
-            <p id="p-cancels-txt" class="dynamic-txt"></p>
-        </section>
-
-        <section class="screen story">
-            <p class="label">EL MOMENTO DORADO</p>
-            <div class="glass">
-                <h2 id="u-mejorMes" style="font-size: 35px; font-weight: 900; color: var(--accent);"></h2>
-                <p style="margin-top:10px; font-weight: 700;" id="p-mes-txt"></p>
-            </div>
-            <p class="dynamic-txt">Un periodo de éxito total e imbatible.</p>
-        </section>
-
-        <section class="screen story">
-            <p class="label">RESULTADOS</p>
-            <h2 class="huge-num" id="u-sales"></h2>
-            <p class="sub-label">VENTAS TOTALES</p>
-            <p id="p-sales-txt" class="dynamic-txt"></p>
-        </section>
-
-        <section class="screen story">
-            <p class="label">EL CIERRE</p>
-            <h2 class="huge-num" id="u-deeds"></h2>
-            <p class="sub-label">ESCRITURAS</p>
-            <div class="glass money-box">
-                <p class="mini-label">Valor Patrimonial Generado</p>
-                <h2 id="u-monto-deeds" class="money-val"></h2>
-            </div>
-        </section>
-
-        <section class="screen story">
-            <p class="label" id="l-p8">LO MEJOR</p>
-            <div class="glass model-box">
-                <h2 id="u-topModel" style="font-size: 24px; color: var(--accent); font-weight: 900;"></h2>
-            </div>
-            <p id="p-model-txt" class="dynamic-txt"></p>
-        </section>
-
-        <section class="screen story">
-            <div id="capture-area">
-                <div id="f-status-tag" class="elite-badge"></div>
-                <img id="brandLogo" class="brand-logo">
-                <div class="final-profile">
-                    <img class="u-photo advisor-photo-small">
-                    <div class="final-info">
-                        <h2 class="u-name-display"></h2>
-                        <p id="f-dev-label"></p>
-                    </div>
+        <section class="story active">
+            <div class="story-body">
+                <h2 id="role-label-intro">HOLA,</h2>
+                <div class="photo-container">
+                    <img src="" class="u-photo" alt="Foto Asesor">
                 </div>
-                <div class="metrics-grid">
-                    <div class="metric-box"><p>Escrituras</p><h3 id="f-val-deeds"></h3></div>
-                    <div class="metric-box"><p>Ventas</p><h3 id="f-val-sales"></h3></div>
-                    <div class="metric-box"><p>Ranking</p><h3 id="f-val-rank"></h3></div>
-                    <div class="metric-box"><p>Eficiencia</p><h3 id="f-val-eff"></h3></div>
+                <h1 class="u-name-display"></h1>
+                <p id="p-intro-txt"></p>
+            </div>
+        </section>
+
+        <section class="story">
+            <div class="story-body">
+                <h3 id="l-p2-sub">PROSPECTOS</h3>
+                <div class="big-number" id="u-prospects">0</div>
+                <p id="p-prospects-txt"></p>
+            </div>
+        </section>
+
+        <section class="story">
+            <div class="story-body">
+                <h3>CANCELACIONES</h3>
+                <div class="big-number" id="u-cancels">0</div>
+                <p id="p-cancels-txt"></p>
+            </div>
+        </section>
+
+        <section class="story">
+            <div class="story-body">
+                <h3>VENTAS LOGRADAS</h3>
+                <div class="big-number" id="u-sales">0</div>
+                <p id="p-sales-txt"></p>
+            </div>
+        </section>
+
+        <section class="story">
+            <div class="story-body">
+                <h3>ESCRITURAS</h3>
+                <div class="big-number" id="u-deeds">0</div>
+                <div class="monto-box" id="u-monto-deeds">$0</div>
+                <p>Monto total escriturado en el año.</p>
+            </div>
+        </section>
+
+        <section class="story">
+            <div class="story-body">
+                <h3>TU MEJOR MES</h3>
+                <div class="highlight-box" id="u-mejorMes">---</div>
+                <p>Donde tu colmillo estuvo más afilado.</p>
+            </div>
+        </section>
+
+        <section class="story">
+            <div class="story-body">
+                <h3 id="l-p8">TOP MODELO</h3>
+                <div class="highlight-box" id="u-topModel">---</div>
+                <p id="p-model-txt"></p>
+            </div>
+        </section>
+
+        <section class="story final-summary">
+            <div class="card-summary">
+                <div class="photo-container-small">
+                    <img src="" class="u-photo">
                 </div>
-                <p class="footer-tag">SADASI • 2025</p>
+                <h2 class="u-name-display"></h2>
+                <span id="f-status-tag" class="badge">---</span>
+                
+                <div class="grid-stats">
+                    <div class="stat-item"><span>Ventas</span><strong id="f-val-sales">0</strong></div>
+                    <div class="stat-item"><span>Escrituras</span><strong id="f-val-deeds">0</strong></div>
+                    <div class="stat-item"><span>Ranking</span><strong id="f-val-rank">#0</strong></div>
+                </div>
+                <p id="f-dev-label"></p>
             </div>
-            <button id="exportBtn">GUARDAR MI HISTORIA</button>
+            <button id="exportBtn">DESCARGAR RESUMEN</button>
         </section>
 
-        <section class="screen story">
-            <h2 style="font-size: 40px; font-weight: 900;">¡GRACIAS!</h2>
-            <p id="p-final-2026" class="dynamic-txt" style="font-size: 18px;"></p>
-            <div style="margin-top: 40px; border-top: 1px solid var(--accent); padding-top: 20px;">
-                <p class="label">NOS VEMOS EN EL</p>
-                <h1 style="font-size: 60px; color: var(--accent); font-weight: 900;">2026</h1>
+        <section class="story">
+            <div class="story-body">
+                <h2>MIRA HACIA ADELANTE</h2>
+                <p id="p-final-2026"></p>
+                <div class="final-year">2026</div>
             </div>
         </section>
-    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+        <div id="tapZones" style="display:none;">
+            <div id="btnPrev"></div>
+            <div id="btnNext"></div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
