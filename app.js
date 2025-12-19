@@ -4,17 +4,17 @@ const moneyF = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MX
 fetch('./data.json').then(r => r.json()).then(d => { data = d; });
 
 const frases = {
-    prospectos: ["¡Vaya forma de llenar el embudo!", "Tu imán para atraer clientes está al máximo.", "Hiciste que todos miraran hacia acá.", "Radar de prospectos imparable."],
+    prospectos: ["¡Tu imán de clientes está al máximo!", "No dejaste escapar a nadie.", "El radar de prospectos trabajó extra.", "Medio mundo puso el ojo en ti."],
     bajas: {
-        pocas: ["¿Bajas? Ni las vimos. Control total del cierre.", "Reloj suizo: nada se te cae.", "Terror de las cancelaciones."],
-        algunas: ["Gajes del oficio. ¡Te levantaste con todo!", "Unas se van, pero las que cierras valen oro.", "El éxito tiene baches, tú los saltaste."]
+        pocas: ["¡Control total del cierre!", "Reloj suizo: nada se te cae.", "Terror de las cancelaciones."],
+        algunas: ["Gajes del oficio. ¡Te levantaste con todo!", "Unas se van, pero las que cierras valen oro."]
     },
     metaCoord: {
-        superada: ["¡Liderazgo Nivel Leyenda!", "¡Dejaste la vara altísima!", "Superaste la meta con maestría."],
-        casi: ["¡Estuvieron a nada! Casi se rinden ante ustedes.", "Faltó nada, el esfuerzo fue titánico.", "En 2026 la meta no sabrá qué pasó."],
-        lejos: ["Un año de retos. ¡En 2026 vamos por la revancha!", "Tu liderazgo prepara el gran regreso."]
+        superada: ["¡Liderazgo Nivel Leyenda! Arrasaron.", "¡Dejaste la vara altísima!", "Superaste la meta con maestría."],
+        casi: ["¡Casi lo logran! El esfuerzo fue titánico.", "¡Por un pelo! En 2026 esa meta cae."],
+        lejos: ["Año de aprendizaje. ¡Vamos por la revancha!", "El marcador no define tu liderazgo."]
     },
-    ventasAsesor: ["Colmillo afilado para los cierres.", "Batalla ganada con pura estrategia.", "Persistencia nivel experto.", "Convertiste cada 'no' en un 'sí'."]
+    ventasAsesor: ["Colmillo afilado para los cierres.", "Batalla ganada con pura estrategia.", "Tu persistencia nos hace grandes."]
 };
 
 const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -36,51 +36,43 @@ document.getElementById('startBtn').onclick = () => {
 function processCoordinator(coord) {
     const team = data.filter(u => u.desarrollo === coord.desarrollo && u.role === 'asesor');
     return {
-        ...coord,
-        isBoss: true,
+        ...coord, isBoss: true,
         prospects: team.reduce((s, a) => s + (a.prospects || 0), 0),
-        visits: team.reduce((s, a) => s + (a.visits || 0), 0),
         deeds: team.reduce((s, a) => s + (a.deeds || 0), 0),
         sales: coord.equipoSales,
-        targetSales: coord.metaEquipo || 0,
+        targetSales: coord.metaEquipo || 1,
         monto_escrituras: coord.equipoMonto,
         cancelaciones: coord.equipoCancelaciones,
         topModel: coord.modeloEstrella,
         asesorEstrella: coord.asesorEstrella,
-        mejorMes: coord.mejorMes || "Diciembre",
-        ventasMejorMes: team.reduce((s, a) => s + (a.ventasMejorMes || 0), 0)
+        mejorMes: coord.mejorMes || "Diciembre"
     };
 }
 
 function renderValues(u) {
-    const fileName = u.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[ñÑ]/g, "n").replace(/\s+/g, '_');
+    // LOGICA DE FOTOS CORREGIDA (armando_vargas.jpg)
+    const fileName = u.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[ñÑ]/g, "n").trim().replace(/\s+/g, '_');
     document.querySelectorAll('.u-photo').forEach(img => {
-        const ext = ['.jpg', '.JPG', '.png', '.jpeg'];
-        let i = 0;
-        const load = () => {
-            if (i < ext.length) { img.src = fileName + ext[i]; i++; }
-            else { img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff`; }
-        };
-        img.onerror = load;
-        load();
+        img.src = `${fileName}.jpg`;
+        img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff`; };
     });
 
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
     document.getElementById('u-prospects').textContent = u.prospects;
     document.getElementById('p-prospects-txt').textContent = getRandom(frases.prospectos);
     document.getElementById('u-cancels').textContent = u.cancelaciones;
-    document.getElementById('p-cancels-txt').textContent = getRandom(frases.bajas[u.cancelaciones < 10 ? 'pocas' : 'algunas']);
+    document.getElementById('p-cancels-txt').textContent = getRandom(frases.bajas[u.cancelaciones < 8 ? 'pocas' : 'algunas']);
     document.getElementById('u-sales').textContent = u.sales;
 
     if (u.isBoss) {
         const porc = (u.sales / u.targetSales) * 100;
-        let msg = porc >= 100 ? getRandom(frases.metaCoord.superada) : (porc >= 85 ? getRandom(frases.metaCoord.casi) : getRandom(frases.metaCoord.lejos));
-        document.getElementById('p-sales-txt').innerHTML = `Lograste ${u.sales} de ${u.targetSales} ventas. <br><strong>${msg}</strong>`;
-        document.getElementById('l-p8').textContent = "TU PIEZA CLAVE";
+        let m = porc >= 100 ? getRandom(frases.metaCoord.superada) : (porc >= 85 ? getRandom(frases.metaCoord.casi) : getRandom(frases.metaCoord.lejos));
+        document.getElementById('p-sales-txt').innerHTML = `Lograste ${u.sales} de ${u.targetSales} de meta equipo. <br><strong>${m}</strong>`;
+        document.getElementById('l-p8').textContent = "ASESOR ESTRELLA";
         document.getElementById('u-topModel').textContent = u.asesorEstrella;
     } else {
-        document.getElementById('p-sales-txt').innerHTML = `${u.sales} ventas logradas. <br><strong>${getRandom(frases.ventasAsesor)}</strong>`;
-        document.getElementById('l-p8').textContent = "TU MODELO TOP";
+        document.getElementById('p-sales-txt').innerHTML = `${u.sales} cierres logrados. <br><strong>${getRandom(frases.ventasAsesor)}</strong>`;
+        document.getElementById('l-p8').textContent = "MODELO TOP";
         document.getElementById('u-topModel').textContent = u.topModel;
     }
 
@@ -90,15 +82,13 @@ function renderValues(u) {
     document.getElementById('f-val-rank').textContent = "#" + u.rankPos;
     document.getElementById('f-val-sales').textContent = u.sales;
     document.getElementById('f-val-deeds').textContent = u.deeds;
-    document.getElementById('f-dev-label').textContent = `${u.role.toUpperCase()} | ${u.desarrollo.toUpperCase()}`;
-    document.getElementById('p-final-2026').textContent = u.isBoss ? "Tu liderazgo es el motor de Sadasi. ¡2026 será histórico!" : "Afila el colmillo, el 2026 es tuyo.";
+    document.getElementById('p-final-2026').textContent = u.isBoss ? "Tu liderazgo guía el éxito. ¡Vamos por un 2026 imparable!" : "Afila el colmillo, el 2026 te espera para romper metas.";
 }
 
 function initProgressBars() {
     const root = document.getElementById('progressRoot');
     root.innerHTML = '';
-    const screens = document.querySelectorAll('.story');
-    screens.forEach(() => { root.innerHTML += '<div class="progress-bar"><div class="progress-fill"></div></div>'; });
+    document.querySelectorAll('.story').forEach(() => root.innerHTML += '<div class="progress-bar"><div class="progress-fill"></div></div>');
 }
 
 function showStory(index) {
@@ -117,23 +107,15 @@ function showStory(index) {
     resetTimer();
 }
 
-function resetTimer() { clearInterval(storyTimer); storyTimer = setInterval(() => { if (current < document.querySelectorAll('.story').length - 1) showStory(current + 1); }, 5000); }
-document.getElementById('btnNext').onclick = () => { if (current < document.querySelectorAll('.story').length - 1) showStory(current + 1); };
+function resetTimer() { clearInterval(storyTimer); storyTimer = setInterval(() => { if (current < 8) showStory(current + 1); }, 5000); }
+document.getElementById('btnNext').onclick = () => { if (current < 8) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
-
-document.getElementById('exportBtn').onclick = () => {
-    html2canvas(document.getElementById('capture-area'), { backgroundColor: "#000", scale: 2 }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Wrapped2025_${currentUser.name}.png`;
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-};
 
 function initExperience() {
     document.body.setAttribute('data-dev', currentUser.desarrollo.toLowerCase());
     document.getElementById('brandLogo').src = (currentUser.desarrollo.toLowerCase() === 'sendas') ? 'logo-sadasi.png' : 'logo-altta.png';
     document.getElementById('progressRoot').style.display = 'flex';
+    document.getElementById('storyHeader').style.display = 'flex';
     renderValues(currentUser);
     document.getElementById('login').classList.remove('active');
     document.getElementById('tapZones').style.display = 'flex';
