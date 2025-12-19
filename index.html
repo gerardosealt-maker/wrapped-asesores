@@ -1,130 +1,61 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wrapped 2025 | Sadasi & Altta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-
-    <audio id="music" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="music" loop><source src="music.mp3"></audio>
 
     <div id="login" class="screen active">
-        <div class="login-content">
-            <img src="logo-sadasi.png" id="loginLogo">
-            <h1>TU 2025<br><span>RECAP</span></h1>
-            <input type="text" id="agentInput" placeholder="Tu nombre...">
-            <button id="startBtn">VER MI AÑO</button>
-        </div>
+        <img src="logo-sadasi.png" width="150">
+        <h1 style="color:white; margin: 20px 0;">WRAPPED <span>2025</span></h1>
+        <input type="text" id="agentInput" placeholder="Nombre completo...">
+        <button id="startBtn" style="padding:15px 30px; background:#FF8200; color:white; border:none; border-radius:20px;">COMENZAR</button>
     </div>
 
     <div id="capture-area">
         <div id="progressRoot" style="display:none;"></div>
-        
-        <header id="storyHeader" style="display:none;">
-            <img src="logo-sadasi.png" id="brandLogo">
-            <span class="u-name-display"></span>
+        <header id="storyHeader" style="position:absolute; top:35px; left:20px; z-index:100; display:none;">
+            <img src="logo-sadasi.png" id="brandLogo" height="20">
+            <span class="u-name-display" style="margin-left:10px; font-size:12px;"></span>
         </header>
 
-        <section class="story active">
+        <section class="story">
             <div class="story-body">
                 <h2>ESTE FUE TU</h2>
                 <h1>2025<br>EN RESUMEN</h1>
-                <div class="photo-container">
-                    <img src="" class="u-photo">
-                </div>
-                <h1 class="u-name-display" style="font-size:30px; text-shadow:none;">---</h1>
+                <div class="photo-container"><img src="" class="u-photo"></div>
+                <h1 class="u-name-display" style="font-size:30px;"></h1>
             </div>
         </section>
 
+        <section class="story"><div class="story-body"><h2>PROSPECTOS</h2><div class="big-number" id="u-prospects">0</div><p id="p-prospects-txt"></p></div></section>
+        <section class="story"><div class="story-body"><h2>BAJAS</h2><div class="big-number" id="u-cancels">0</div><p id="p-cancels-txt"></p></div></section>
+        <section class="story"><div class="story-body"><h2>VENTAS</h2><div class="big-number" id="u-sales">0</div><p id="p-sales-txt" style="background:rgba(0,0,0,0.5); padding:10px; border-radius:10px;"></p></div></section>
+        <section class="story"><div class="story-body"><h2>ESCRITURAS</h2><div class="big-number" id="u-deeds" style="font-size:80px;">0</div><div id="u-monto-deeds" style="font-size:20px; font-weight:bold;"></div></div></section>
+        <section class="story"><div class="story-body"><h2>MEJOR MES</h2><div id="u-mejorMes" style="font-size:40px; background:white; color:black; padding:10px; border-radius:10px;"></div></div></section>
+        <section class="story"><div class="story-body"><h2 id="l-p8">TOP</h2><div id="u-topModel" style="font-size:30px; border:2px solid white; padding:10px;"></div></div></section>
+        
         <section class="story">
             <div class="story-body">
-                <h2>ATRAPASTE A</h2>
-                <div class="big-number" id="u-prospects">0</div>
-                <h1>PROSPECTOS</h1>
-                <p id="p-prospects-txt"></p>
-            </div>
-        </section>
-
-        <section class="story">
-            <div class="story-body">
-                <h2>TUVISTE</h2>
-                <div class="big-number" id="u-cancels">0</div>
-                <h1>BAJAS</h1>
-                <p id="p-cancels-txt"></p>
-            </div>
-        </section>
-
-        <section class="story">
-            <div class="story-body">
-                <h2>LOGRASTE</h2>
-                <div class="big-number" id="u-sales">0</div>
-                <h1>VENTAS</h1>
-                <p id="p-sales-txt" class="glass-box"></p>
-            </div>
-        </section>
-
-        <section class="story">
-            <div class="story-body">
-                <h2>ESCRITURASTE</h2>
-                <div class="big-number" id="u-deeds" style="font-size:80px;">0</div>
-                <div class="monto-box" id="u-monto-deeds">$0</div>
-                <p>EN VALOR DE PROPIEDADES</p>
-            </div>
-        </section>
-
-        <section class="story">
-            <div class="story-body">
-                <h2>TU MES DE ORO</h2>
-                <div class="highlight-box" id="u-mejorMes">---</div>
-                <p>¡ESE MES ROMPISTE EL MARCADOR!</p>
-            </div>
-        </section>
-
-        <section class="story">
-            <div class="story-body">
-                <h2 id="l-p8">TOP MODELO</h2>
-                <div class="highlight-box" id="u-topModel">---</div>
-                <p>EL FAVORITO DE TUS CLIENTES</p>
-            </div>
-        </section>
-
-        <section class="story">
-            <div class="story-body">
-                <div class="card-summary">
-                    <h2 style="color:#000; margin:0;">MI WRAPPED 2025</h2>
-                    <h1 class="u-name-display" style="font-size:24px; color:var(--primary); text-shadow:none; margin:10px 0;">---</h1>
-                    <div class="photo-container-small">
-                        <img src="" class="u-photo">
-                    </div>
-                    <div class="grid-stats">
-                        <div class="stat-item"><span>VENTAS</span><strong id="f-val-sales">0</strong></div>
-                        <div class="stat-item"><span>ESCRITURAS</span><strong id="f-val-deeds">0</strong></div>
-                        <div class="stat-item"><span>RANKING</span><strong id="f-val-rank">#0</strong></div>
+                <div style="background:white; color:black; padding:20px; border-radius:20px;">
+                    <h2 style="color:black">RESUMEN FINAL</h2>
+                    <h1 class="u-name-display" style="font-size:24px; color:#FF8200;"></h1>
+                    <div style="display:flex; justify-content:space-around; margin-top:20px;">
+                        <div>VENTAS<br><strong id="f-val-sales">0</strong></div>
+                        <div>RANKING<br><strong id="f-val-rank">0</strong></div>
                     </div>
                 </div>
-                <button id="exportBtn">GUARDAR RESUMEN</button>
             </div>
         </section>
 
-        <section class="story">
-            <div class="story-body">
-                <h1>2026<br>TE ESPERA</h1>
-                <p id="p-final-2026"></p>
-            </div>
-        </section>
+        <section class="story"><div class="story-body"><h1>2026</h1><p id="p-final-2026"></p></div></section>
 
-        <div id="tapZones" style="display:none;">
-            <div class="tap-left" id="btnPrev"></div>
-            <div class="tap-right" id="btnNext"></div>
-        </div>
+        <div id="tapZones" style="display:none;"><div id="btnPrev"></div><div id="btnNext"></div></div>
     </div>
-
     <script src="app.js"></script>
 </body>
 </html>
