@@ -10,36 +10,26 @@
 </head>
 <body>
 
-    <audio id="music" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="music" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
     <div id="login" class="screen active">
         <div class="login-content">
-            <img src="logo-sadasi.png" id="loginLogo" alt="Logo">
+            <img src="logo-sadasi.png" id="loginLogo" width="150">
             <h1>TU 2025<br><span>EN RESUMEN</span></h1>
-            <p>Descubre los números que marcaron tu éxito.</p>
-            <input type="text" id="agentInput" placeholder="Escribe tu nombre completo...">
-            <button id="startBtn">COMENZAR EXPERIENCIA</button>
+            <input type="text" id="agentInput" placeholder="Nombre completo...">
+            <button id="startBtn">COMENZAR</button>
         </div>
     </div>
 
     <div id="capture-area">
         <div id="progressRoot" style="display:none;"></div>
         
-        <header id="storyHeader" style="display:none;">
-            <img src="logo-sadasi.png" id="brandLogo" class="mini-logo">
-            <span class="u-name-display"></span>
-        </header>
-
         <section class="story active">
             <div class="story-body">
                 <h2>ESTE FUE TU</h2>
                 <h1>2025<br>WRAPPED</h1>
-                <div class="photo-container">
-                    <img src="" class="u-photo" alt="Perfil">
-                </div>
-                <h1 class="u-name-display" style="font-size:32px; text-shadow:none; margin-top:15px;">---</h1>
+                <div class="photo-container"><img src="" class="u-photo"></div>
+                <h1 class="u-name-display" style="font-size:30px; margin-top:15px;">---</h1>
             </div>
         </section>
 
@@ -54,51 +44,27 @@
 
         <section class="story">
             <div class="story-body">
-                <h2>TUVISTE</h2>
-                <div class="big-number" id="u-cancels">0</div>
-                <h1>BAJAS</h1>
-                <p id="p-cancels-txt" class="frase-jiribilla"></p>
-            </div>
-        </section>
-
-        <section class="story">
-            <div class="story-body">
-                <h2>CERRASTE</h2>
+                <h2>LOGRASTE</h2>
                 <div class="big-number" id="u-sales">0</div>
                 <h1>VENTAS</h1>
                 <p id="p-sales-txt" class="frase-jiribilla"></p>
             </div>
         </section>
 
-        <section class="story">
+        <section class="story" id="final-slide">
             <div class="story-body">
-                <h2>ESCRITURASTE</h2>
-                <div class="big-number" id="u-deeds" style="font-size:80px;">0</div>
-                <div class="monto-box" id="u-monto-deeds">$0</div>
-                <p style="font-size:14px; opacity:0.7;">MONTO TOTAL GENERADO</p>
-            </div>
-        </section>
-
-        <section class="story">
-            <div class="story-body">
-                <div class="card-summary">
-                    <h2 style="color:#000; margin-bottom:5px;">RESUMEN ANUAL</h2>
+                <div class="card-summary" id="final-card">
+                    <h2 style="color:#000; margin-bottom:5px;">MI RESUMEN 2025</h2>
                     <h1 class="u-name-display" style="font-size:24px; color:var(--primary); text-shadow:none;">---</h1>
                     <div class="stats-grid">
-                        <div class="stat-item">
-                            <span>VENTAS</span>
-                            <strong id="f-val-sales">0</strong>
-                        </div>
-                        <div class="stat-item">
-                            <span>RANKING</span>
-                            <strong id="f-val-rank">#0</strong>
-                        </div>
+                        <div class="stat-item"><span>VENTAS</span><strong id="f-val-sales">0</strong></div>
+                        <div class="stat-item"><span>RANKING</span><strong id="f-val-rank">#0</strong></div>
                     </div>
                     <div style="margin-top:20px; border-top:1px dashed #ccc; padding-top:10px;">
                         <img src="logo-sadasi.png" style="height:15px; filter:grayscale(1); opacity:0.5;">
                     </div>
                 </div>
-                <button id="exportBtn">COMPARTIR MI LOGRO</button>
+                <button id="exportBtn">DESCARGAR IMAGEN</button>
             </div>
         </section>
 
