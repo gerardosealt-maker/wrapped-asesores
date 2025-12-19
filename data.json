@@ -5,7 +5,7 @@
   
   { "id": "AS-MES-01", "role": "asesor", "name": "Patricia Almanza", "desarrollo": "Meseta", "prospects": 110, "visits": 40, "sales": 12, "deeds": 9, "monto_escrituras": 45000000, "cancelaciones": 1, "mejorMes": "Julio", "ventasMejorMes": 4, "topModel": "Residencia Oro" },
   { "id": "AS-MES-02", "role": "asesor", "name": "David Aguirre", "desarrollo": "Meseta", "prospects": 90, "visits": 30, "sales": 8, "deeds": 6, "monto_escrituras": 32000000, "cancelaciones": 4, "mejorMes": "Agosto", "ventasMejorMes": 2, "topModel": "Residencia Plata" },
-  { "id": "AS-MES-03", "role": "asesor", "name": "Gabriela Soto", "desarrollo": "Meseta", "prospects": 120, "visits": 50, "sales": 14, "deeds": 10, "monto_escrituras": 50000000, "cancelaciones": 2, "mejorMes": "Junio", "ventasMejorMes": 5, "topModel": "Residencia Oro" },
+  { "id": "AS-MES-03", "role": "asesor", "name": "Armando Vargas", "desarrollo": "Meseta", "prospects": 120, "visits": 50, "sales": 14, "deeds": 10, "monto_escrituras": 50000000, "cancelaciones": 2, "mejorMes": "Junio", "ventasMejorMes": 5, "topModel": "Residencia Oro" },
   
   { "id": "AS-SEN-01", "role": "asesor", "name": "Paola Enriquez", "desarrollo": "Sendas", "prospects": 95, "visits": 35, "sales": 9, "deeds": 7, "monto_escrituras": 22000000, "cancelaciones": 1, "mejorMes": "Marzo", "ventasMejorMes": 3, "topModel": "Modelo Roble" },
   { "id": "AS-SEN-02", "role": "asesor", "name": "César Arreola", "desarrollo": "Sendas", "prospects": 140, "visits": 55, "sales": 20, "deeds": 18, "monto_escrituras": 48000000, "cancelaciones": 2, "mejorMes": "Junio", "ventasMejorMes": 6, "topModel": "Modelo Pino" },
@@ -15,3 +15,4 @@
   { "id": "CO-MES", "role": "coordinador", "name": "Verónica Ocampo", "desarrollo": "Meseta", "equipoSales": 160, "metaEquipo": 180, "equipoMonto": 420000000, "equipoCancelaciones": 8, "asesorEstrella": "Patricia Almanza", "eficienciaEquipo": "84%", "modeloEstrella": "Residencia Oro", "mejorMes": "Julio" },
   { "id": "CO-SEN", "role": "coordinador", "name": "Xhail Camacho", "desarrollo": "Sendas", "equipoSales": 145, "metaEquipo": 140, "equipoMonto": 315000000, "equipoCancelaciones": 12, "asesorEstrella": "César Arreola", "eficienciaEquipo": "78%", "modeloEstrella": "Modelo Pino", "mejorMes": "Junio" }
 ]
+
