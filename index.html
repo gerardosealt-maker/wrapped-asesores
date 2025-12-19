@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wrapped 2025 - Sadasi & Altta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wrapped 2025 | Sadasi & Altta</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -17,17 +17,17 @@
     <div id="login" class="screen active">
         <div class="login-content">
             <img src="logo-sadasi.png" id="loginLogo" alt="Logo">
-            <h1>Tu 2025 en Resumen</h1>
-            <p>Ingresa tu nombre para comenzar la experiencia</p>
-            <input type="text" id="agentInput" placeholder="Nombre completo...">
-            <button id="startBtn">DESCUBRIR MI AÑO</button>
+            <h1>Tu 2025 <br><span>en Resumen</span></h1>
+            <p>Descubre los números que marcaron tu año.</p>
+            <input type="text" id="agentInput" placeholder="Escribe tu nombre aquí...">
+            <button id="startBtn">INICIAR EXPERIENCIA</button>
         </div>
     </div>
 
     <div id="capture-area">
         <div id="progressRoot" style="display:none;"></div>
         
-        <header id="storyHeader">
+        <header id="storyHeader" style="display:none;">
             <img src="logo-sadasi.png" id="brandLogo" class="mini-logo">
             <span class="u-name-display"></span>
         </header>
@@ -36,10 +36,10 @@
             <div class="story-body">
                 <h2 id="role-label-intro">HOLA,</h2>
                 <div class="photo-container">
-                    <img src="" class="u-photo" alt="Foto Asesor">
+                    <img src="" class="u-photo" alt="Perfil">
                 </div>
-                <h1 class="u-name-display"></h1>
-                <p id="p-intro-txt"></p>
+                <h1 class="u-name-display">---</h1>
+                <p id="p-intro-txt">Cargando tu historia...</p>
             </div>
         </section>
 
@@ -72,15 +72,15 @@
                 <h3>ESCRITURAS</h3>
                 <div class="big-number" id="u-deeds">0</div>
                 <div class="monto-box" id="u-monto-deeds">$0</div>
-                <p>Monto total escriturado en el año.</p>
+                <p>Monto total escriturado.</p>
             </div>
         </section>
 
         <section class="story">
             <div class="story-body">
                 <h3>TU MEJOR MES</h3>
-                <div class="highlight-box" id="u-mejorMes">---</div>
-                <p>Donde tu colmillo estuvo más afilado.</p>
+                <div class="highlight-box" id="u-mejorMes">ENERO</div>
+                <p>Donde el colmillo estuvo más afilado.</p>
             </div>
         </section>
 
@@ -92,35 +92,36 @@
             </div>
         </section>
 
-        <section class="story final-summary">
-            <div class="card-summary">
-                <div class="photo-container-small">
-                    <img src="" class="u-photo">
+        <section class="story">
+            <div class="story-body">
+                <div class="card-summary">
+                    <span id="f-status-tag" class="badge">SADASI TEAM</span>
+                    <div class="photo-container-small">
+                        <img src="" class="u-photo">
+                    </div>
+                    <h2 class="u-name-display" style="color:white; margin:10px 0;">---</h2>
+                    <div class="grid-stats">
+                        <div class="stat-item"><span>Ventas</span><strong id="f-val-sales">0</strong></div>
+                        <div class="stat-item"><span>Escrituras</span><strong id="f-val-deeds">0</strong></div>
+                        <div class="stat-item"><span>Ranking</span><strong id="f-val-rank">#0</strong></div>
+                    </div>
+                    <p id="f-dev-label" style="font-size:12px; opacity:0.6; margin-top:15px;"></p>
                 </div>
-                <h2 class="u-name-display"></h2>
-                <span id="f-status-tag" class="badge">---</span>
-                
-                <div class="grid-stats">
-                    <div class="stat-item"><span>Ventas</span><strong id="f-val-sales">0</strong></div>
-                    <div class="stat-item"><span>Escrituras</span><strong id="f-val-deeds">0</strong></div>
-                    <div class="stat-item"><span>Ranking</span><strong id="f-val-rank">#0</strong></div>
-                </div>
-                <p id="f-dev-label"></p>
+                <button id="exportBtn">DESCARGAR RESUMEN</button>
             </div>
-            <button id="exportBtn">DESCARGAR RESUMEN</button>
         </section>
 
         <section class="story">
             <div class="story-body">
-                <h2>MIRA HACIA ADELANTE</h2>
+                <h2>EL 2026 ES TUYO</h2>
                 <p id="p-final-2026"></p>
                 <div class="final-year">2026</div>
             </div>
         </section>
 
         <div id="tapZones" style="display:none;">
-            <div id="btnPrev"></div>
-            <div id="btnNext"></div>
+            <div class="tap-left" id="btnPrev"></div>
+            <div class="tap-right" id="btnNext"></div>
         </div>
     </div>
 
