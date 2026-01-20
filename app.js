@@ -34,12 +34,26 @@ function renderValues(u) {
     else if (u.v_netas >= 30) medalla = "🔥 SENIOR";
     document.getElementById('rank-container').innerHTML = medalla ? `<div class="rank-badge">${medalla}</div>` : "";
 
-    // CAMBIO CLAVE: Se eliminó 'img/asesores/' porque tus fotos están sueltas en el repo
+    // LÓGICA DE FOTOS MEJORADA
     document.querySelectorAll('.u-photo').forEach(img => {
+        // Intentamos cargar la foto tal cual viene en el JSON
         img.src = u.foto; 
-        img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${u.name}&background=FF8200&color=fff`; };
+        
+        img.onerror = () => {
+            // Si falla, intentamos quitarle espacios y poner todo en minúsculas 
+            // por si el archivo en GitHub se subió distinto
+            const fotoLimpia = u.foto.toLowerCase().replace(/\s/g, '');
+            console.warn("Reintentando con nombre limpio:", fotoLimpia);
+            img.src = fotoLimpia;
+
+            // Si vuelve a fallar, ponemos el avatar de color
+            img.onerror = () => {
+                img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`;
+            };
+        };
     });
 
+    // Inyección de textos (asegúrate de que estos IDs existan en tu HTML)
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
     document.getElementById('u-mejor-mes-nombre').textContent = u.mejor_mes;
     document.getElementById('u-mejor-mes-qty').textContent = u.mejor_mes_ventas;
@@ -51,52 +65,9 @@ function renderValues(u) {
     document.getElementById('u-vbrutas').textContent = u.v_brutas;
     document.getElementById('u-cancels').textContent = u.cancelaciones;
     
-    // INYECCIÓN DEL MONTO
-    document.getElementById('f-monto').textContent = u.monto;
-    document.getElementById('f-vnetas').textContent = u.v_netas;
-    document.getElementById('f-eqty').textContent = u.escrituras_qty;
-    document.getElementById('f-leads').textContent = u.leads;
+    // Resumen Final
+    if(document.getElementById('f-monto')) document.getElementById('f-monto').textContent = u.monto;
+    if(document.getElementById('f-vnetas')) document.getElementById('f-vnetas').textContent = u.v_netas;
+    if(document.getElementById('f-eqty')) document.getElementById('f-eqty').textContent = u.escrituras_qty;
+    if(document.getElementById('f-leads')) document.getElementById('f-leads').textContent = u.leads;
 }
-
-function showStory(index) {
-    const stories = document.querySelectorAll('.story');
-    const bars = document.querySelectorAll('.progress-bar');
-    if (index >= stories.length) return;
-    stories.forEach(s => s.classList.remove('active'));
-    stories[index].classList.add('active');
-    bars.forEach((bar, i) => {
-        bar.classList.remove('active', 'completed');
-        if (i < index) bar.classList.add('completed');
-        if (i === index) bar.classList.add('active');
-    });
-    current = index;
-    if ([1, 3, 4].includes(index)) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    clearInterval(storyTimer);
-    storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
-}
-
-function initExperience() {
-    document.getElementById('login').style.display = 'none';
-    document.getElementById('progressRoot').style.display = 'flex';
-    document.getElementById('tapZones').style.display = 'flex';
-    const root = document.getElementById('progressRoot');
-    root.innerHTML = '';
-    document.querySelectorAll('.story').forEach(() => {
-        root.innerHTML += '<div class="progress-bar"><div class="progress-fill"></div></div>';
-    });
-    renderValues(currentUser);
-    document.getElementById('music').play().catch(() => {});
-    showStory(0);
-}
-
-document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
-document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
-
-document.getElementById('exportBtn').onclick = function() {
-    html2canvas(document.getElementById('final-card'), { backgroundColor: '#000', scale: 3 }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Wrapped_${currentUser.name}.png`;
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-};
