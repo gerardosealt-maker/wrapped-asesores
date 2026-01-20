@@ -1,9 +1,8 @@
 :root { --primary: #FF8200; --white: #ffffff; }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
 
-body { background: #000; color: var(--white); overflow: hidden; height: 100vh; }
+body { background: #000; color: var(--white); overflow: hidden; height: 100vh; width: 100vw; }
 
-/* FONDO LAVA ANIMADO */
 #capture-area { 
     width: 100%; height: 100vh; position: relative; 
     background: linear-gradient(-45deg, #000000, #1a1a1a, #8a4700, #000000);
@@ -17,7 +16,6 @@ body { background: #000; color: var(--white); overflow: hidden; height: 100vh; }
     100% { background-position: 0% 50%; }
 }
 
-/* LOGIN TOTALMENTE CENTRADO */
 #login { 
     position: fixed; inset: 0; background: #000; z-index: 5000; 
     display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
@@ -35,7 +33,6 @@ body { background: #000; color: var(--white); overflow: hidden; height: 100vh; }
 }
 .story.active { display: flex; }
 
-h1, h2, .big-number { text-shadow: 0 4px 15px rgba(0,0,0,0.9); }
 .big-number { font-size: 90px; font-weight: 900; line-height: 1; margin: 10px 0; }
 
 .photo-container { 
@@ -46,7 +43,7 @@ h1, h2, .big-number { text-shadow: 0 4px 15px rgba(0,0,0,0.9); }
 .photo-container img { width: 100%; height: 100%; object-fit: cover; }
 
 #progressRoot { position: absolute; top: 20px; width: 90%; display: flex; gap: 5px; z-index: 1000; }
-.progress-bar { height: 4px; background: rgba(255,255,255,0.2); flex: 1; border-radius: 10px; }
+.progress-bar { height: 4px; background: rgba(255,255,255,0.2); flex: 1; border-radius: 10px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--white); width: 0%; transition: width 5.5s linear; }
 
 .mini-stats { display: flex; gap: 15px; justify-content: center; margin-top: 10px; }
@@ -54,17 +51,17 @@ h1, h2, .big-number { text-shadow: 0 4px 15px rgba(0,0,0,0.9); }
 .stat-box span { font-size: 22px; font-weight: 900; color: var(--primary); display: block; }
 
 .card-summary { 
-    background: var(--white); padding: 25px; border-radius: 20px; 
-    width: 100%; max-width: 320px; color: #000; text-align: center;
+    background: #ffffff; padding: 25px; border-radius: 20px; 
+    width: 320px; color: #000; text-align: center;
 }
-.monto-destacado { background: #000; color: var(--white); padding: 15px; border-radius: 12px; margin: 15px 0; }
+.monto-destacado { background: #000000; color: #ffffff; padding: 15px; border-radius: 12px; margin: 15px 0; }
 #f-monto { font-size: 30px; font-weight: 900; color: var(--primary); }
 
 #startBtn, #exportBtn { 
     background: var(--primary); color: #fff; border: none; padding: 18px 40px; 
     border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%;
 }
-#exportBtn { background: #000; width: auto; margin-top: 20px; }
+#exportBtn { background: #fff; color: #000; border: 2px solid #000; width: 200px; margin-top: 20px; }
 
 #tapZones { position: absolute; inset: 0; display: flex; z-index: 100; }
 #btnPrev { flex: 1; } #btnNext { flex: 3; }
