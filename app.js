@@ -17,73 +17,39 @@ const data = [
   { "name": "HILDA VERONICA ALVAREZ MEDINA", "foto": "Hilda Veronica.jpg", "mejor_mes": "JULIO", "mejor_mes_ventas": 1, "leads": 12, "citas": 2, "visitas": 0, "v_digital": 1, "v_brutas": 2, "cancelaciones": 0, "v_netas": 2, "escrituras_qty": 0, "monto": "$2.4M" }
 ];
 
-// Asegúrate de usar la lista 'data' que ya tienes definida arriba
+// ... (Aquí mantén tus datos de 'data') ...
 
-function renderValues(u) {
-    let r = "", f1 = "", f2 = "", f3 = "", f4 = "", fFinal = "";
+let current = 0;
+let currentUser = null;
+let storyTimer = null;
+
+document.getElementById('startBtn').onclick = () => {
+    const input = document.getElementById('agentInput').value.trim().toUpperCase();
+    const user = data.find(u => u.name.toUpperCase().includes(input));
     
-    // Lógica de frases según desempeño (Ventas Netas)
-    if (u.v_netas >= 50) {
-        r = "👑 MÁSTER ÉLITE";
-        f1 = "Tu liderazgo ha llevado a Sadasi a un nuevo nivel.";
-        f2 = `En ${u.mejor_mes} demostraste una ejecución impecable.`;
-        f3 = "Eres un experto en transformar leads en familias felices.";
-        f4 = "Balance extraordinario. Tu efectividad es inspiradora.";
-        fFinal = "¡Nivel Legendario! Eres el motor de nuestro éxito.";
-    } else if (u.v_netas >= 30) {
-        r = "⭐ ASESOR DIAMANTE";
-        f1 = "Tu constancia inspira a todo el equipo día tras día.";
-        f2 = `${u.mejor_mes} fue el reflejo de tu gran dedicación.`;
-        f3 = "Tu disciplina con el seguimiento es tu mayor fortaleza.";
-        f4 = "Números sólidos que construyen un futuro brillante.";
-        fFinal = "¡Gran trabajo! Estás a un paso de la cima élite.";
-    } else {
-        r = "🚀 ASESOR PRO";
-        f1 = "Un 2025 de aprendizaje para un 2026 de conquista.";
-        f2 = `${u.mejor_mes} nos mostró de lo que eres capaz. ¡Repitámoslo!`;
-        f3 = "Cada contacto es una oportunidad. ¡Vamos por más!";
-        f4 = "Enfócate en tu balance: ¡Tu potencial está por explotar!";
-        fFinal = "¡El 2026 será tu año! Estamos listos para crecer contigo.";
+    if (!user) {
+        alert("Asesor no encontrado");
+        return;
     }
-
-    // Inyección en el HTML
-    document.getElementById('rank-badge-main').innerHTML = `<div style="background:var(--primary); padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold; margin-bottom:10px; display:inline-block;">${r}</div>`;
-    document.getElementById('f-rango').textContent = r;
-    document.getElementById('frase-1').textContent = f1;
-    document.getElementById('frase-2').textContent = f2;
-    document.getElementById('frase-3').textContent = f3;
-    document.getElementById('frase-4').textContent = f4;
-    document.getElementById('f-frase').textContent = fFinal;
-
-    document.querySelectorAll('.u-photo').forEach(img => {
-        img.src = encodeURI(u.foto);
-        img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`; };
-    });
-
-    document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
-    document.getElementById('u-mejor-mes-nombre').textContent = u.mejor_mes;
-    document.getElementById('u-mejor-mes-qty').textContent = u.mejor_mes_ventas;
-    document.getElementById('u-leads').textContent = u.leads;
-    document.getElementById('u-citas').textContent = u.citas;
-    document.getElementById('u-visitas').textContent = u.visitas;
-    document.getElementById('u-vbrutas').textContent = u.v_brutas;
-    document.getElementById('u-canceladas').textContent = u.cancelaciones;
-    document.getElementById('u-vnetas-slide').textContent = u.v_netas;
-    document.getElementById('u-vdigital-slide').textContent = u.v_digital;
-    document.getElementById('f-monto').textContent = u.monto;
-    document.getElementById('f-vnetas').textContent = u.v_netas;
-    document.getElementById('f-eqty').textContent = u.escrituras_qty;
-}
+    
+    currentUser = user;
+    renderValues(user);
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('progressRoot').style.display = 'flex';
+    document.getElementById('tapZones').style.display = 'flex';
+    document.getElementById('music').play().catch(e => console.log("Audio bloqueado"));
+    showStory(0);
+};
 
 function showStory(index) {
     const stories = document.querySelectorAll('.story');
-    if (index >= stories.length) return;
-    
-    // RESET DE VISIBILIDAD
+    if (index < 0 || index >= stories.length) return;
+
+    // 1. Ocultar todas y mostrar solo la actual
     stories.forEach(s => s.classList.remove('active'));
     stories[index].classList.add('active');
 
-    // BARRAS DE PROGRESO
+    // 2. Actualizar Barras de Progreso
     const root = document.getElementById('progressRoot');
     root.innerHTML = '';
     stories.forEach((_, i) => {
@@ -91,13 +57,30 @@ function showStory(index) {
         bar.className = 'progress-bar';
         const fill = document.createElement('div');
         fill.className = 'progress-fill';
-        if (i === index) setTimeout(() => fill.style.width = '100%', 50);
         if (i < index) fill.style.width = '100%';
+        if (i === index) setTimeout(() => fill.style.width = '100%', 50);
         bar.appendChild(fill);
         root.appendChild(bar);
     });
 
     current = index;
+    
+    // 3. Reiniciar Timer (5.5 segundos por slide)
     clearInterval(storyTimer);
-    storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
+    storyTimer = setInterval(() => {
+        if (current < stories.length - 1) showStory(current + 1);
+    }, 5500);
+
+    // Confetti solo en slides de éxito
+    if (index > 0) confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
 }
+
+// Navegación Manual
+document.getElementById('btnNext').onclick = () => {
+    const stories = document.querySelectorAll('.story');
+    if (current < stories.length - 1) showStory(current + 1);
+};
+
+document.getElementById('btnPrev').onclick = () => {
+    if (current > 0) showStory(current - 1);
+};
