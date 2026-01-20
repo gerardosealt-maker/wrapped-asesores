@@ -17,26 +17,50 @@ const data = [
   { "name": "HILDA VERONICA ALVAREZ MEDINA", "foto": "Hilda Veronica.jpg", "mejor_mes": "JULIO", "mejor_mes_ventas": 1, "leads": 12, "citas": 2, "visitas": 0, "v_digital": 1, "v_brutas": 2, "cancelaciones": 0, "v_netas": 2, "escrituras_qty": 0, "monto": "$2.4M" }
 ];
 
-let current = 0, currentUser = null, storyTimer = null;
+let current = 0;
+let currentUser = null;
+let storyTimer = null;
 
+// Botón de Inicio
 document.getElementById('startBtn').onclick = () => {
     const val = document.getElementById('agentInput').value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const user = data.find(u => u.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(val));
-    if (!user) return alert("Asesor no encontrado.");
+    
+    if (!user) {
+        alert("Asesor no encontrado. Intenta con tu nombre principal.");
+        return;
+    }
+    
     currentUser = user;
     initExperience();
 };
 
 function renderValues(u) {
-    // FOTOS (Busca en la raíz del proyecto)
+    // 1. MEDALLAS SEGÚN VENTAS
+    let medalla = "";
+    if (u.v_netas >= 60) medalla = "👑 MASTER ELITE";
+    else if (u.v_netas >= 45) medalla = "⭐ DIAMANTE";
+    else if (u.v_netas >= 30) medalla = "🔥 SENIOR";
+    document.getElementById('rank-container').innerHTML = medalla ? `<div class="rank-badge">${medalla}</div>` : "";
+
+    // 2. CARGA DE FOTOS (DIRECTO DESDE LA RAÍZ)
     document.querySelectorAll('.u-photo').forEach(img => {
+        // Intentamos cargar el nombre tal cual
         img.src = u.foto; 
+        
         img.onerror = () => {
-            console.error("No se pudo cargar la foto:", u.foto);
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`;
+            // Si falla por los espacios, intentamos codificarlos (reemplazar espacio por %20)
+            const fotoUrl = encodeURIComponent(u.foto).replace(/%20/g, ' ');
+            img.src = fotoUrl;
+
+            img.onerror = () => {
+                // Si sigue fallando, usamos un avatar con iniciales
+                img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`;
+            };
         };
     });
 
+    // 3. INYECCIÓN DE TEXTOS Y NÚMEROS
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
     document.getElementById('u-mejor-mes-nombre').textContent = u.mejor_mes;
     document.getElementById('u-mejor-mes-qty').textContent = u.mejor_mes_ventas;
@@ -46,7 +70,7 @@ function renderValues(u) {
     document.getElementById('u-vnetas').textContent = u.v_netas;
     document.getElementById('u-vdigital').textContent = u.v_digital;
     
-    // RESUMEN FINAL
+    // 4. RESUMEN FINAL Y MONTO DE ESCRITURACIÓN
     document.getElementById('f-monto').textContent = u.monto;
     document.getElementById('f-vnetas').textContent = u.v_netas;
     document.getElementById('f-eqty').textContent = u.escrituras_qty;
@@ -56,9 +80,11 @@ function renderValues(u) {
 function showStory(index) {
     const stories = document.querySelectorAll('.story');
     if (index >= stories.length) return;
+
     stories.forEach(s => s.classList.remove('active'));
     stories[index].classList.add('active');
     
+    // Manejo de barras de progreso
     const root = document.getElementById('progressRoot');
     root.innerHTML = '';
     stories.forEach((_, i) => {
@@ -73,30 +99,53 @@ function showStory(index) {
     });
 
     current = index;
-    if ([1, 3, 4].includes(index)) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+
+    // Efecto de Confetti en momentos clave
+    if ([1, 3, 4].includes(index)) {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    }
     
     clearInterval(storyTimer);
-    storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
+    storyTimer = setInterval(() => { 
+        if (current < stories.length - 1) showStory(current + 1); 
+    }, 5500);
 }
 
 function initExperience() {
     document.getElementById('login').style.display = 'none';
     document.getElementById('progressRoot').style.display = 'flex';
     document.getElementById('tapZones').style.display = 'flex';
+    
     renderValues(currentUser);
-    document.getElementById('music').play().catch(() => {});
+    
+    // Intentar reproducir música
+    const music = document.getElementById('music');
+    if (music) {
+        music.play().catch(e => console.log("Música bloqueada por el navegador"));
+    }
+
     showStory(0);
 }
 
-document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
-document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
+// Navegación por Taps
+document.getElementById('btnNext').onclick = () => {
+    if (current < 4) showStory(current + 1);
+};
+document.getElementById('btnPrev').onclick = () => {
+    if (current > 0) showStory(current - 1);
+};
 
+// Exportar Imagen
 document.getElementById('exportBtn').onclick = function() {
-    html2canvas(document.getElementById('final-card'), { backgroundColor: '#000', scale: 2 }).then(canvas => {
+    const card = document.getElementById('final-card');
+    html2canvas(card, { 
+        backgroundColor: '#000',
+        scale: 2,
+        useCORS: true 
+    }).then(canvas => {
         const link = document.createElement('a');
-        link.download = `Wrapped_${currentUser.name}.png`;
-        link.href = canvas.toDataURL();
+        link.download = `Wrapped2025_${currentUser.name}.png`;
+        link.href = canvas.toDataURL("image/png");
         link.click();
     });
 };
-
