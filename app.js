@@ -17,6 +17,8 @@ const data = [
   { "name": "HILDA VERONICA ALVAREZ MEDINA", "foto": "Hilda Veronica.jpg", "mejor_mes": "JULIO", "mejor_mes_ventas": 1, "leads": 12, "citas": 2, "visitas": 0, "v_digital": 1, "v_brutas": 2, "cancelaciones": 0, "v_netas": 2, "escrituras_qty": 0, "monto": "$2.4M" }
 ];
 
+// ... mantén tu lista 'data' aquí arriba ...
+
 let current = 0, currentUser = null, storyTimer = null;
 
 document.getElementById('startBtn').onclick = () => {
@@ -29,21 +31,10 @@ document.getElementById('startBtn').onclick = () => {
 
 function renderValues(u) {
     let rango = ""; let frase = "";
-    
-    // LÓGICA DE RANGOS Y FRASES
-    if (u.v_netas >= 60) {
-        rango = "👑 MÁSTER ÉLITE";
-        frase = "¡Nivel Legendario! Has dominado el 2025 con resultados fuera de serie.";
-    } else if (u.v_netas >= 40) {
-        rango = "⭐ ASESOR DIAMANTE";
-        frase = "Tu constancia y brillo han sido fundamentales este año. ¡Gran trabajo!";
-    } else if (u.v_netas >= 20) {
-        rango = "🚀 ASESOR PRO";
-        frase = "¡Buen camino! El 2025 fue de gran crecimiento, vamos por más.";
-    } else {
-        rango = "🎯 EN DESPEGUE";
-        frase = "Un año de aprendizaje. ¡En 2026 vamos a duplicar estos números!";
-    }
+    if (u.v_netas >= 60) { rango = "👑 MÁSTER ÉLITE"; frase = "¡Nivel Legendario! Resultados fuera de serie."; }
+    else if (u.v_netas >= 40) { rango = "⭐ ASESOR DIAMANTE"; frase = "Tu constancia inspiró a todo el equipo."; }
+    else if (u.v_netas >= 20) { rango = "🚀 ASESOR PRO"; frase = "¡Buen camino! El 2025 fue de gran crecimiento."; }
+    else { rango = "🎯 EN DESPEGUE"; frase = "¡Vamos por un 2026 imparable!"; }
 
     document.getElementById('rank-badge-main').innerHTML = `<div class="rank-badge">${rango}</div>`;
     document.getElementById('f-rango').textContent = rango;
@@ -60,6 +51,14 @@ function renderValues(u) {
     document.getElementById('u-leads').textContent = u.leads;
     document.getElementById('u-citas').textContent = u.citas;
     document.getElementById('u-visitas').textContent = u.visitas;
+    
+    // Slide de Balance
+    document.getElementById('u-vbrutas').textContent = u.v_brutas;
+    document.getElementById('u-canceladas').textContent = u.cancelaciones;
+    document.getElementById('u-vnetas-slide').textContent = u.v_netas;
+    document.getElementById('u-vdigital-slide').textContent = u.v_digital;
+
+    // Resumen Final
     document.getElementById('f-monto').textContent = u.monto;
     document.getElementById('f-vnetas').textContent = u.v_netas;
     document.getElementById('f-eqty').textContent = u.escrituras_qty;
@@ -85,7 +84,7 @@ function showStory(index) {
     });
 
     current = index;
-    if (index > 0) confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+    if (index > 0) confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
     
     clearInterval(storyTimer);
     storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
@@ -100,5 +99,5 @@ function initExperience() {
     showStory(0);
 }
 
-document.getElementById('btnNext').onclick = () => { if (current < 3) showStory(current + 1); };
+document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
