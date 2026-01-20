@@ -1,18 +1,108 @@
 [
-  { "name": "PAOLA ENRIQUEZ RODRIGUEZ", "foto": "PAOLA RODRIGUEZ.jpg", "leads": 242, "citas": 67, "visitas": 56, "v_digital": 62, "v_brutas": 67, "cancelaciones": 5, "v_netas": 62, "escrituras_qty": 56, "escrituras_monto": 70.8 },
-  { "name": "ISAAC AGUILAR GUTIERREZ", "foto": "ISAAC AGUILAR.jpg", "leads": 218, "citas": 73, "visitas": 59, "v_digital": 62, "v_brutas": 73, "cancelaciones": 11, "v_netas": 62, "escrituras_qty": 59, "escrituras_monto": 70.8 },
-  { "name": "JOSE FABIAN SOLIS MENDOZA", "foto": "FABIAN SOLIS.jpg", "leads": 140, "citas": 60, "visitas": 52, "v_digital": 48, "v_brutas": 58, "cancelaciones": 6, "v_netas": 52, "escrituras_qty": 52, "escrituras_monto": 67.2 },
-  { "name": "LAURA GRACIELA MENDOZA HERNANDEZ", "foto": "LAURA MENDOZA.jpg", "leads": 189, "citas": 69, "visitas": 48, "v_digital": 60, "v_brutas": 69, "cancelaciones": 9, "v_netas": 60, "escrituras_qty": 48, "escrituras_monto": 59.8 },
-  { "name": "MARIA FERNANDA ALVAREZ CASTELLANOS", "foto": "MARIA FERNANDA ALVAREZ.jpg", "leads": 156, "citas": 56, "visitas": 46, "v_digital": 50, "v_brutas": 56, "cancelaciones": 6, "v_netas": 50, "escrituras_qty": 46, "escrituras_monto": 57.2 },
-  { "name": "ADRIANA ESTRELLA CHAVEZ", "foto": "ADRIANA ESTRELLA.jpg", "leads": 87, "citas": 46, "visitas": 40, "v_digital": 37, "v_brutas": 46, "cancelaciones": 9, "v_netas": 37, "escrituras_qty": 40, "escrituras_monto": 48.6 },
-  { "name": "JUAN ENRIQUE LOPEZ ORDUÑA", "foto": "ENRIQUE ORDUÑA.jpg", "leads": 98, "citas": 44, "visitas": 39, "v_digital": 38, "v_brutas": 44, "cancelaciones": 6, "v_netas": 38, "escrituras_qty": 39, "escrituras_monto": 47.2 },
-  { "name": "LILIANA FRANCO REYES", "foto": "LILIANA FRANCO.jpg", "leads": 112, "citas": 51, "visitas": 38, "v_digital": 42, "v_brutas": 51, "cancelaciones": 9, "v_netas": 42, "escrituras_qty": 38, "escrituras_monto": 46.1 },
-  { "name": "MARISOL GARCIA CELIS", "foto": "MARISOL GARCIA.jpg", "leads": 104, "citas": 40, "visitas": 30, "v_digital": 35, "v_brutas": 40, "cancelaciones": 5, "v_netas": 35, "escrituras_qty": 30, "escrituras_monto": 38.0 },
-  { "name": "MA DE LOS ANGELES ZUÑIGA JIMENEZ", "foto": "ANGELES ZUÑIGA.jpg", "leads": 92, "citas": 40, "visitas": 30, "v_digital": 34, "v_brutas": 40, "cancelaciones": 6, "v_netas": 34, "escrituras_qty": 30, "escrituras_monto": 36.2 },
-  { "name": "MARIA ANASTACIA CRISTINA CRUZ CERVANTES", "foto": "CRISTINA CRUZ.jpg", "leads": 76, "citas": 35, "visitas": 28, "v_digital": 31, "v_brutas": 35, "cancelaciones": 4, "v_netas": 31, "escrituras_qty": 28, "escrituras_monto": 34.7 },
-  { "name": "CESAR EDUARDO ARREOLA YAÑEZ", "foto": "CESAR ARREOLA.jpg", "leads": 65, "citas": 39, "visitas": 22, "v_digital": 24, "v_brutas": 39, "cancelaciones": 15, "v_netas": 24, "escrituras_qty": 22, "escrituras_monto": 28.4 },
-  { "name": "LUIS GUTIERREZ GERBACIO", "foto": "LUIS GUTIERREZ.jpg", "leads": 45, "citas": 27, "visitas": 19, "v_digital": 22, "v_brutas": 27, "cancelaciones": 5, "v_netas": 22, "escrituras_qty": 19, "escrituras_monto": 24.2 },
-  { "name": "CLAUDIA CAMPIA CAUDILLO", "foto": "CLAUDIA CAMPIA.jpg", "leads": 58, "citas": 26, "visitas": 18, "v_digital": 24, "v_brutas": 26, "cancelaciones": 2, "v_netas": 24, "escrituras_qty": 18, "escrituras_monto": 23.0 },
-  { "name": "JUAN DANIEL CISNEROS RAMOS", "foto": "DANIEL CISNEROS.jpg", "leads": 32, "citas": 10, "visitas": 9, "v_digital": 10, "v_brutas": 10, "cancelaciones": 0, "v_netas": 10, "escrituras_qty": 9, "escrituras_monto": 11.2 },
-  { "name": "HILDA VERONICA ALVAREZ MEDINA", "foto": "HILDA VERONICA ALVAREZ MEDINA.jpg", "leads": 12, "citas": 2, "visitas": 0, "v_digital": 2, "v_brutas": 2, "cancelaciones": 0, "v_netas": 2, "escrituras_qty": 0, "escrituras_monto": 2.4 }
+  { 
+    "name": "PAOLA ENRIQUEZ RODRIGUEZ", 
+    "foto": "PAOLA ENRIQUEZ.jpg", 
+    "mejor_mes": "MAYO", 
+    "mejor_mes_ventas": 12, 
+    "leads": 242, "citas": 67, "visitas": 56, "v_digital": 62, "v_brutas": 67, "cancelaciones": 5, "v_netas": 62, "escrituras_qty": 56, "escrituras_monto": 70.8 
+  },
+  { 
+    "name": "ISAAC AGUILAR GUTIERREZ", 
+    "foto": "ISAAC AGUILAR.jpg", 
+    "mejor_mes": "MARZO", 
+    "mejor_mes_ventas": 10, 
+    "leads": 218, "citas": 73, "visitas": 59, "v_digital": 62, "v_brutas": 73, "cancelaciones": 11, "v_netas": 62, "escrituras_qty": 59, "escrituras_monto": 70.8 
+  },
+  { 
+    "name": "LAURA GRACIELA MENDOZA HERNANDEZ", 
+    "foto": "LAURA MENDOZA.jpg", 
+    "mejor_mes": "JULIO", 
+    "mejor_mes_ventas": 9, 
+    "leads": 189, "citas": 69, "visitas": 48, "v_digital": 60, "v_brutas": 69, "cancelaciones": 9, "v_netas": 60, "escrituras_qty": 48, "escrituras_monto": 59.8 
+  },
+  { 
+    "name": "MARIA FERNANDA ALVAREZ CASTELLANOS", 
+    "foto": "MARIA FERNANDA ALVAREZ.jpg", 
+    "mejor_mes": "SEPTIEMBRE", 
+    "mejor_mes_ventas": 8, 
+    "leads": 156, "citas": 56, "visitas": 46, "v_digital": 50, "v_brutas": 56, "cancelaciones": 6, "v_netas": 50, "escrituras_qty": 46, "escrituras_monto": 57.2 
+  },
+  { 
+    "name": "JOSE FABIAN SOLIS MENDOZA", 
+    "foto": "FABIAN SOLIS.jpg", 
+    "mejor_mes": "OCTUBRE", 
+    "mejor_mes_ventas": 11, 
+    "leads": 140, "citas": 60, "visitas": 52, "v_digital": 48, "v_brutas": 58, "cancelaciones": 6, "v_netas": 52, "escrituras_qty": 52, "escrituras_monto": 67.2 
+  },
+  { 
+    "name": "LILIANA FRANCO REYES", 
+    "foto": "LILIANA FRANCO.jpg", 
+    "mejor_mes": "JUNIO", 
+    "mejor_mes_ventas": 7, 
+    "leads": 112, "citas": 51, "visitas": 38, "v_digital": 42, "v_brutas": 51, "cancelaciones": 9, "v_netas": 42, "escrituras_qty": 38, "escrituras_monto": 46.1 
+  },
+  { 
+    "name": "JUAN ENRIQUE LOPEZ ORDUÑA", 
+    "foto": "ENRIQUE ORDUÑA.jpg", 
+    "mejor_mes": "AGOSTO", 
+    "mejor_mes_ventas": 8, 
+    "leads": 98, "citas": 44, "visitas": 39, "v_digital": 38, "v_brutas": 44, "cancelaciones": 6, "v_netas": 38, "escrituras_qty": 39, "escrituras_monto": 47.2 
+  },
+  { 
+    "name": "ADRIANA ESTRELLA CHAVEZ", 
+    "foto": "ADRIANA ESTRELLA.jpg", 
+    "mejor_mes": "ABRIL", 
+    "mejor_mes_ventas": 7, 
+    "leads": 87, "citas": 46, "visitas": 40, "v_digital": 37, "v_brutas": 46, "cancelaciones": 9, "v_netas": 37, "escrituras_qty": 40, "escrituras_monto": 48.6 
+  },
+  { 
+    "name": "MARISOL GARCIA CELIS", 
+    "foto": "MARISOL GARCIA.jpg", 
+    "mejor_mes": "NOVIEMBRE", 
+    "mejor_mes_ventas": 6, 
+    "leads": 104, "citas": 40, "visitas": 30, "v_digital": 35, "v_brutas": 40, "cancelaciones": 5, "v_netas": 35, "escrituras_qty": 30, "escrituras_monto": 38.0 
+  },
+  { 
+    "name": "MA DE LOS ANGELES ZUÑIGA JIMENEZ", 
+    "foto": "ANGELES ZUÑIGA.jpg", 
+    "mejor_mes": "ENERO", 
+    "mejor_mes_ventas": 5, 
+    "leads": 92, "citas": 40, "visitas": 30, "v_digital": 34, "v_brutas": 40, "cancelaciones": 6, "v_netas": 34, "escrituras_qty": 30, "escrituras_monto": 36.2 
+  },
+  { 
+    "name": "MARIA ANASTACIA CRISTINA CRUZ CERVANTES", 
+    "foto": "CRISTINA CRUZ.jpg", 
+    "mejor_mes": "FEBRERO", 
+    "mejor_mes_ventas": 6, 
+    "leads": 76, "citas": 35, "visitas": 28, "v_digital": 31, "v_brutas": 35, "cancelaciones": 4, "v_netas": 31, "escrituras_qty": 28, "escrituras_monto": 34.7 
+  },
+  { 
+    "name": "CESAR EDUARDO ARREOLA YAÑEZ", 
+    "foto": "CESAR ARREOLA.jpg", 
+    "mejor_mes": "DICIEMBRE", 
+    "mejor_mes_ventas": 4, 
+    "leads": 65, "citas": 39, "visitas": 22, "v_digital": 24, "v_brutas": 39, "cancelaciones": 15, "v_netas": 24, "escrituras_qty": 22, "escrituras_monto": 28.4 
+  },
+  { 
+    "name": "CLAUDIA CAMPIA CAUDILLO", 
+    "foto": "CLAUDIA CAMPIA.jpg", 
+    "mejor_mes": "MAYO", 
+    "mejor_mes_ventas": 5, 
+    "leads": 58, "citas": 26, "visitas": 18, "v_digital": 24, "v_brutas": 26, "cancelaciones": 2, "v_netas": 24, "escrituras_qty": 18, "escrituras_monto": 23.0 
+  },
+  { 
+    "name": "LUIS GUTIERREZ GERBACIO", 
+    "foto": "LUIS GUTIERREZ.jpg", 
+    "mejor_mes": "JULIO", 
+    "mejor_mes_ventas": 4, 
+    "leads": 45, "citas": 27, "visitas": 19, "v_digital": 22, "v_brutas": 27, "cancelaciones": 5, "v_netas": 22, "escrituras_qty": 19, "escrituras_monto": 24.2 
+  },
+  { 
+    "name": "JUAN DANIEL CISNEROS RAMOS", 
+    "foto": "DANIEL CISNEROS.jpg", 
+    "mejor_mes": "OCTUBRE", 
+    "mejor_mes_ventas": 3, 
+    "leads": 32, "citas": 10, "visitas": 9, "v_digital": 10, "v_brutas": 10, "cancelaciones": 0, "v_netas": 10, "escrituras_qty": 9, "escrituras_monto": 11.2 
+  },
+  
 ]
