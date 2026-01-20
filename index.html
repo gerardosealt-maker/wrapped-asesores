@@ -13,6 +13,7 @@
 
     <div id="login">
         <div class="login-content">
+            <img src="logo-sadasi.png" width="150" alt="Logo Sadasi" style="margin-bottom:20px;">
             <h1 style="color:white; margin-bottom: 20px;">TU 2025<br><span style="color:#FF8200;">SENDAS WRAPPED</span></h1>
             <input type="text" id="agentInput" placeholder="ESCRIBE TU NOMBRE...">
             <button id="startBtn">DESCUBRIR MI AÑO</button>
@@ -46,9 +47,9 @@
                 <div class="big-number" id="u-leads">0</div>
                 <h1 style="color:white;">LEADS TOTALES</h1>
                 <div class="mini-stats">
-                    <div><strong id="u-citas" style="color:#FF8200;">0</strong><br><small>CITAS</small></div>
-                    <div class="divider" style="background:white; width:1px; height:30px; margin: 0 15px;"></div>
-                    <div><strong id="u-visitas" style="color:#FF8200;">0</strong><br><small>VISITAS</small></div>
+                    <div style="color:#FF8200; font-weight:bold;"><span id="u-citas">0</span><br><small style="color:white;">CITAS</small></div>
+                    <div style="background:white; width:1px; height:30px; margin: 0 15px;"></div>
+                    <div style="color:#FF8200; font-weight:bold;"><span id="u-visitas">0</span><br><small style="color:white;">VISITAS</small></div>
                 </div>
             </div>
         </section>
@@ -58,32 +59,33 @@
                 <h2>IMPACTO COMERCIAL</h2>
                 <div class="big-number" id="u-vnetas" style="color:#FF8200;">0</div>
                 <h1 style="color:white;">VENTAS NETAS</h1>
-                <div class="digital-mention" style="color:white; margin-top:10px;">⚡ <span id="u-vdigital">0</span> fueron ventas digitales</div>
+                <div style="color:white; margin-top:10px;">⚡ <span id="u-vdigital">0</span> fueron ventas digitales</div>
             </div>
         </section>
 
         <section class="story">
             <div class="story-body">
-                <div class="card-summary" id="final-card" style="background:white; padding:20px; border-radius:15px; width:90%;">
-                    <h2 style="color:black; margin:0;">RESUMEN 2025</h2>
-                    <h3 class="u-name-display" style="color:#FF8200; margin-bottom:15px;">---</h3>
+                <div class="card-summary" id="final-card" style="background:white; padding:20px; border-radius:15px; width:90%; color:black;">
+                    <img src="logo-sadasi.png" width="80" style="margin-bottom:10px;">
+                    <h2 style="margin:0; font-size:18px;">RESUMEN 2025</h2>
+                    <h3 class="u-name-display" style="color:#FF8200; margin-bottom:15px; font-size:16px;">---</h3>
                     
                     <div style="background: black; color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-                        <small style="font-size: 10px; display:block; margin-bottom:5px; font-weight:bold; letter-spacing:1px;">MONTO TOTAL ESCRITURADO</small>
-                        <div id="f-monto" style="font-size: 32px; font-weight: 900; color: #FF8200;">$0.0M</div>
+                        <small style="font-size: 10px; display:block; margin-bottom:5px;">MONTO ESCRITURADO</small>
+                        <div id="f-monto" style="font-size: 28px; font-weight: 900; color: #FF8200;">$0.0M</div>
                     </div>
 
-                    <div class="stats-grid" style="display:flex; justify-content:space-around; border-top:1px solid #eee; padding-top:10px;">
-                        <div class="stat-item"><span style="font-size:10px; font-weight:bold; display:block; color:black;">VENTAS</span><strong id="f-vnetas" style="font-size:22px; color:#FF8200;">0</strong></div>
-                        <div class="stat-item"><span style="font-size:10px; font-weight:bold; display:block; color:black;">ENTREGAS</span><strong id="f-eqty" style="font-size:22px; color:#FF8200;">0</strong></div>
-                        <div class="stat-item"><span style="font-size:10px; font-weight:bold; display:block; color:black;">LEADS</span><strong id="f-leads" style="font-size:22px; color:#FF8200;">0</strong></div>
+                    <div style="display:flex; justify-content:space-around; border-top:1px solid #eee; padding-top:10px;">
+                        <div><span style="font-size:9px; font-weight:bold;">VENTAS</span><br><strong id="f-vnetas" style="color:#FF8200; font-size:20px;">0</strong></div>
+                        <div><span style="font-size:9px; font-weight:bold;">ENTREGAS</span><br><strong id="f-eqty" style="color:#FF8200; font-size:20px;">0</strong></div>
+                        <div><span style="font-size:9px; font-weight:bold;">LEADS</span><br><strong id="f-leads" style="color:#FF8200; font-size:20px;">0</strong></div>
                     </div>
                 </div>
-                <button id="exportBtn" style="margin-top:20px; background:#FF8200; color:white; border:none; padding:12px 20px; border-radius:20px; font-weight:bold;">GUARDAR EN GALERÍA</button>
+                <button id="exportBtn" style="margin-top:20px; background:#FF8200; color:white; border:none; padding:12px 25px; border-radius:20px; font-weight:bold;">COMPARTIR</button>
             </div>
         </section>
 
-        <div id="tapZones" style="display:none; position:absolute; inset:0; z-index:150;">
+        <div id="tapZones" style="display:none; position:absolute; inset:0; z-index:150; display:flex;">
             <div id="btnPrev" style="flex:1;"></div>
             <div id="btnNext" style="flex:3;"></div>
         </div>
