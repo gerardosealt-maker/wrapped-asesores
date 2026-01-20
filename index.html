@@ -13,9 +13,9 @@
     <div id="login">
         <div class="login-content">
             <img src="logo-sadasi.png" width="160">
-            <h1 style="color:white; margin: 20px 0;">TU 2025<br><span style="color:#FF8200;">SENDAS WRAPPED</span></h1>
-            <input type="text" id="agentInput" placeholder="TU NOMBRE">
-            <button id="startBtn">EMPEZAR</button>
+            <h1>TU 2025<br><span style="color:#FF8200;">SENDAS WRAPPED</span></h1>
+            <input type="text" id="agentInput" placeholder="ESCRIBE TU NOMBRE">
+            <button id="startBtn">COMENZAR EXPERIENCIA</button>
         </div>
     </div>
 
@@ -23,78 +23,73 @@
         <div id="progressRoot" style="display:none;"></div>
         
         <section class="story">
-            <div class="story-body">
+            <div class="ui-card">
                 <div id="rank-badge-main"></div>
-                <h2>ESTE FUE TU 2025</h2>
                 <div class="photo-container"><img src="" class="u-photo"></div>
-                <h1 class="u-name-display" style="color:#FF8200;">---</h1>
+                <h2 class="u-name-display">---</h2>
+                <p class="u-frase" id="frase-1"></p>
             </div>
         </section>
 
         <section class="story">
-            <div class="story-body">
-                <h2>TU MEJOR MES</h2>
-                <h1 id="u-mejor-mes-nombre" style="font-size: 50px; color: #FF8200; font-weight: 900;">MES</h1>
-                <div class="big-number" id="u-mejor-mes-qty">0</div>
-                <h1>VENTAS</h1>
-            </div>
-        </section>
-
-        <section class="story">
-            <div class="story-body">
-                <h2>GENERACIÓN DE VALOR</h2>
-                <div class="big-number" id="u-leads">0</div>
-                <h1>LEADS TOTALES</h1>
-                <div class="mini-stats">
-                    <div class="stat-box"><strong>CITAS:</strong> <span id="u-citas">0</span></div>
-                    <div class="stat-box"><strong>VISITAS:</strong> <span id="u-visitas">0</span></div>
+            <div class="ui-card">
+                <span class="label">TU MOMENTO DE ORO</span>
+                <h1 id="u-mejor-mes-nombre" class="highlight-text">MES</h1>
+                <div class="data-circle">
+                    <span id="u-mejor-mes-qty">0</span>
+                    <small>VENTAS</small>
                 </div>
+                <p class="u-frase" id="frase-2"></p>
             </div>
         </section>
 
         <section class="story">
-            <div class="story-body">
-                <h2>TU BALANCE DEL AÑO</h2>
-                <div class="balance-container">
-                    <div class="balance-item">
-                        <span>VENTAS BRUTAS</span>
-                        <h2 id="u-vbrutas">0</h2>
-                    </div>
-                    <div class="balance-item" style="color: #ff4d4d;">
-                        <span>CANCELACIONES</span>
-                        <h2 id="u-canceladas">0</h2>
-                    </div>
-                    <hr style="border: 0; border-top: 1px solid #333; margin: 10px 0;">
-                    <div class="balance-item" style="color: #FF8200;">
-                        <span>VENTAS NETAS</span>
-                        <h1 id="u-vnetas-slide" style="font-size: 45px;">0</h1>
-                    </div>
+            <div class="ui-card">
+                <span class="label">TU EMBUDO COMERCIAL</span>
+                <div class="main-data">
+                    <h1 id="u-leads">0</h1>
+                    <small>LEADS GENERADOS</small>
                 </div>
-                <p style="margin-top:15px;">Digitales: <span id="u-vdigital-slide">0</span></p>
+                <div class="stats-row">
+                    <div class="stat-pill"><strong>CITAS:</strong> <span id="u-citas">0</span></div>
+                    <div class="stat-pill"><strong>VISITAS:</strong> <span id="u-visitas">0</span></div>
+                </div>
+                <p class="u-frase" id="frase-3"></p>
             </div>
         </section>
 
         <section class="story">
-            <div class="story-body">
-                <div class="card-summary">
-                    <img src="logo-sadasi.png" width="100" style="margin-bottom:15px;">
-                    <div class="f-photo-circle"><img src="" class="u-photo"></div>
-                    <div id="f-rango">RANGO</div>
-                    <h3 class="u-name-display" style="margin: 8px 0; color: #fff;">NOMBRE</h3>
-                    <p id="f-frase">FRASE</p>
-
-                    <div class="monto-destacado">
-                        <small>MONTO ESCRITURADO</small>
-                        <div id="f-monto" style="font-size: 30px; font-weight: 900; color: #FF8200;">$0.0M</div>
-                    </div>
-
-                    <div class="stats-grid-final">
-                        <div class="grid-item"><span>NETAS</span><strong id="f-vnetas">0</strong></div>
-                        <div class="grid-item"><span>ESCRITURAS</span><strong id="f-eqty">0</strong></div>
-                    </div>
-                    <p style="font-size: 11px; margin-top: 15px; opacity: 0.6; color: #FF8200;">#SendasWrapped2025</p>
+            <div class="ui-card">
+                <span class="label">BALANCE ANUAL</span>
+                <div class="balance-grid">
+                    <div class="b-item"><span>BRUTAS</span><h3 id="u-vbrutas">0</h3></div>
+                    <div class="b-item cancel"><span>CANCELADAS</span><h3 id="u-canceladas">0</h3></div>
                 </div>
-                <p style="margin-top: 25px; font-size: 14px; color: #FF8200; font-weight: bold;">📸 ¡Toma captura y presume!</p>
+                <div class="netas-box">
+                    <span>VENTAS NETAS</span>
+                    <h1 id="u-vnetas-slide">0</h1>
+                    <small>Incluye <span id="u-vdigital-slide">0</span> Digitales</small>
+                </div>
+                <p class="u-frase" id="frase-4"></p>
+            </div>
+        </section>
+
+        <section class="story">
+            <div class="ui-card final-ui">
+                <img src="logo-sadasi.png" width="90" class="logo-f">
+                <div class="f-photo-circle"><img src="" class="u-photo"></div>
+                <div id="f-rango" class="rank-txt">RANGO</div>
+                <h3 class="u-name-display">NOMBRE</h3>
+                <div class="monto-ui">
+                    <small>VALOR ESCRITURADO</small>
+                    <h2 id="f-monto">$0.0M</h2>
+                </div>
+                <div class="grid-f">
+                    <div class="g-item"><span>NETAS</span><strong id="f-vnetas">0</strong></div>
+                    <div class="g-item"><span>ESCRITURAS</span><strong id="f-eqty">0</strong></div>
+                </div>
+                <p id="f-frase" class="final-msg"></p>
+                <p class="capture-hint">📸 Captura y comparte</p>
             </div>
         </section>
 
