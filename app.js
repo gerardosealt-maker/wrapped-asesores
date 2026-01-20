@@ -17,39 +17,98 @@ const data = [
   { "name": "HILDA VERONICA ALVAREZ MEDINA", "foto": "Hilda Veronica.jpg", "mejor_mes": "JULIO", "mejor_mes_ventas": 1, "leads": 12, "citas": 2, "visitas": 0, "v_digital": 1, "v_brutas": 2, "cancelaciones": 0, "v_netas": 2, "escrituras_qty": 0, "monto": "$2.4M" }
 ];
 
-// ... (Aquí mantén tus datos de 'data') ...
-
 let current = 0;
 let currentUser = null;
 let storyTimer = null;
 
-document.getElementById('startBtn').onclick = () => {
+// Lógica del Botón Principal
+document.getElementById('startBtn').addEventListener('click', function() {
     const input = document.getElementById('agentInput').value.trim().toUpperCase();
+    if (!input) return alert("Por favor escribe tu nombre");
+
     const user = data.find(u => u.name.toUpperCase().includes(input));
     
     if (!user) {
-        alert("Asesor no encontrado");
+        alert("Asesor no encontrado. Verifica la lista.");
         return;
     }
-    
+
     currentUser = user;
     renderValues(user);
+    
+    // Cambiar Pantallas
     document.getElementById('login').style.display = 'none';
     document.getElementById('progressRoot').style.display = 'flex';
     document.getElementById('tapZones').style.display = 'flex';
-    document.getElementById('music').play().catch(e => console.log("Audio bloqueado"));
+    
+    // Música
+    const music = document.getElementById('music');
+    music.play().catch(() => console.log("Audio requiere interacción"));
+    
     showStory(0);
-};
+});
+
+function renderValues(u) {
+    let r = "", f1 = "", f2 = "", f3 = "", f4 = "", fFinal = "";
+    
+    if (u.v_netas >= 50) {
+        r = "👑 MÁSTER ÉLITE";
+        f1 = "Has redefinido lo que es posible este año.";
+        f2 = `En ${u.mejor_mes} demostraste un nivel de leyenda.`;
+        f3 = "Tu capacidad para convertir prospectos es asombrosa.";
+        f4 = "Balance perfecto. Eres el estándar de excelencia.";
+        fFinal = "¡Gracias por ser pieza clave del éxito!";
+    } else if (u.v_netas >= 30) {
+        r = "⭐ ASESOR DIAMANTE";
+        f1 = "Tu constancia inspira a todo el equipo.";
+        f2 = `¡${u.mejor_mes} fue un mes espectacular para ti!`;
+        f3 = "Disciplina y seguimiento: tu fórmula del éxito.";
+        f4 = "Números sólidos que demuestran gran profesionalismo.";
+        fFinal = "¡Vamos por un 2026 aún más grande!";
+    } else {
+        r = "🚀 ASESOR PRO";
+        f1 = "Un año de aprendizaje y bases para el futuro.";
+        f2 = `${u.mejor_mes} fue tu mejor momento, ¡repitámoslo!`;
+        f3 = "Cada contacto cuenta. ¡Sigue cultivando éxitos!";
+        f4 = "¡En 2026 vamos a duplicar estos resultados!";
+        fFinal = "¡Tu potencial no tiene límites!";
+    }
+
+    document.getElementById('rank-badge-main').innerHTML = `<div style="background:var(--primary); padding:5px 15px; border-radius:20px; font-size:11px; font-weight:bold;">${r}</div>`;
+    document.getElementById('f-rango').textContent = r;
+    document.getElementById('frase-1').textContent = f1;
+    document.getElementById('frase-2').textContent = f2;
+    document.getElementById('frase-3').textContent = f3;
+    document.getElementById('frase-4').textContent = f4;
+    document.getElementById('f-frase').textContent = fFinal;
+
+    document.querySelectorAll('.u-photo').forEach(img => {
+        img.src = encodeURI(u.foto);
+        img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff`; };
+    });
+
+    document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
+    document.getElementById('u-mejor-mes-nombre').textContent = u.mejor_mes;
+    document.getElementById('u-mejor-mes-qty').textContent = u.mejor_mes_ventas;
+    document.getElementById('u-leads').textContent = u.leads;
+    document.getElementById('u-citas').textContent = u.citas;
+    document.getElementById('u-visitas').textContent = u.visitas;
+    document.getElementById('u-vbrutas').textContent = u.v_brutas;
+    document.getElementById('u-canceladas').textContent = u.cancelaciones;
+    document.getElementById('u-vnetas-slide').textContent = u.v_netas;
+    document.getElementById('u-vdigital-slide').textContent = u.v_digital;
+    document.getElementById('f-monto').textContent = u.monto;
+    document.getElementById('f-vnetas').textContent = u.v_netas;
+    document.getElementById('f-eqty').textContent = u.escrituras_qty;
+}
 
 function showStory(index) {
     const stories = document.querySelectorAll('.story');
     if (index < 0 || index >= stories.length) return;
 
-    // 1. Ocultar todas y mostrar solo la actual
     stories.forEach(s => s.classList.remove('active'));
     stories[index].classList.add('active');
 
-    // 2. Actualizar Barras de Progreso
     const root = document.getElementById('progressRoot');
     root.innerHTML = '';
     stories.forEach((_, i) => {
@@ -64,18 +123,14 @@ function showStory(index) {
     });
 
     current = index;
-    
-    // 3. Reiniciar Timer (5.5 segundos por slide)
     clearInterval(storyTimer);
     storyTimer = setInterval(() => {
         if (current < stories.length - 1) showStory(current + 1);
     }, 5500);
 
-    // Confetti solo en slides de éxito
-    if (index > 0) confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
+    if (index > 0) confetti({ particleCount: 25, spread: 50, origin: { y: 0.8 } });
 }
 
-// Navegación Manual
 document.getElementById('btnNext').onclick = () => {
     const stories = document.querySelectorAll('.story');
     if (current < stories.length - 1) showStory(current + 1);
