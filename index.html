@@ -15,8 +15,8 @@
         <div class="login-content">
             <img src="logo-sadasi.png" width="140" style="margin-bottom:20px;">
             <h1 style="color:white; font-size: 28px;">TU 2025<br><span style="color:#FF8200;">SENDAS WRAPPED</span></h1>
-            <input type="text" id="agentInput" placeholder="TU NOMBRE">
-            <button id="startBtn">COMENZAR</button>
+            <input type="text" id="agentInput" placeholder="ESCRIBE TU NOMBRE">
+            <button id="startBtn">COMENZAR EXPERIENCIA</button>
         </div>
     </div>
 
@@ -25,18 +25,18 @@
         
         <section class="story">
             <div class="story-body">
-                <div id="rank-container"></div>
+                <div id="rank-badge-main"></div>
                 <h2>UN AÑO DE ÉXITOS</h2>
                 <div class="photo-container"><img src="" class="u-photo"></div>
                 <h1 class="u-name-display" style="font-size:22px; color:#FF8200;">---</h1>
-                <p class="u-frase" style="margin-top:20px; font-style:italic;"></p>
+                <p class="u-frase" style="margin-top:20px; font-style:italic; padding: 0 20px;"></p>
             </div>
         </section>
 
         <section class="story">
             <div class="story-body">
                 <h2>TU MOMENTO DE ORO</h2>
-                <h1 id="u-mejor-mes-nombre" style="font-size: 50px; font-weight: 900;">MES</h1>
+                <h1 id="u-mejor-mes-nombre" style="font-size: 50px; font-weight: 900; color: #FF8200;">MES</h1>
                 <div class="big-number" id="u-mejor-mes-qty">0</div>
                 <h1 style="letter-spacing: 5px;">VENTAS</h1>
                 <p class="u-frase" style="margin-top:20px; font-style:italic;"></p>
@@ -45,9 +45,9 @@
 
         <section class="story">
             <div class="story-body">
-                <h2>EL REY DE LOS LEADS</h2>
+                <h2>EL REY DE LOS CONTACTOS</h2>
                 <div class="big-number" id="u-leads">0</div>
-                <h1>CONTACTOS</h1>
+                <h1>LEADS GENERADOS</h1>
                 <div class="mini-stats">
                     <div class="stat-box"><span id="u-citas">0</span><small>CITAS</small></div>
                     <div class="stat-box"><span id="u-visitas">0</span><small>VISITAS</small></div>
@@ -58,10 +58,10 @@
 
         <section class="story">
             <div class="story-body">
-                <h2>IMPACTO COMERCIAL</h2>
+                <h2>IMPACTO TOTAL</h2>
                 <div class="big-number" id="u-vnetas" style="color:#FF8200;">0</div>
                 <h1>VENTAS NETAS</h1>
-                <p style="margin-top:10px;">⚡ <span id="u-vdigital">0</span> DIGITALES</p>
+                <p style="margin-top:10px; font-size: 18px;">Incluyendo ⚡ <span id="u-vdigital">0</span> Digitales</p>
                 <p class="u-frase" style="margin-top:20px; font-style:italic;"></p>
             </div>
         </section>
@@ -69,20 +69,29 @@
         <section class="story">
             <div class="story-body">
                 <div class="card-summary" id="final-card">
-                    <img src="logo-sadasi.png" width="80" style="margin-bottom:10px;">
-                    <h2 style="color:#000; font-size:16px; margin:0; text-shadow:none;">RESUMEN ANUAL 2025</h2>
-                    <h3 class="u-name-display" style="color:#FF8200; font-size:14px; text-shadow:none;">---</h3>
-                    <div class="monto-destacado">
-                        <small>TOTAL ESCRITURADO</small>
-                        <div id="f-monto">---</div>
+                    <img src="logo-sadasi.png" width="80" style="margin-bottom:10px; filter: brightness(0) invert(1);">
+                    
+                    <div class="f-photo-circle">
+                        <img src="" class="u-photo">
                     </div>
+                    
+                    <div id="f-rango">TÍTULO DE HONOR</div>
+                    <h3 class="u-name-display" style="font-size:18px; margin: 5px 0; color: #fff;">---</h3>
+                    <p id="f-frase" style="font-size: 12px; margin-bottom: 15px; color: #ddd;">---</p>
+
+                    <div class="monto-destacado">
+                        <small style="font-size: 10px; letter-spacing: 1px;">MONTO TOTAL ESCRITURADO</small>
+                        <div id="f-monto" style="font-size: 30px; font-weight: 900; color: #FF8200;">$0.0M</div>
+                    </div>
+
                     <div class="stats-grid-final">
-                        <div class="grid-item"><span>VENTAS</span><strong id="f-vnetas">0</strong></div>
-                        <div class="grid-item"><span>ENTREGAS</span><strong id="f-eqty">0</strong></div>
+                        <div class="grid-item"><span>VENTAS NETAS</span><strong id="f-vnetas">0</strong></div>
+                        <div class="grid-item"><span>ESCRITURAS</span><strong id="f-eqty">0</strong></div>
                         <div class="grid-item"><span>LEADS</span><strong id="f-leads">0</strong></div>
+                        <div class="grid-item"><span>AÑO</span><strong>2025</strong></div>
                     </div>
                 </div>
-                <button id="exportBtn">GUARDAR</button>
+                <button id="exportBtn">GUARDAR MI RESUMEN</button>
             </div>
         </section>
 
