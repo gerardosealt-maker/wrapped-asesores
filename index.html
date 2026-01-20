@@ -1,17 +1,43 @@
-<section class="story">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sendas Wrapped 2025</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <audio id="music" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+    <div id="login">
+        <div class="login-content">
+            <img src="logo-sadasi.png" width="160">
+            <h1>TU 2025<br><span>SENDAS WRAPPED</span></h1>
+            <input type="text" id="agentInput" placeholder="NOMBRE DEL ASESOR...">
+            <button id="startBtn">DESCUBRIR MI AÑO</button>
+        </div>
+    </div>
+
+    <div id="capture-area">
+        <div id="progressRoot" style="display:none;"></div>
+        
+        <section class="story">
             <div class="story-body">
-                <h2>EL RESUMEN DE</h2>
-                <h1>TU GRAN<br>AÑO</h1>
+                <h2>HAY MUCHO QUE CELEBRAR</h2>
+                <h1>TUS LOGROS<br>EN SENDAS</h1>
                 <div class="photo-container"><img src="" class="u-photo"></div>
-                <h1 class="u-name-display" style="font-size:24px; margin-top:20px;">---</h1>
+                <h1 class="u-name-display" style="font-size:22px; margin-top:20px; color:var(--primary);">---</h1>
+                <p class="frase-jiribilla">¡Prepárate para el resumen!</p>
             </div>
         </section>
 
         <section class="story">
             <div class="story-body">
                 <h2>TU MOMENTO DE ORO</h2>
-                <h1 id="u-mejor-mes-nombre" style="font-size: 60px; color: var(--primary);">MES</h1>
-                <div class="big-number" id="u-mejor-mes-qty" style="font-size: 130px;">0</div>
+                <h1 id="u-mejor-mes-nombre" style="font-size: 55px; color: #fff;">MES</h1>
+                <div class="big-number" id="u-mejor-mes-qty">0</div>
                 <h1>VENTAS</h1>
                 <p id="p-mejor-mes-txt" class="frase-jiribilla"></p>
             </div>
@@ -19,8 +45,8 @@
 
         <section class="story">
             <div class="story-body">
-                <h2>TU GESTIÓN DIGITAL</h2>
-                <div class="big-number" id="u-leads">0</div>
+                <h2>DOMINIO DIGITAL</h2>
+                <div class="big-number" id="u-leads" style="font-size:110px;">0</div>
                 <h1>LEADS</h1>
                 <div class="mini-stats">
                     <div><strong id="u-citas">0</strong><br><small>CITAS</small></div>
@@ -33,13 +59,42 @@
 
         <section class="story">
             <div class="story-body">
-                <h2>PODER DE CIERRE</h2>
+                <h2>FUERZA DE CIERRE</h2>
                 <div class="stats-box">
                     <p>BRUTAS: <span id="u-vbrutas">0</span> | CANC: -<span id="u-cancels">0</span></p>
                 </div>
-                <div class="big-number" id="u-vnetas">0</div>
-                <h1>NETAS ANUALES</h1>
-                <div class="digital-mention">⚡ De las cuales <span id="u-vdigital">0</span> son digitales</div>
+                <div class="big-number" id="u-vnetas" style="color:var(--primary);">0</div>
+                <h1>VENTAS NETAS</h1>
+                <div class="digital-mention">⚡ <span id="u-vdigital">0</span> fueron ventas digitales</div>
                 <p id="p-vnetas-txt" class="frase-jiribilla" style="margin-top:15px;"></p>
             </div>
         </section>
+
+        <section class="story" id="final-slide">
+            <div class="story-body">
+                <div class="card-summary" id="final-card">
+                    <h2 style="color:#000; margin-bottom:5px;">RESUMEN ANUAL 2025</h2>
+                    <h1 class="u-name-display" style="font-size:18px; color:var(--primary);">---</h1>
+                    <div class="stats-grid">
+                        <div class="stat-item"><span>NETAS</span><strong id="f-vnetas">0</strong></div>
+                        <div class="stat-item"><span>ESCRITURAS</span><strong id="f-eqty">0</strong></div>
+                        <div class="stat-item"><span>LEADS</span><strong id="f-leads">0</strong></div>
+                    </div>
+                    <div class="footer-card">
+                        <img src="logo-sadasi.png" style="height:12px;">
+                        <span>#SendasWrapped</span>
+                    </div>
+                </div>
+                <button id="exportBtn">GUARDAR MI AÑO</button>
+            </div>
+        </section>
+
+        <div id="tapZones" style="display:none;">
+            <div class="tap-left" id="btnPrev"></div>
+            <div class="tap-right" id="btnNext"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
