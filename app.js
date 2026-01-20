@@ -43,7 +43,6 @@ function renderValues(u) {
     document.getElementById('rank-container').innerHTML = medalla ? `<div class="rank-badge">${medalla}</div>` : "";
 
     document.querySelectorAll('.u-photo').forEach(img => {
-        img.crossOrigin = "anonymous"; // PARCHE CRÍTICO PARA DESCARGAS
         img.src = encodeURI(u.foto); 
         img.onerror = () => { 
             img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`; 
@@ -106,52 +105,34 @@ function initExperience() {
 document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
 
-// LÓGICA DE EXPORTACIÓN RE-VERSIONADA (SÚPER COMPATIBLE)
+// --- CORRECCIÓN DE BOTÓN DE GUARDAR ---
 document.getElementById('exportBtn').onclick = function() {
     const target = document.getElementById('final-card');
-    const btn = this;
-    btn.innerText = "ESPERA...";
-    btn.disabled = true;
+    this.innerText = "GENERANDO...";
+    
+    html2canvas(target, { 
+        backgroundColor: "#ffffff",
+        scale: 3,
+        useCORS: true
+    }).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        
+        // Creamos una pantalla flotante con la imagen generada
+        const overlay = document.createElement('div');
+        overlay.id = "imgOverlay";
+        overlay.style = "position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;";
+        
+        overlay.innerHTML = `
+            <p style="color:white; margin-bottom:15px; font-weight:bold; text-align:center; font-family:sans-serif;">DEJA PRESIONADA LA IMAGEN<br>PARA GUARDAR EN TU CELULAR</p>
+            <img src="${imgData}" style="max-width:100%; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.5);">
+            <button id="closeOverlay" style="margin-top:20px; background:#FF8200; color:white; border:none; padding:12px 25px; border-radius:25px; font-weight:bold; cursor:pointer;">VOLVER</button>
+        `;
+        
+        document.body.appendChild(overlay);
+        document.getElementById('exportBtn').innerText = "GUARDAR";
 
-    // Pequeño retraso para asegurar que los elementos estén listos
-    setTimeout(() => {
-        html2canvas(target, {
-            useCORS: true,
-            allowTaint: false,
-            scale: 2,
-            backgroundColor: "#ffffff",
-            logging: true
-        }).then(canvas => {
-            try {
-                const imgData = canvas.toDataURL("image/png");
-                
-                // Creamos un modal para forzar la visualización
-                const modal = document.createElement('div');
-                modal.id = "saveModal";
-                modal.style = "position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; color:white;";
-                
-                modal.innerHTML = `
-                    <div style="text-align:center; margin-bottom:15px;">
-                        <p style="font-weight:bold; font-size:18px;">¡RESUMEN LISTO!</p>
-                        <p style="font-size:14px; opacity:0.8;">Manten presionada la imagen para Guardar</p>
-                    </div>
-                    <img src="${imgData}" style="max-width:100%; max-height:70vh; border-radius:15px; border:2px solid #FF8200;">
-                    <button id="closeModal" style="margin-top:20px; background:#FF8200; color:white; border:none; padding:12px 30px; border-radius:25px; font-weight:bold; cursor:pointer;">CERRAR</button>
-                `;
-                
-                document.body.appendChild(modal);
-                btn.innerText = "GENERAR DE NUEVO";
-                btn.disabled = false;
-
-                document.getElementById('closeModal').onclick = () => {
-                    document.body.removeChild(modal);
-                };
-            } catch (err) {
-                console.error("Error al generar imagen:", err);
-                alert("Hubo un error al procesar la imagen. Intenta abrirlo desde Chrome.");
-                btn.innerText = "REINTENTAR";
-                btn.disabled = false;
-            }
-        });
-    }, 500);
+        document.getElementById('closeOverlay').onclick = () => {
+            document.body.removeChild(overlay);
+        };
+    });
 };
