@@ -1,9 +1,33 @@
 let data = [], current = 0, currentUser = null, storyTimer = null;
 
 const frases = {
-    leads: ["¡Tu imán de clientes estuvo a tope!", "Prospectos por todos lados.", "Eres el rey/reina del seguimiento."],
-    ventas: ["¡Cierre tras cierre, imparable!", "Ni las cancelaciones te quitaron el sueño.", "Talento puro para la negociación."],
-    mejorMes: ["Ese mes hiciste historia.", "Simplemente, estuviste en la zona.", "¡Fue tu pico más alto de energía!"]
+    leads: [
+        "¡Tu radar de prospectos echó humo!",
+        "Dominaste el arte de convertir clics en clientes.",
+        "Tu teléfono no dejó de sonar en todo el 2025.",
+        "Atrapaste leads como si fueras un imán humano.",
+        "Hiciste que el CRM trabajara horas extra."
+    ],
+    ventas: [
+        "¡Colmillo de oro para el cierre!",
+        "Donde pones el ojo, pones la firma.",
+        "Ni las cancelaciones pudieron con tu ritmo.",
+        "Eres oficialmente el terror de las metas mensuales.",
+        "Vender es un arte y tú eres el Picasso de Sendas."
+    ],
+    mejorMes: [
+        "¡Ese mes estabas en modo leyenda!",
+        "Nadie pudo seguirte el paso en esos 30 días.",
+        "Simplemente imparable, fue tu mejor versión.",
+        "Hiciste que lo difícil pareciera un juego.",
+        "Ese mes no fue suerte, fue puro talento."
+    ],
+    topTier: [ // Frases exclusivas para los de +50 ventas
+        "¡Nivel Dios de ventas activado! 🏆",
+        "Estás en la cima de la pirámide de Sendas.",
+        "Tu nombre ya está escrito en el salón de la fama.",
+        "Leyenda viviente de Sadasi. ¡Qué año!"
+    ]
 };
 
 const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -12,13 +36,31 @@ fetch('./data.json').then(r => r.json()).then(d => { data = d; });
 
 document.getElementById('startBtn').onclick = () => {
     const val = document.getElementById('agentInput').value.trim().toUpperCase();
-    const user = data.find(u => u.name.includes(val));
-    if (!user) return alert("Nombre no encontrado. Escribe el nombre completo tal cual el reporte.");
+    const user = data.find(u => u.name.toUpperCase().includes(val));
+    if (!user) return alert("Asesor no encontrado. Prueba con un solo nombre o apellido.");
     currentUser = user;
     initExperience();
 };
 
 function renderValues(u) {
+    // 1. Detección de Rango (Premiación)
+    let medalla = "";
+    let fraseVenta = getRandom(frases.ventas);
+    
+    if (u.v_netas >= 60) {
+        medalla = "👑 MASTER ELITE";
+        fraseVenta = getRandom(frases.topTier);
+    } else if (u.v_netas >= 45) {
+        medalla = "⭐ DIAMANTE";
+    } else if (u.v_netas >= 30) {
+        medalla = "🔥 SENIOR";
+    }
+
+    // Inyectar Medalla si existe
+    const badgeHtml = medalla ? `<div class="rank-badge">${medalla}</div>` : "";
+    document.getElementById('rank-container').innerHTML = badgeHtml;
+
+    // Foto
     document.querySelectorAll('.u-photo').forEach(img => {
         img.src = `img/asesores/${u.foto}`;
         img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${u.name}&background=FF8200&color=fff`; };
@@ -26,25 +68,18 @@ function renderValues(u) {
 
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
     
-    // Mejor Mes
+    // Asignación de datos
     document.getElementById('u-mejor-mes-nombre').textContent = u.mejor_mes;
     document.getElementById('u-mejor-mes-qty').textContent = u.mejor_mes_ventas;
     document.getElementById('p-mejor-mes-txt').textContent = getRandom(frases.mejorMes);
 
-    // Leads
     document.getElementById('u-leads').textContent = u.leads;
-    document.getElementById('u-citas').textContent = u.citas;
-    document.getElementById('u-visitas').textContent = u.visitas;
     document.getElementById('p-leads-txt').textContent = getRandom(frases.leads);
-
-    // Ventas
-    document.getElementById('u-vbrutas').textContent = u.v_brutas;
-    document.getElementById('u-cancels').textContent = u.cancelaciones;
+    
     document.getElementById('u-vnetas').textContent = u.v_netas;
+    document.getElementById('p-vnetas-txt').textContent = fraseVenta;
     document.getElementById('u-vdigital').textContent = u.v_digital;
-    document.getElementById('p-vnetas-txt').textContent = getRandom(frases.ventas);
 
-    // Final
     document.getElementById('f-vnetas').textContent = u.v_netas;
     document.getElementById('f-eqty').textContent = u.escrituras_qty;
     document.getElementById('f-leads').textContent = u.leads;
@@ -65,12 +100,14 @@ function showStory(index) {
     });
 
     current = index;
+    // Explosión masiva si es Top Performer
     if ([1, 3, 4].includes(index)) {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors:['#FF8200', '#FF007A'] });
+        let count = currentUser.v_netas > 50 ? 250 : 100;
+        confetti({ particleCount: count, spread: 80, origin: { y: 0.6 }, colors:['#FF8200', '#FF007A', '#FFD700'] });
     }
     
     clearInterval(storyTimer);
-    storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5000);
+    storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
 }
 
 function initExperience() {
@@ -83,7 +120,7 @@ function initExperience() {
         root.innerHTML += '<div class="progress-bar"><div class="progress-fill"></div></div>';
     });
     renderValues(currentUser);
-    document.getElementById('music').play();
+    document.getElementById('music').play().catch(() => {});
     showStory(0);
 }
 
@@ -93,7 +130,7 @@ document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(
 document.getElementById('exportBtn').onclick = function() {
     html2canvas(document.getElementById('final-card'), { backgroundColor: '#000', scale: 3 }).then(canvas => {
         const link = document.createElement('a');
-        link.download = `Wrapped_${currentUser.name}.png`;
+        link.download = `Wrapped_2025_${currentUser.name}.png`;
         link.href = canvas.toDataURL();
         link.click();
     });
