@@ -17,10 +17,21 @@ body { background: #000; color: var(--white); overflow: hidden; height: 100vh; }
     100% { background-position: 0% 50%; }
 }
 
+/* LOGIN TOTALMENTE CENTRADO */
+#login { 
+    position: fixed; inset: 0; background: #000; z-index: 5000; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+}
+.login-content { width: 90%; max-width: 350px; }
+#agentInput { 
+    padding: 18px; width: 100%; border-radius: 15px; border: 2px solid #333; 
+    margin: 20px 0; text-align: center; font-size: 18px; background: #111; color: white;
+}
+
 .story { 
     position: absolute; inset: 0; display: none; flex-direction: column; 
     justify-content: center; align-items: center; padding: 30px; text-align: center; 
-    background: rgba(0,0,0,0.3); backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
 }
 .story.active { display: flex; }
 
@@ -37,12 +48,10 @@ h1, h2, .big-number { text-shadow: 0 4px 15px rgba(0,0,0,0.9); }
 #progressRoot { position: absolute; top: 20px; width: 90%; display: flex; gap: 5px; z-index: 1000; }
 .progress-bar { height: 4px; background: rgba(255,255,255,0.2); flex: 1; border-radius: 10px; }
 .progress-fill { height: 100%; background: var(--white); width: 0%; transition: width 5.5s linear; }
-.completed .progress-fill { width: 100% !important; transition: none; }
 
 .mini-stats { display: flex; gap: 15px; justify-content: center; margin-top: 10px; }
 .stat-box { background: rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); }
 .stat-box span { font-size: 22px; font-weight: 900; color: var(--primary); display: block; }
-.stat-box small { font-size: 10px; color: #ccc; }
 
 .card-summary { 
     background: var(--white); padding: 25px; border-radius: 20px; 
@@ -50,17 +59,12 @@ h1, h2, .big-number { text-shadow: 0 4px 15px rgba(0,0,0,0.9); }
 }
 .monto-destacado { background: #000; color: var(--white); padding: 15px; border-radius: 12px; margin: 15px 0; }
 #f-monto { font-size: 30px; font-weight: 900; color: var(--primary); }
-.stats-grid-final { display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 15px; }
-.grid-item strong { font-size: 20px; color: var(--primary); display: block; }
 
 #startBtn, #exportBtn { 
-    background: var(--primary); color: #fff; border: none; padding: 16px 35px; 
-    border-radius: 50px; font-weight: 900; cursor: pointer; margin-top: 20px;
+    background: var(--primary); color: #fff; border: none; padding: 18px 40px; 
+    border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%;
 }
-#exportBtn { background: #000; color: #fff; }
-
-#login { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-#agentInput { padding: 15px; width: 280px; border-radius: 12px; border: none; margin-bottom: 20px; text-align: center; font-size: 16px; }
+#exportBtn { background: #000; width: auto; margin-top: 20px; }
 
 #tapZones { position: absolute; inset: 0; display: flex; z-index: 100; }
 #btnPrev { flex: 1; } #btnNext { flex: 3; }
