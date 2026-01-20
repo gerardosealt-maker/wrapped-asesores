@@ -1,12 +1,5 @@
 let data = [], current = 0, currentUser = null, storyTimer = null;
 
-const frases = {
-    prospectos: ["¡Tu imán de clientes está al máximo!", "No dejaste escapar a nadie.", "El radar de prospectos trabajó extra."],
-    ventas: ["¡Colmillo afilado! No se te fue ninguna.", "Eres el terror de las metas.", "Simplemente imparable."]
-};
-
-const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
 fetch('./data.json').then(r => r.json()).then(d => { data = d; });
 
 document.getElementById('startBtn').onclick = () => {
@@ -18,35 +11,34 @@ document.getElementById('startBtn').onclick = () => {
 };
 
 function renderValues(u) {
-    // CORRECCIÓN DE FOTOS: Armando Vargas -> armando_vargas.jpg
-    const fileName = u.name.toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Quitar acentos
-        .trim().replace(/\s+/g, '_'); // Espacios a guion bajo
-    
+    const fileName = u.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().replace(/\s+/g, '_'); 
     document.querySelectorAll('.u-photo').forEach(img => {
-        img.src = `${fileName}.jpg`;
+        img.src = `img/asesores/${fileName}.jpg`;
         img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${u.name}&background=FF8200&color=fff`; };
     });
 
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
-    document.getElementById('u-prospects').textContent = u.prospects || 0;
-    document.getElementById('p-prospects-txt').textContent = getRandom(frases.prospectos);
-    document.getElementById('u-sales').textContent = u.sales || 0;
-    document.getElementById('p-sales-txt').textContent = getRandom(frases.ventas);
-    document.getElementById('f-val-sales').textContent = u.sales || 0;
-    document.getElementById('f-val-rank').textContent = "#" + (Math.floor(Math.random() * 10) + 1);
-}
+    
+    // Datos Digitales
+    document.getElementById('u-leads').textContent = u.leads;
+    document.getElementById('u-citas').textContent = u.citas;
+    document.getElementById('u-visitas').textContent = u.visitas;
+    document.getElementById('u-vdigital').textContent = u.v_digital;
+    
+    // Datos Totales
+    document.getElementById('u-vbrutas').textContent = u.v_brutas;
+    document.getElementById('u-cancels').textContent = u.cancelaciones;
+    document.getElementById('u-vnetas').textContent = u.v_netas;
+    
+    // Escrituración
+    document.getElementById('u-eqty').textContent = u.escrituras_qty;
+    document.getElementById('u-emonto').textContent = `$${u.escrituras_monto.toFixed(1)} MDP`;
 
-// FUNCIÓN PARA EXPORTAR
-document.getElementById('exportBtn').onclick = function() {
-    const card = document.getElementById('final-card');
-    html2canvas(card, { backgroundColor: '#000000', scale: 2 }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Wrapped_2025_${currentUser.name}.png`;
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-    });
-};
+    // Resumen Card
+    document.getElementById('f-vnetas').textContent = u.v_netas;
+    document.getElementById('f-eqty').textContent = u.escrituras_qty;
+    document.getElementById('f-leads').textContent = u.leads;
+}
 
 function showStory(index) {
     const stories = document.querySelectorAll('.story');
@@ -63,7 +55,7 @@ function showStory(index) {
     });
 
     current = index;
-    if (index === 2) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    if (index === 2 || index === 4) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
     
     clearInterval(storyTimer);
     storyTimer = setInterval(() => {
@@ -85,5 +77,15 @@ function initExperience() {
     showStory(0);
 }
 
-document.getElementById('btnNext').onclick = () => { if (current < 3) showStory(current + 1); };
+document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
+
+document.getElementById('exportBtn').onclick = function() {
+    const card = document.getElementById('final-card');
+    html2canvas(card, { backgroundColor: '#000000', scale: 3 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `Wrapped_2025_Sendas_${currentUser.name}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    });
+};
