@@ -22,14 +22,28 @@ let current = 0, currentUser = null, storyTimer = null;
 document.getElementById('startBtn').onclick = () => {
     const input = document.getElementById('agentInput').value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const user = data.find(u => u.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(input));
-    if (!user) return alert("Nombre no encontrado.");
+    if (!user) return alert("Asesor no encontrado.");
     currentUser = user;
     initExperience();
 };
 
 function renderValues(u) {
-    let rango = u.v_netas >= 50 ? "MÁSTER ÉLITE" : u.v_netas >= 30 ? "DIAMANTE" : "ASESOR PRO";
-    let frase = u.v_netas >= 30 ? "¡Tu liderazgo marcó la diferencia!" : "¡Gran esfuerzo este año!";
+    let rango = ""; let frase = "";
+    
+    // LÓGICA DE RANGOS Y FRASES
+    if (u.v_netas >= 60) {
+        rango = "👑 MÁSTER ÉLITE";
+        frase = "¡Nivel Legendario! Has dominado el 2025 con resultados fuera de serie.";
+    } else if (u.v_netas >= 40) {
+        rango = "⭐ ASESOR DIAMANTE";
+        frase = "Tu constancia y brillo han sido fundamentales este año. ¡Gran trabajo!";
+    } else if (u.v_netas >= 20) {
+        rango = "🚀 ASESOR PRO";
+        frase = "¡Buen camino! El 2025 fue de gran crecimiento, vamos por más.";
+    } else {
+        rango = "🎯 EN DESPEGUE";
+        frase = "Un año de aprendizaje. ¡En 2026 vamos a duplicar estos números!";
+    }
 
     document.getElementById('rank-badge-main').innerHTML = `<div class="rank-badge">${rango}</div>`;
     document.getElementById('f-rango').textContent = rango;
@@ -71,7 +85,7 @@ function showStory(index) {
     });
 
     current = index;
-    if (index > 0) confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
+    if (index > 0) confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
     
     clearInterval(storyTimer);
     storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
