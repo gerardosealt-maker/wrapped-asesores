@@ -17,47 +17,37 @@ const data = [
   { "name": "HILDA VERONICA ALVAREZ MEDINA", "foto": "Hilda Veronica.jpg", "mejor_mes": "JULIO", "mejor_mes_ventas": 1, "leads": 12, "citas": 2, "visitas": 0, "v_digital": 1, "v_brutas": 2, "cancelaciones": 0, "v_netas": 2, "escrituras_qty": 0, "monto": "$2.4M" }
 ];
 
-// ... (Aquí va tu objeto data de siempre) ...
-
-let current = 0, currentUser = null, storyTimer = null;
-
-document.getElementById('startBtn').onclick = () => {
-    const input = document.getElementById('agentInput').value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    const user = data.find(u => u.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(input));
-    if (!user) return alert("Nombre no encontrado.");
-    currentUser = user;
-    initExperience();
-};
+// Asegúrate de usar la lista 'data' que ya tienes definida arriba
 
 function renderValues(u) {
-    // Definición de Rango y Mensajes según desempeño
     let r = "", f1 = "", f2 = "", f3 = "", f4 = "", fFinal = "";
     
+    // Lógica de frases según desempeño (Ventas Netas)
     if (u.v_netas >= 50) {
         r = "👑 MÁSTER ÉLITE";
-        f1 = "Has redefinido lo que es posible este año.";
-        f2 = `En ${u.mejor_mes} demostraste un nivel de leyenda.`;
-        f3 = "Tu capacidad para convertir contactos en sueños es asombrosa.";
-        f4 = "Un balance casi perfecto. Eres el estándar de excelencia.";
-        fFinal = "Eres una pieza clave en el éxito de Sadasi. ¡Gracias por tanto!";
+        f1 = "Tu liderazgo ha llevado a Sadasi a un nuevo nivel.";
+        f2 = `En ${u.mejor_mes} demostraste una ejecución impecable.`;
+        f3 = "Eres un experto en transformar leads en familias felices.";
+        f4 = "Balance extraordinario. Tu efectividad es inspiradora.";
+        fFinal = "¡Nivel Legendario! Eres el motor de nuestro éxito.";
     } else if (u.v_netas >= 30) {
         r = "⭐ ASESOR DIAMANTE";
-        f1 = "Tu brillo y constancia inspiran a todo el equipo.";
-        f2 = `¡${u.mejor_mes} fue un mes espectacular para ti!`;
-        f3 = "Tu disciplina con los prospectos se nota en cada cierre.";
-        f4 = "Números sólidos que demuestran un gran profesionalismo.";
-        fFinal = "Tu crecimiento no tiene límites. ¡Vamos por un 2026 aún mejor!";
+        f1 = "Tu constancia inspira a todo el equipo día tras día.";
+        f2 = `${u.mejor_mes} fue el reflejo de tu gran dedicación.`;
+        f3 = "Tu disciplina con el seguimiento es tu mayor fortaleza.";
+        f4 = "Números sólidos que construyen un futuro brillante.";
+        fFinal = "¡Gran trabajo! Estás a un paso de la cima élite.";
     } else {
         r = "🚀 ASESOR PRO";
-        f1 = "Un año de aprendizaje y bases sólidas para el futuro.";
-        f2 = `${u.mejor_mes} fue tu mejor momento, ¡repitámoslo en 2026!`;
-        f3 = "Cada lead es una semilla. Sigamos cultivando esos resultados.";
-        f4 = "Analiza tu balance: ¡el próximo año vamos a duplicar las netas!";
-        fFinal = "Tu potencial es enorme. ¡Estamos listos para apoyarte a despegar!";
+        f1 = "Un 2025 de aprendizaje para un 2026 de conquista.";
+        f2 = `${u.mejor_mes} nos mostró de lo que eres capaz. ¡Repitámoslo!`;
+        f3 = "Cada contacto es una oportunidad. ¡Vamos por más!";
+        f4 = "Enfócate en tu balance: ¡Tu potencial está por explotar!";
+        fFinal = "¡El 2026 será tu año! Estamos listos para crecer contigo.";
     }
 
-    // Inyectar Datos y Frases
-    document.getElementById('rank-badge-main').innerHTML = `<div class="rank-badge">${r}</div>`;
+    // Inyección en el HTML
+    document.getElementById('rank-badge-main').innerHTML = `<div style="background:var(--primary); padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold; margin-bottom:10px; display:inline-block;">${r}</div>`;
     document.getElementById('f-rango').textContent = r;
     document.getElementById('frase-1').textContent = f1;
     document.getElementById('frase-2').textContent = f2;
@@ -88,9 +78,12 @@ function renderValues(u) {
 function showStory(index) {
     const stories = document.querySelectorAll('.story');
     if (index >= stories.length) return;
+    
+    // RESET DE VISIBILIDAD
     stories.forEach(s => s.classList.remove('active'));
     stories[index].classList.add('active');
 
+    // BARRAS DE PROGRESO
     const root = document.getElementById('progressRoot');
     root.innerHTML = '';
     stories.forEach((_, i) => {
@@ -105,20 +98,6 @@ function showStory(index) {
     });
 
     current = index;
-    if (index > 0) confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
-    
     clearInterval(storyTimer);
     storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
 }
-
-function initExperience() {
-    document.getElementById('login').style.display = 'none';
-    document.getElementById('progressRoot').style.display = 'flex';
-    document.getElementById('tapZones').style.display = 'flex';
-    renderValues(currentUser);
-    document.getElementById('music').play().catch(() => {});
-    showStory(0);
-}
-
-document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
-document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
