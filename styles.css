@@ -1,18 +1,11 @@
-/* VARIABLES DE COLOR SADASI WRAPPED */
 :root {
     --primary: #FF8200;    /* Naranja Sadasi */
     --accent: #FF007A;     /* Rosa Spotify */
-    --bg-dark: #000000;    /* Fondo Negro Total */
+    --bg-dark: #000000;
     --text-light: #ffffff;
 }
 
-/* RESET TOTAL */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
 body {
     background-color: #000;
@@ -21,22 +14,18 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
-/* CONTENEDOR TIPO IPHONE / STORY */
 #capture-area {
     width: 100%;
     max-width: 430px;
     height: 100vh;
     position: relative;
     overflow: hidden;
-    background-color: var(--bg-dark); /* Asegura que el fondo sea negro */
-    display: flex;
-    flex-direction: column;
+    background-color: #000;
 }
 
-/* EL FONDO ANIMADO DE COLORES (LAVA LAMP) */
+/* Efecto Lava Lamp de Fondo */
 #capture-area::before {
     content: "";
     position: absolute;
@@ -44,22 +33,20 @@ body {
     left: -50%;
     width: 200%;
     height: 200%;
-    /* Degradados circulares fuertes */
-    background: radial-gradient(circle, rgba(255,130,0,0.6) 0%, transparent 50%),
-                radial-gradient(circle, rgba(255,0,122,0.5) 0%, transparent 50%);
+    background: radial-gradient(circle, rgba(255,130,0,0.5) 0%, transparent 45%),
+                radial-gradient(circle, rgba(255,0,122,0.4) 0%, transparent 45%);
     background-position: 20% 30%, 80% 70%;
-    animation: moveLava 12s infinite alternate ease-in-out;
-    filter: blur(80px); /* Desenfoque para que parezca luz suave */
+    animation: moveLava 15s infinite alternate ease-in-out;
+    filter: blur(70px);
     z-index: 1;
 }
 
 @keyframes moveLava {
     0% { transform: translate(0, 0) rotate(0deg); }
-    50% { transform: translate(-10%, -15%) rotate(10deg); }
-    100% { transform: translate(5%, 10%) rotate(-10deg); }
+    100% { transform: translate(-5%, -10%) rotate(15deg); }
 }
 
-/* ESTILO DE LAS STORIES */
+/* Estilo de las Historias */
 .story {
     position: absolute;
     inset: 0;
@@ -67,130 +54,84 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 40px 30px;
+    padding: 40px;
     text-align: center;
-    z-index: 10; /* Por encima del fondo de colores */
+    z-index: 10;
 }
 
-.story.active {
-    display: flex;
+.story.active { display: flex; animation: slideUp 0.4s ease-out; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.story-body {
-    position: relative;
-    z-index: 20;
-    width: 100%;
-}
+.story-body { position: relative; z-index: 20; width: 100%; }
 
-/* TIPOGRAFÍA IMPACTANTE */
-h1 {
-    font-weight: 900;
-    font-size: 44px;
-    line-height: 0.85;
-    letter-spacing: -2px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    text-shadow: 0 5px 15px rgba(0,0,0,0.5);
-}
-
-h2 {
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--primary);
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-}
+h1 { font-weight: 900; font-size: 42px; line-height: 0.85; text-transform: uppercase; margin-bottom: 10px; }
+h2 { font-weight: 700; font-size: 13px; color: var(--primary); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 15px; }
 
 .big-number {
-    font-size: 120px;
+    font-size: 110px;
     font-weight: 900;
     line-height: 0.8;
-    letter-spacing: -6px;
-    margin: 20px 0;
-    /* Texto con degradado */
-    background: linear-gradient(#fff, #bbb);
+    margin: 15px 0;
+    background: linear-gradient(#fff, #999);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
 }
 
-.frase-jiribilla {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-top: 20px;
-    font-style: italic;
-}
-
-/* CONTENEDOR DE FOTO */
-.photo-container {
-    width: 260px;
-    height: 260px;
+/* Medallas de Premiación */
+.rank-badge {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    color: #000;
+    padding: 8px 20px;
     border-radius: 50px;
-    border: 6px solid #fff;
+    font-weight: 900;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 20px;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.photo-container {
+    width: 240px;
+    height: 240px;
+    border-radius: 40px;
+    border: 5px solid #fff;
     overflow: hidden;
     margin: 0 auto;
-    transform: rotate(-3deg); /* Inclinación tipo Spotify */
-    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    transform: rotate(-3deg);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
 }
 
-.photo-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+.photo-container img { width: 100%; height: 100%; object-fit: cover; }
 
-/* BARRAS DE PROGRESO (LINEAS BLANCAS ARRIBA) */
+.frase-jiribilla { font-size: 19px; font-weight: 700; font-style: italic; margin-top: 15px; line-height: 1.2; text-shadow: 2px 2px 5px #000; }
+
+/* Barras de Progreso */
 #progressRoot {
     position: absolute;
     top: 25px;
     width: 90%;
     left: 5%;
     display: flex;
-    gap: 6px;
+    gap: 5px;
     z-index: 100;
 }
 
-.progress-bar {
-    height: 4px;
-    background: rgba(255,255,255,0.2);
-    flex: 1;
-    border-radius: 2px;
-    overflow: hidden;
-}
+.progress-bar { height: 3px; background: rgba(255,255,255,0.2); flex: 1; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: #fff; width: 0%; }
+.active .progress-fill { width: 100%; transition: width 5.5s linear; }
+.completed .progress-fill { width: 100%; }
 
-.progress-fill {
-    height: 100%;
-    background: #fff;
-    width: 0%;
-}
-
-/* CARD DE RESUMEN FINAL */
-.card-summary {
-    background: #fff;
-    color: #000;
-    padding: 35px 25px;
-    border-radius: 30px;
-    box-shadow: 15px 15px 0 var(--primary);
-    transform: rotate(2deg);
-}
-
-.stats-grid {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 25px;
-    border-top: 2px solid #eee;
-    padding-top: 20px;
-}
-
-.stat-item strong {
-    font-size: 32px;
-    color: var(--primary);
-    display: block;
-}
-
-/* PANTALLA DE LOGIN */
+/* Pantalla Login */
 #login {
     position: fixed;
     inset: 0;
@@ -203,39 +144,63 @@ h2 {
 }
 
 #agentInput {
-    padding: 20px;
+    padding: 18px;
     width: 80%;
-    border-radius: 15px;
+    border-radius: 12px;
     border: 2px solid #333;
     background: #111;
     color: #fff;
     font-size: 18px;
-    margin-bottom: 20px;
+    margin: 20px 0;
+    text-align: center;
 }
 
 #startBtn {
     background: var(--primary);
     color: #fff;
     border: none;
-    padding: 20px 40px;
+    padding: 18px 35px;
     border-radius: 50px;
     font-weight: 900;
-    font-size: 16px;
     cursor: pointer;
 }
 
-/* ELEMENTOS EXTRA */
-.mini-stats {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 20px;
+/* Card Final para Exportar */
+.card-summary {
+    background: #fff;
+    color: #000;
+    padding: 30px 20px;
+    border-radius: 25px;
+    box-shadow: 12px 12px 0 var(--primary);
+    transform: rotate(1deg);
+    text-align: center;
 }
 
-.digital-mention {
-    background: rgba(255,255,255,0.1);
-    padding: 10px 20px;
-    border-radius: 50px;
+.stats-grid {
+    display: flex;
+    justify-content: space-around;
     margin-top: 20px;
-    display: inline-block;
+    border-top: 1px dashed #bbb;
+    padding-top: 15px;
 }
+
+.stat-item strong { font-size: 28px; color: var(--primary); display: block; }
+.stat-item span { font-size: 10px; font-weight: 800; opacity: 0.7; }
+
+#exportBtn {
+    margin-top: 30px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.mini-stats { display: flex; justify-content: center; gap: 20px; margin-top: 15px; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 15px; }
+.digital-mention { font-size: 13px; margin-top: 15px; opacity: 0.9; }
+
+/* Taps */
+#tapZones { position: absolute; inset: 0; display: flex; z-index: 150; }
+.tap-left { flex: 1; } .tap-right { flex: 3; }
