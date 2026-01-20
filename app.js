@@ -21,27 +21,31 @@ let current = 0;
 let currentUser = null;
 let storyTimer = null;
 
-// Lógica del Botón Principal
+// LÓGICA DE BÚSQUEDA CORREGIDA (Enrique vs Enriquez)
 document.getElementById('startBtn').addEventListener('click', function() {
-    const input = document.getElementById('agentInput').value.trim().toUpperCase();
+    const input = document.getElementById('agentInput').value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    
     if (!input) return alert("Por favor escribe tu nombre");
 
-    const user = data.find(u => u.name.toUpperCase().includes(input));
+    const user = data.find(u => {
+        const nameClean = u.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const words = nameClean.split(" ");
+        // Busca si alguna palabra del nombre es EXACTAMENTE igual al input
+        return words.some(word => word === input) || nameClean.startsWith(input);
+    });
     
     if (!user) {
-        alert("Asesor no encontrado. Verifica la lista.");
+        alert("Asesor no encontrado. Prueba con tu primer nombre.");
         return;
     }
 
     currentUser = user;
     renderValues(user);
     
-    // Cambiar Pantallas
     document.getElementById('login').style.display = 'none';
     document.getElementById('progressRoot').style.display = 'flex';
     document.getElementById('tapZones').style.display = 'flex';
     
-    // Música
     const music = document.getElementById('music');
     music.play().catch(() => console.log("Audio requiere interacción"));
     
@@ -51,6 +55,7 @@ document.getElementById('startBtn').addEventListener('click', function() {
 function renderValues(u) {
     let r = "", f1 = "", f2 = "", f3 = "", f4 = "", fFinal = "";
     
+    // Frases Dinámicas según desempeño
     if (u.v_netas >= 50) {
         r = "👑 MÁSTER ÉLITE";
         f1 = "Has redefinido lo que es posible este año.";
@@ -74,6 +79,7 @@ function renderValues(u) {
         fFinal = "¡Tu potencial no tiene límites!";
     }
 
+    // Inyección de textos
     document.getElementById('rank-badge-main').innerHTML = `<div style="background:var(--primary); padding:5px 15px; border-radius:20px; font-size:11px; font-weight:bold;">${r}</div>`;
     document.getElementById('f-rango').textContent = r;
     document.getElementById('frase-1').textContent = f1;
@@ -82,6 +88,7 @@ function renderValues(u) {
     document.getElementById('frase-4').textContent = f4;
     document.getElementById('f-frase').textContent = fFinal;
 
+    // Inyección de fotos y datos
     document.querySelectorAll('.u-photo').forEach(img => {
         img.src = encodeURI(u.foto);
         img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff`; };
@@ -128,9 +135,10 @@ function showStory(index) {
         if (current < stories.length - 1) showStory(current + 1);
     }, 5500);
 
-    if (index > 0) confetti({ particleCount: 25, spread: 50, origin: { y: 0.8 } });
+    if (index > 0) confetti({ particleCount: 20, spread: 50, origin: { y: 0.8 } });
 }
 
+// Navegación Manual
 document.getElementById('btnNext').onclick = () => {
     const stories = document.querySelectorAll('.story');
     if (current < stories.length - 1) showStory(current + 1);
