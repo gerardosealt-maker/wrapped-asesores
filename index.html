@@ -12,9 +12,9 @@
 
     <div id="login">
         <div class="login-content">
-            <img src="logo-sadasi.png" width="160">
+            <img src="logo-sadasi.png" alt="Sadasi">
             <h1>TU 2025<br><span style="color:#FF8200;">SENDAS WRAPPED</span></h1>
-            <input type="text" id="agentInput" placeholder="ESCRIBE TU NOMBRE">
+            <input type="text" id="agentInput" placeholder="ESCRIBE TU NOMBRE (EJ. PAOLA)">
             <button id="startBtn">COMENZAR EXPERIENCIA</button>
         </div>
     </div>
@@ -34,7 +34,7 @@
         <section class="story">
             <div class="ui-card">
                 <span class="label">TU MOMENTO DE ORO</span>
-                <h1 id="u-mejor-mes-nombre" class="highlight-text">MES</h1>
+                <h1 id="u-mejor-mes-nombre" style="font-size:38px; font-weight:900; margin-bottom:15px;">MES</h1>
                 <div class="data-circle">
                     <span id="u-mejor-mes-qty">0</span>
                     <small>VENTAS</small>
@@ -47,8 +47,8 @@
             <div class="ui-card">
                 <span class="label">TU EMBUDO COMERCIAL</span>
                 <div class="main-data">
-                    <h1 id="u-leads">0</h1>
-                    <small>LEADS GENERADOS</small>
+                    <h1 id="u-leads" style="font-size:60px; color:#FF8200;">0</h1>
+                    <p style="font-size:12px; opacity:0.7;">LEADS GENERADOS</p>
                 </div>
                 <div class="stats-row">
                     <div class="stat-pill"><strong>CITAS:</strong> <span id="u-citas">0</span></div>
@@ -63,12 +63,12 @@
                 <span class="label">BALANCE ANUAL</span>
                 <div class="balance-grid">
                     <div class="b-item"><span>BRUTAS</span><h3 id="u-vbrutas">0</h3></div>
-                    <div class="b-item cancel"><span>CANCELADAS</span><h3 id="u-canceladas">0</h3></div>
+                    <div class="b-item" style="color:#ff4d4d;"><span>CANC.</span><h3 id="u-canceladas">0</h3></div>
                 </div>
                 <div class="netas-box">
-                    <span>VENTAS NETAS</span>
-                    <h1 id="u-vnetas-slide">0</h1>
-                    <small>Incluye <span id="u-vdigital-slide">0</span> Digitales</small>
+                    <span style="font-size:10px;">VENTAS NETAS</span>
+                    <h1 id="u-vnetas-slide" style="font-size:45px; color:#FF8200;">0</h1>
+                    <small>Digitales: <span id="u-vdigital-slide">0</span></small>
                 </div>
                 <p class="u-frase" id="frase-4"></p>
             </div>
@@ -76,20 +76,20 @@
 
         <section class="story">
             <div class="ui-card final-ui">
-                <img src="logo-sadasi.png" width="90" class="logo-f">
+                <img src="logo-sadasi.png" width="80" style="margin-bottom:10px;">
                 <div class="f-photo-circle"><img src="" class="u-photo"></div>
-                <div id="f-rango" class="rank-txt">RANGO</div>
-                <h3 class="u-name-display">NOMBRE</h3>
+                <div id="f-rango" style="color:#FF8200; font-weight:900; font-size:13px;">RANGO</div>
+                <h3 class="u-name-display" style="margin:5px 0;">NOMBRE</h3>
                 <div class="monto-ui">
-                    <small>VALOR ESCRITURADO</small>
-                    <h2 id="f-monto">$0.0M</h2>
+                    <small style="font-size:9px; opacity:0.7;">VALOR ESCRITURADO</small>
+                    <h2 id="f-monto" style="color:#FF8200; font-size:28px;">$0.0M</h2>
                 </div>
                 <div class="grid-f">
                     <div class="g-item"><span>NETAS</span><strong id="f-vnetas">0</strong></div>
-                    <div class="g-item"><span>ESCRITURAS</span><strong id="f-eqty">0</strong></div>
+                    <div class="g-item"><span>ESCRIT.</span><strong id="f-eqty">0</strong></div>
                 </div>
-                <p id="f-frase" class="final-msg"></p>
-                <p class="capture-hint">📸 Captura y comparte</p>
+                <p id="f-frase" class="u-frase" style="font-size:12px;"></p>
+                <p style="font-size:10px; color:#FF8200; margin-top:10px; font-weight:bold;">📸 Captura y comparte</p>
             </div>
         </section>
 
