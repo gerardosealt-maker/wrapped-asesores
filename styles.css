@@ -1,119 +1,45 @@
-:root { 
-    --primary: #FF8200; 
-    --glass: rgba(25, 25, 25, 0.98); 
-    --border: rgba(255, 130, 0, 0.4); 
-}
+:root { --primary: #FF8200; --glass: rgba(15, 15, 15, 0.98); }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+body, html { background: #000; color: #fff; overflow: hidden; height: 100%; width: 100%; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
+/* LOGIN */
+#login { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; }
+.login-content img { max-width: 150px; margin-bottom: 30px; }
+#agentInput { padding: 15px; width: 100%; max-width: 280px; border-radius: 12px; border: 1px solid #333; background: #111; color: #fff; margin-bottom: 20px; text-align: center; font-size: 16px; }
+#startBtn { padding: 15px 30px; width: 100%; max-width: 280px; background: var(--primary); color: #fff; border: none; border-radius: 30px; font-weight: bold; font-size: 16px; }
 
-body, html { 
-    background: #000; 
-    color: #fff; 
-    overflow: hidden; 
-    height: 100%; 
-    width: 100%; 
-}
+/* STORIES */
+#capture-area { position: relative; width: 100vw; height: 100vh; background: radial-gradient(circle, #1a0f00 0%, #000 100%); display: flex; justify-content: center; align-items: center; }
+.story { position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+.story.active { display: flex; animation: fadeIn 0.3s ease; }
 
-/* LOGIN REPARADO */
-#login { 
-    position: fixed; 
-    inset: 0; 
-    background: #000; 
-    z-index: 9999; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    text-align: center;
-    padding: 20px;
-}
+.ui-card { background: var(--glass); border: 1px solid rgba(255,130,0,0.3); border-radius: 30px; padding: 30px 20px; width: 100%; max-width: 340px; text-align: center; }
+.label { font-size: 10px; letter-spacing: 2px; color: var(--primary); font-weight: bold; display: block; margin-bottom: 15px; }
 
-.login-content img { max-width: 180px; margin-bottom: 20px; }
-.login-content h1 { font-size: 28px; margin-bottom: 20px; line-height: 1.2; }
+.photo-container { width: 150px; height: 150px; border: 3px solid #fff; border-radius: 50%; margin: 0 auto 15px; overflow: hidden; }
+.photo-container img, .f-photo-circle img { width: 100%; height: 100%; object-fit: cover; }
+.f-photo-circle { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary); margin: 0 auto 10px; overflow: hidden; }
 
-#agentInput { 
-    padding: 15px; 
-    width: 100%; 
-    max-width: 300px; 
-    border-radius: 10px; 
-    border: 1px solid #444; 
-    background: #111; 
-    color: #fff; 
-    margin-bottom: 15px; 
-    text-align: center;
-}
+.data-circle { width: 110px; height: 110px; border: 4px solid var(--primary); border-radius: 50%; margin: 0 auto; display: flex; flex-direction: column; justify-content: center; }
+.data-circle span { font-size: 35px; font-weight: 900; color: var(--primary); }
 
-#startBtn { 
-    padding: 15px 30px; 
-    width: 100%; 
-    max-width: 300px; 
-    background: var(--primary); 
-    color: #fff; 
-    border: none; 
-    border-radius: 30px; 
-    font-weight: bold; 
-    cursor: pointer;
-}
+.balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+.b-item { background: #111; padding: 10px; border-radius: 12px; border: 1px solid #222; }
+.netas-box { background: #000; padding: 15px; border-radius: 20px; border: 1px solid var(--primary); }
 
-/* CONTENEDOR DE EXPERIENCIA */
-#capture-area { 
-    position: relative;
-    width: 100vw; 
-    height: 100vh; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    background: #000;
-}
+.stats-row { display: flex; gap: 8px; justify-content: center; margin-top: 15px; }
+.stat-pill { background: #222; padding: 8px 12px; border-radius: 20px; font-size: 11px; }
 
-/* SOLUCIÓN AL AMONTONAMIENTO */
-.story { 
-    position: absolute; /* Esto evita que se pongan una al lado de la otra */
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    display: none; /* Ocultas por defecto */
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center; 
-    padding: 20px;
-}
+.grid-f { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.g-item { background: #111; padding: 8px; border-radius: 10px; }
+.g-item span { font-size: 8px; opacity: 0.6; display: block; }
 
-.story.active { display: flex; animation: fadeIn 0.4s ease; }
+.u-frase { font-size: 13px; color: #ddd; margin-top: 15px; font-style: italic; line-height: 1.4; }
 
-/* DISEÑO DE TARJETAS */
-.ui-card {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 25px;
-    padding: 30px 20px;
-    width: 100%;
-    max-width: 350px;
-    text-align: center;
-}
-
-.photo-container { 
-    width: 140px; height: 140px; 
-    border: 3px solid var(--primary); 
-    border-radius: 50%; 
-    margin: 0 auto 15px; 
-    overflow: hidden; 
-}
-.photo-container img { width: 100%; height: 100%; object-fit: cover; }
-
-.highlight-text { font-size: 42px; color: #fff; font-weight: 900; margin-bottom: 10px; }
-.u-frase { font-size: 15px; color: #ccc; margin-top: 20px; font-style: italic; line-height: 1.4; }
-
-/* BARRAS DE PROGRESO */
-#progressRoot { 
-    position: absolute; top: 20px; width: 90%; 
-    display: flex; gap: 5px; z-index: 1000; 
-}
-.progress-bar { height: 3px; background: rgba(255,255,255,0.2); flex: 1; border-radius: 2px; }
-.progress-fill { height: 100%; background: var(--primary); width: 0%; }
-
-/* ZONAS DE TAP */
+/* SISTEMA */
+#progressRoot { position: absolute; top: 15px; width: 90%; display: flex; gap: 4px; z-index: 1000; }
+.progress-bar { height: 3px; background: rgba(255,255,255,0.1); flex: 1; border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: #fff; width: 0%; transition: width 5.5s linear; }
 #tapZones { position: absolute; inset: 0; display: flex; z-index: 500; }
-#btnPrev { flex: 1; }
-#btnNext { flex: 2; }
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+#btnPrev { flex: 1; } #btnNext { flex: 2; }
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
