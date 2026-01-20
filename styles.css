@@ -1,54 +1,98 @@
 :root { 
     --primary: #FF8200; 
-    --glass: rgba(20, 20, 20, 0.95); /* Más oscuro para mejor contraste */
-    --border: rgba(255, 130, 0, 0.3); 
+    --glass: rgba(25, 25, 25, 0.98); 
+    --border: rgba(255, 130, 0, 0.4); 
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Lexend', sans-serif; }
-body { background: #000; color: #fff; overflow: hidden; height: 100vh; width: 100vw; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
 
-#capture-area { 
-    width: 100%; height: 100vh; position: relative; 
-    background: radial-gradient(circle at center, #1a0f00 0%, #000 100%);
-    display: flex; justify-content: center; align-items: center;
+body, html { 
+    background: #000; 
+    color: #fff; 
+    overflow: hidden; 
+    height: 100%; 
+    width: 100%; 
 }
 
-/* SISTEMA DE SLIDES - CORRECCIÓN CRÍTICA */
-.story { 
-    position: absolute; 
+/* LOGIN REPARADO */
+#login { 
+    position: fixed; 
     inset: 0; 
-    display: none; /* Oculto por defecto */
+    background: #000; 
+    z-index: 9999; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center;
+    padding: 20px;
+}
+
+.login-content img { max-width: 180px; margin-bottom: 20px; }
+.login-content h1 { font-size: 28px; margin-bottom: 20px; line-height: 1.2; }
+
+#agentInput { 
+    padding: 15px; 
+    width: 100%; 
+    max-width: 300px; 
+    border-radius: 10px; 
+    border: 1px solid #444; 
+    background: #111; 
+    color: #fff; 
+    margin-bottom: 15px; 
+    text-align: center;
+}
+
+#startBtn { 
+    padding: 15px 30px; 
+    width: 100%; 
+    max-width: 300px; 
+    background: var(--primary); 
+    color: #fff; 
+    border: none; 
+    border-radius: 30px; 
+    font-weight: bold; 
+    cursor: pointer;
+}
+
+/* CONTENEDOR DE EXPERIENCIA */
+#capture-area { 
+    position: relative;
+    width: 100vw; 
+    height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background: #000;
+}
+
+/* SOLUCIÓN AL AMONTONAMIENTO */
+.story { 
+    position: absolute; /* Esto evita que se pongan una al lado de la otra */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: none; /* Ocultas por defecto */
     flex-direction: column; 
     justify-content: center; 
     align-items: center; 
     padding: 20px;
-    z-index: 10;
 }
 
-.story.active { 
-    display: flex; /* Solo se muestra la activa */
-    animation: fadeIn 0.4s ease-in-out;
-}
+.story.active { display: flex; animation: fadeIn 0.4s ease; }
 
-@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-
-/* TARJETAS UI */
+/* DISEÑO DE TARJETAS */
 .ui-card {
     background: var(--glass);
     border: 1px solid var(--border);
-    border-radius: 30px;
+    border-radius: 25px;
     padding: 30px 20px;
     width: 100%;
-    max-width: 340px;
+    max-width: 350px;
     text-align: center;
-    box-shadow: 0 0 30px rgba(255, 130, 0, 0.1);
 }
 
-.label { font-size: 11px; letter-spacing: 2px; color: var(--primary); font-weight: bold; margin-bottom: 20px; display: block; }
-
-/* FOTOS */
 .photo-container { 
-    width: 150px; height: 150px; 
+    width: 140px; height: 140px; 
     border: 3px solid var(--primary); 
     border-radius: 50%; 
     margin: 0 auto 15px; 
@@ -56,37 +100,20 @@ body { background: #000; color: #fff; overflow: hidden; height: 100vh; width: 10
 }
 .photo-container img { width: 100%; height: 100%; object-fit: cover; }
 
-/* DATA DINÁMICA */
-.highlight-text { font-size: 40px; font-weight: 900; margin-bottom: 10px; }
-.data-circle { 
-    width: 120px; height: 120px; 
-    border: 4px solid var(--primary); 
-    border-radius: 50%; 
-    margin: 20px auto; 
-    display: flex; flex-direction: column; justify-content: center; 
+.highlight-text { font-size: 42px; color: #fff; font-weight: 900; margin-bottom: 10px; }
+.u-frase { font-size: 15px; color: #ccc; margin-top: 20px; font-style: italic; line-height: 1.4; }
+
+/* BARRAS DE PROGRESO */
+#progressRoot { 
+    position: absolute; top: 20px; width: 90%; 
+    display: flex; gap: 5px; z-index: 1000; 
 }
-.data-circle span { font-size: 40px; font-weight: 900; color: var(--primary); }
-
-/* BALANCE */
-.balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-.b-item { background: #111; padding: 15px; border-radius: 15px; border: 1px solid #222; }
-.b-item span { font-size: 10px; opacity: 0.7; }
-.b-item.cancel h3 { color: #ff4d4d; }
-
-.netas-box { 
-    background: linear-gradient(180deg, #1a0f00 0%, #000 100%); 
-    padding: 20px; border-radius: 20px; border: 1px solid var(--primary); 
-}
-.netas-box h1 { font-size: 55px; color: var(--primary); line-height: 1; }
-
-/* FRASES */
-.u-frase { font-size: 14px; color: #eee; margin-top: 20px; line-height: 1.4; font-style: italic; }
-
-/* PROGRESO */
-#progressRoot { position: absolute; top: 15px; width: 90%; display: flex; gap: 4px; z-index: 1000; }
-.progress-bar { height: 3px; background: rgba(255,255,255,0.1); flex: 1; border-radius: 5px; overflow: hidden; }
+.progress-bar { height: 3px; background: rgba(255,255,255,0.2); flex: 1; border-radius: 2px; }
 .progress-fill { height: 100%; background: var(--primary); width: 0%; }
 
-/* NAVEGACIÓN TAP */
+/* ZONAS DE TAP */
 #tapZones { position: absolute; inset: 0; display: flex; z-index: 500; }
-#btnPrev { flex: 1; } #btnNext { flex: 2; }
+#btnPrev { flex: 1; }
+#btnNext { flex: 2; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
