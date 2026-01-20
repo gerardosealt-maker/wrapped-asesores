@@ -12,7 +12,7 @@
 
     <div id="login">
         <div class="login-content">
-            <img src="logo-sadasi.png" width="160" alt="Sadasi">
+            <img src="logo-sadasi.png" width="160">
             <h1 style="color:white; margin: 20px 0;">TU 2025<br><span style="color:#FF8200;">SENDAS WRAPPED</span></h1>
             <input type="text" id="agentInput" placeholder="TU NOMBRE">
             <button id="startBtn">EMPEZAR</button>
@@ -25,15 +25,15 @@
         <section class="story">
             <div class="story-body">
                 <div id="rank-badge-main"></div>
-                <h2>UN AÑO DE METAS LOGRADAS</h2>
+                <h2>ESTE FUE TU 2025</h2>
                 <div class="photo-container"><img src="" class="u-photo"></div>
-                <h1 class="u-name-display" style="color:#FF8200; font-size: 24px;">---</h1>
+                <h1 class="u-name-display" style="color:#FF8200;">---</h1>
             </div>
         </section>
 
         <section class="story">
             <div class="story-body">
-                <h2>TU MEJOR MOMENTO</h2>
+                <h2>TU MEJOR MES</h2>
                 <h1 id="u-mejor-mes-nombre" style="font-size: 50px; color: #FF8200; font-weight: 900;">MES</h1>
                 <div class="big-number" id="u-mejor-mes-qty">0</div>
                 <h1>VENTAS</h1>
@@ -42,7 +42,7 @@
 
         <section class="story">
             <div class="story-body">
-                <h2>TU IMPACTO COMERCIAL</h2>
+                <h2>GENERACIÓN DE VALOR</h2>
                 <div class="big-number" id="u-leads">0</div>
                 <h1>LEADS TOTALES</h1>
                 <div class="mini-stats">
@@ -54,16 +54,34 @@
 
         <section class="story">
             <div class="story-body">
-                <div class="card-summary">
-                    <img src="logo-sadasi.png" width="110" style="margin-bottom:15px; filter: brightness(1.2);">
-                    
-                    <div class="f-photo-circle">
-                        <img src="" class="u-photo">
+                <h2>TU BALANCE DEL AÑO</h2>
+                <div class="balance-container">
+                    <div class="balance-item">
+                        <span>VENTAS BRUTAS</span>
+                        <h2 id="u-vbrutas">0</h2>
                     </div>
-                    
+                    <div class="balance-item" style="color: #ff4d4d;">
+                        <span>CANCELACIONES</span>
+                        <h2 id="u-canceladas">0</h2>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid #333; margin: 10px 0;">
+                    <div class="balance-item" style="color: #FF8200;">
+                        <span>VENTAS NETAS</span>
+                        <h1 id="u-vnetas-slide" style="font-size: 45px;">0</h1>
+                    </div>
+                </div>
+                <p style="margin-top:15px;">Digitales: <span id="u-vdigital-slide">0</span></p>
+            </div>
+        </section>
+
+        <section class="story">
+            <div class="story-body">
+                <div class="card-summary">
+                    <img src="logo-sadasi.png" width="100" style="margin-bottom:15px;">
+                    <div class="f-photo-circle"><img src="" class="u-photo"></div>
                     <div id="f-rango">RANGO</div>
                     <h3 class="u-name-display" style="margin: 8px 0; color: #fff;">NOMBRE</h3>
-                    <p id="f-frase" style="font-size: 14px; color: #ccc; margin-bottom: 20px; padding: 0 10px;">FRASE</p>
+                    <p id="f-frase">FRASE</p>
 
                     <div class="monto-destacado">
                         <small>MONTO ESCRITURADO</small>
@@ -71,13 +89,12 @@
                     </div>
 
                     <div class="stats-grid-final">
-                        <div class="grid-item"><span>VENTAS NETAS</span><strong id="f-vnetas">0</strong></div>
+                        <div class="grid-item"><span>NETAS</span><strong id="f-vnetas">0</strong></div>
                         <div class="grid-item"><span>ESCRITURAS</span><strong id="f-eqty">0</strong></div>
                     </div>
-                    
                     <p style="font-size: 11px; margin-top: 15px; opacity: 0.6; color: #FF8200;">#SendasWrapped2025</p>
                 </div>
-                <p style="margin-top: 25px; font-size: 14px; color: #FF8200; font-weight: bold;">📸 ¡Toma captura y comparte!</p>
+                <p style="margin-top: 25px; font-size: 14px; color: #FF8200; font-weight: bold;">📸 ¡Toma captura y presume!</p>
             </div>
         </section>
 
