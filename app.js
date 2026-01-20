@@ -105,7 +105,7 @@ function initExperience() {
 document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
 
-// FUNCIÓN DE DESCARGA MEJORADA
+// LÓGICA DE EXPORTACIÓN POR VISUALIZACIÓN (MÁS COMPATIBLE)
 document.getElementById('exportBtn').onclick = function() {
     const card = document.getElementById('final-card');
     const btn = this;
@@ -113,22 +113,27 @@ document.getElementById('exportBtn').onclick = function() {
     
     html2canvas(card, { 
         backgroundColor: "#ffffff",
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        allowTaint: true
+        scale: 3, // Alta calidad
+        useCORS: true
     }).then(canvas => {
-        try {
-            const link = document.createElement('a');
-            link.download = `Wrapped_2025_${currentUser.name.replace(/\s+/g, '_')}.png`;
-            link.href = canvas.toDataURL("image/png");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.innerText = "¡GUARDADO!";
-        } catch (e) {
-            btn.innerText = "ERROR AL GUARDAR";
-            console.error(e);
-        }
+        const imgData = canvas.toDataURL("image/png");
+        
+        // Crear una ventana flotante con la imagen para que el usuario la guarde manualmente
+        const overlay = document.createElement('div');
+        overlay.style = "position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;";
+        
+        overlay.innerHTML = `
+            <p style="color:white; margin-bottom:15px; font-weight:bold; text-align:center;">DEJA PRESIONADA LA IMAGEN<br>PARA GUARDAR O COMPARTIR</p>
+            <img src="${imgData}" style="max-width:100%; border-radius:15px; box-shadow:0 0 20px rgba(255,130,0,0.5);">
+            <button id="closeOverlay" style="margin-top:20px; background:#FF8200; color:white; border:none; padding:10px 25px; border-radius:20px; font-weight:bold;">VOLVER</button>
+        `;
+        
+        document.body.appendChild(overlay);
+        btn.innerText = "LISTO";
+
+        document.getElementById('closeOverlay').onclick = () => {
+            document.body.removeChild(overlay);
+            btn.innerText = "GUARDAR";
+        };
     });
 };
