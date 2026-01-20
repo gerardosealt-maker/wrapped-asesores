@@ -1,11 +1,35 @@
 let data = [], current = 0, currentUser = null, storyTimer = null;
 
+// FRASES CON JIRIBILLA PERSONALIZADAS
+const frases = {
+    leads: [
+        "¡Tu imán de clientes estuvo encendido todo el año!",
+        "Tu teléfono no dejó de sonar (y tus notificaciones tampoco).",
+        "Atrapaste más prospectos que una red de pesca profesional.",
+        "El radar de Sendas detectó un talento imparable en ti."
+    ],
+    ventas: [
+        "¡Colmillo afilado! No se te escapó ni una firma.",
+        "Eres oficialmente el terror de las metas mensuales.",
+        "Si las ventas fueran deporte, tendrías medalla de oro.",
+        "Ni las cancelaciones pudieron detener tu ritmo."
+    ],
+    escrituras: [
+        "¡Convertiste sueños en llaves reales!",
+        "Tu esfuerzo se transformó en patrimonio tangible.",
+        "¡Qué manera de cerrar el año! Eres un ejemplo.",
+        "Patrimonio entregado, misión cumplida."
+    ]
+};
+
+const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
 fetch('./data.json').then(r => r.json()).then(d => { data = d; });
 
 document.getElementById('startBtn').onclick = () => {
     const val = document.getElementById('agentInput').value.trim().toLowerCase();
     const user = data.find(u => u.name.toLowerCase().includes(val));
-    if (!user) return alert("Asesor no encontrado");
+    if (!user) return alert("Asesor no encontrado en la base de datos.");
     currentUser = user;
     initExperience();
 };
@@ -19,22 +43,24 @@ function renderValues(u) {
 
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
     
-    // Datos Digitales
+    // Inyección de Datos y Frases
     document.getElementById('u-leads').textContent = u.leads;
+    document.getElementById('p-leads-txt').textContent = getRandom(frases.leads);
+    
     document.getElementById('u-citas').textContent = u.citas;
     document.getElementById('u-visitas').textContent = u.visitas;
-    document.getElementById('u-vdigital').textContent = u.v_digital;
     
-    // Datos Totales
     document.getElementById('u-vbrutas').textContent = u.v_brutas;
     document.getElementById('u-cancels').textContent = u.cancelaciones;
     document.getElementById('u-vnetas').textContent = u.v_netas;
+    document.getElementById('p-vnetas-txt').textContent = getRandom(frases.ventas);
+    document.getElementById('u-vdigital').textContent = u.v_digital;
     
-    // Escrituración
     document.getElementById('u-eqty').textContent = u.escrituras_qty;
     document.getElementById('u-emonto').textContent = `$${u.escrituras_monto.toFixed(1)} MDP`;
+    document.getElementById('p-escrituras-txt').textContent = getRandom(frases.escrituras);
 
-    // Resumen Card
+    // Card Final
     document.getElementById('f-vnetas').textContent = u.v_netas;
     document.getElementById('f-eqty').textContent = u.escrituras_qty;
     document.getElementById('f-leads').textContent = u.leads;
@@ -55,12 +81,15 @@ function showStory(index) {
     });
 
     current = index;
-    if (index === 2 || index === 4) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    // Confetti en hitos importantes (Ventas y Final)
+    if (index === 2 || index === 4) {
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#FF8200', '#FF007A', '#FFFFFF'] });
+    }
     
     clearInterval(storyTimer);
     storyTimer = setInterval(() => {
         if (current < stories.length - 1) showStory(current + 1);
-    }, 5000);
+    }, 5500); // 5.5 segundos por slide
 }
 
 function initExperience() {
