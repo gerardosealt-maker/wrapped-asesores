@@ -28,16 +28,11 @@ document.getElementById('startBtn').onclick = () => {
 };
 
 function renderValues(u) {
-    let medalla = "";
-    if (u.v_netas >= 60) medalla = "👑 MASTER ELITE";
-    else if (u.v_netas >= 45) medalla = "⭐ DIAMANTE";
-    else if (u.v_netas >= 30) medalla = "🔥 SENIOR";
-    document.getElementById('rank-container').innerHTML = medalla ? `<div class="rank-badge">${medalla}</div>` : "";
-
-    // CARGA DE FOTO DIRECTO DESDE MAIN
+    // FOTOS (Busca en la raíz del proyecto)
     document.querySelectorAll('.u-photo').forEach(img => {
         img.src = u.foto; 
         img.onerror = () => {
+            console.error("No se pudo cargar la foto:", u.foto);
             img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`;
         };
     });
@@ -51,7 +46,7 @@ function renderValues(u) {
     document.getElementById('u-vnetas').textContent = u.v_netas;
     document.getElementById('u-vdigital').textContent = u.v_digital;
     
-    // CAMPOS RESUMEN FINAL
+    // RESUMEN FINAL
     document.getElementById('f-monto').textContent = u.monto;
     document.getElementById('f-vnetas').textContent = u.v_netas;
     document.getElementById('f-eqty').textContent = u.escrituras_qty;
@@ -60,12 +55,10 @@ function renderValues(u) {
 
 function showStory(index) {
     const stories = document.querySelectorAll('.story');
-    const bars = document.querySelectorAll('.progress-bar');
     if (index >= stories.length) return;
     stories.forEach(s => s.classList.remove('active'));
     stories[index].classList.add('active');
     
-    // Resetear y activar barras
     const root = document.getElementById('progressRoot');
     root.innerHTML = '';
     stories.forEach((_, i) => {
