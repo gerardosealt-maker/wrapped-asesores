@@ -1,25 +1,10 @@
 let data = [], current = 0, currentUser = null, storyTimer = null;
 
-// FRASES CON JIRIBILLA PERSONALIZADAS
 const frases = {
-    leads: [
-        "¡Tu imán de clientes estuvo encendido todo el año!",
-        "Tu teléfono no dejó de sonar (y tus notificaciones tampoco).",
-        "Atrapaste más prospectos que una red de pesca profesional.",
-        "El radar de Sendas detectó un talento imparable en ti."
-    ],
-    ventas: [
-        "¡Colmillo afilado! No se te escapó ni una firma.",
-        "Eres oficialmente el terror de las metas mensuales.",
-        "Si las ventas fueran deporte, tendrías medalla de oro.",
-        "Ni las cancelaciones pudieron detener tu ritmo."
-    ],
-    escrituras: [
-        "¡Convertiste sueños en llaves reales!",
-        "Tu esfuerzo se transformó en patrimonio tangible.",
-        "¡Qué manera de cerrar el año! Eres un ejemplo.",
-        "Patrimonio entregado, misión cumplida."
-    ]
+    leads: ["¡Tu imán de clientes estuvo encendido!", "Tu radar de prospectos no descansó.", "Atrapaste leads como un pro."],
+    ventas: ["¡Colmillo afilado para el cierre!", "Ni las cancelaciones te frenaron.", "Vendedor estrella de Sendas."],
+    escrituras: ["¡Convertiste sueños en llaves reales!", "Patrimonio entregado con éxito.", "¡Cerraste el año como los grandes!"],
+    mejorMes: ["Fue tu momento de gloria.", "Simplemente imparable.", "Ese mes no hubo quien te detuviera."]
 };
 
 const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -27,35 +12,41 @@ const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 fetch('./data.json').then(r => r.json()).then(d => { data = d; });
 
 document.getElementById('startBtn').onclick = () => {
-    const val = document.getElementById('agentInput').value.trim().toLowerCase();
-    const user = data.find(u => u.name.toLowerCase().includes(val));
-    if (!user) return alert("Asesor no encontrado en la base de datos.");
+    const val = document.getElementById('agentInput').value.trim().toUpperCase();
+    const user = data.find(u => u.name.includes(val));
+    if (!user) return alert("Asesor no encontrado. Escribe el nombre tal cual aparece en el reporte.");
     currentUser = user;
     initExperience();
 };
 
 function renderValues(u) {
-    const fileName = u.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().replace(/\s+/g, '_'); 
+    // Identificación de fotos según vienen guardadas (nombre exacto + .jpg)
     document.querySelectorAll('.u-photo').forEach(img => {
-        img.src = `img/asesores/${fileName}.jpg`;
+        img.src = `img/asesores/${u.foto}`;
         img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${u.name}&background=FF8200&color=fff`; };
     });
 
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
     
-    // Inyección de Datos y Frases
+    // Slide Digital
     document.getElementById('u-leads').textContent = u.leads;
     document.getElementById('p-leads-txt').textContent = getRandom(frases.leads);
-    
     document.getElementById('u-citas').textContent = u.citas;
     document.getElementById('u-visitas').textContent = u.visitas;
     
+    // Slide Mejor Mes (Golden Month)
+    document.getElementById('u-mejor-mes-nombre').textContent = u.mejor_mes;
+    document.getElementById('u-mejor-mes-qty').textContent = u.mejor_mes_ventas;
+    document.getElementById('p-mejor-mes-txt').textContent = getRandom(frases.mejorMes);
+
+    // Slide Ventas
     document.getElementById('u-vbrutas').textContent = u.v_brutas;
     document.getElementById('u-cancels').textContent = u.cancelaciones;
     document.getElementById('u-vnetas').textContent = u.v_netas;
     document.getElementById('p-vnetas-txt').textContent = getRandom(frases.ventas);
     document.getElementById('u-vdigital').textContent = u.v_digital;
     
+    // Escrituración
     document.getElementById('u-eqty').textContent = u.escrituras_qty;
     document.getElementById('u-emonto').textContent = `$${u.escrituras_monto.toFixed(1)} MDP`;
     document.getElementById('p-escrituras-txt').textContent = getRandom(frases.escrituras);
@@ -81,15 +72,15 @@ function showStory(index) {
     });
 
     current = index;
-    // Confetti en hitos importantes (Ventas y Final)
-    if (index === 2 || index === 4) {
+    // Confetti en hitos importantes (Mejor Mes, Ventas y Final)
+    if ([1, 2, 4].includes(index)) {
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#FF8200', '#FF007A', '#FFFFFF'] });
     }
     
     clearInterval(storyTimer);
     storyTimer = setInterval(() => {
         if (current < stories.length - 1) showStory(current + 1);
-    }, 5500); // 5.5 segundos por slide
+    }, 5500);
 }
 
 function initExperience() {
