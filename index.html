@@ -1,100 +1,45 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wrapped 2025 | Sendas Residencial</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-</head>
-<body>
-    <audio id="music" loop><source src="music.mp3" type="audio/mpeg"></audio>
-
-    <div id="login">
-        <div class="login-content">
-            <img src="logo-sadasi.png" width="140">
-            <h1>TU 2025<br><span>SENDAS WRAPPED</span></h1>
-            <input type="text" id="agentInput" placeholder="Nombre completo del asesor...">
-            <button id="startBtn">DESCUBRIR MI AÑO</button>
-        </div>
-    </div>
-
-    <div id="capture-area">
-        <div id="progressRoot" style="display:none;"></div>
-        
-        <section class="story">
+<section class="story">
             <div class="story-body">
-                <h2>UN AÑO DE ÉXITOS</h2>
-                <h1>TUS LOGROS<br>2025</h1>
+                <h2>EL RESUMEN DE</h2>
+                <h1>TU GRAN<br>AÑO</h1>
                 <div class="photo-container"><img src="" class="u-photo"></div>
-                <h1 class="u-name-display" style="font-size:22px; margin-top:20px;">---</h1>
+                <h1 class="u-name-display" style="font-size:24px; margin-top:20px;">---</h1>
             </div>
         </section>
 
         <section class="story">
             <div class="story-body">
-                <h2>RADAR DIGITAL</h2>
+                <h2>TU MOMENTO DE ORO</h2>
+                <h1 id="u-mejor-mes-nombre" style="font-size: 60px; color: var(--primary);">MES</h1>
+                <div class="big-number" id="u-mejor-mes-qty" style="font-size: 130px;">0</div>
+                <h1>VENTAS</h1>
+                <p id="p-mejor-mes-txt" class="frase-jiribilla"></p>
+            </div>
+        </section>
+
+        <section class="story">
+            <div class="story-body">
+                <h2>TU GESTIÓN DIGITAL</h2>
                 <div class="big-number" id="u-leads">0</div>
                 <h1>LEADS</h1>
-                <p id="p-leads-txt" class="frase-jiribilla"></p>
                 <div class="mini-stats">
                     <div><strong id="u-citas">0</strong><br><small>CITAS</small></div>
                     <div class="divider"></div>
                     <div><strong id="u-visitas">0</strong><br><small>VISITAS</small></div>
                 </div>
+                <p id="p-leads-txt" class="frase-jiribilla" style="margin-top:20px;"></p>
             </div>
         </section>
 
         <section class="story">
             <div class="story-body">
-                <h2>RENDIMIENTO COMERCIAL</h2>
+                <h2>PODER DE CIERRE</h2>
                 <div class="stats-box">
-                    <p>VENTAS BRUTAS: <span id="u-vbrutas">0</span></p>
-                    <p style="color:#ff4d4d">CANCELACIONES: -<span id="u-cancels">0</span></p>
+                    <p>BRUTAS: <span id="u-vbrutas">0</span> | CANC: -<span id="u-cancels">0</span></p>
                 </div>
                 <div class="big-number" id="u-vnetas">0</div>
-                <h1>VENTAS NETAS</h1>
-                <p id="p-vnetas-txt" class="frase-jiribilla"></p>
-                <div class="digital-mention">Incluyendo <span id="u-vdigital">0</span> ventas digitales ⚡</div>
+                <h1>NETAS ANUALES</h1>
+                <div class="digital-mention">⚡ De las cuales <span id="u-vdigital">0</span> son digitales</div>
+                <p id="p-vnetas-txt" class="frase-jiribilla" style="margin-top:15px;"></p>
             </div>
         </section>
-
-        <section class="story">
-            <div class="story-body">
-                <h2>ESCRITURACIÓN FINAL</h2>
-                <div class="big-number" id="u-eqty" style="font-size:110px;">0</div>
-                <h1>CASA ENTREGADAS</h1>
-                <div class="monto-badge" id="u-emonto">$0.0 MDP</div>
-                <p id="p-escrituras-txt" class="frase-jiribilla"></p>
-            </div>
-        </section>
-
-        <section class="story" id="final-slide">
-            <div class="story-body">
-                <div class="card-summary" id="final-card">
-                    <h2>SENDAS WRAPPED 2025</h2>
-                    <h1 class="u-name-display" style="font-size:18px; color:#FF8200;">---</h1>
-                    <div class="stats-grid">
-                        <div class="stat-item"><span>V. NETAS</span><strong id="f-vnetas">0</strong></div>
-                        <div class="stat-item"><span>ESCRITURAS</span><strong id="f-eqty">0</strong></div>
-                        <div class="stat-item"><span>LEADS</span><strong id="f-leads">0</strong></div>
-                    </div>
-                    <div class="footer-card">
-                        <img src="logo-sadasi.png" style="height:12px;">
-                        <span>SADASI SENDAS</span>
-                    </div>
-                </div>
-                <button id="exportBtn">COMPARTIR RESUMEN</button>
-            </div>
-        </section>
-
-        <div id="tapZones" style="display:none;">
-            <div class="tap-left" id="btnPrev"></div>
-            <div class="tap-right" id="btnNext"></div>
-        </div>
-    </div>
-
-    <script src="app.js"></script>
-</body>
-</html>
