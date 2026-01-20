@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sendas Wrapped 2025</title>
+    <title>Sendas Wrapped 2025 | Sadasi</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -13,9 +13,9 @@
 
     <div id="login">
         <div class="login-content">
-            <img src="logo-sadasi.png" width="160">
+            <img src="logo-sadasi.png" width="160" alt="Sadasi Logo">
             <h1>TU 2025<br><span>SENDAS WRAPPED</span></h1>
-            <input type="text" id="agentInput" placeholder="NOMBRE DEL ASESOR...">
+            <input type="text" id="agentInput" placeholder="ESCRIBE TU NOMBRE...">
             <button id="startBtn">DESCUBRIR MI AÑO</button>
         </div>
     </div>
@@ -25,11 +25,11 @@
         
         <section class="story">
             <div class="story-body">
-                <h2>HAY MUCHO QUE CELEBRAR</h2>
+                <div id="rank-container"></div>
+                <h2>UN AÑO DE ÉXITOS</h2>
                 <h1>TUS LOGROS<br>EN SENDAS</h1>
                 <div class="photo-container"><img src="" class="u-photo"></div>
-                <h1 class="u-name-display" style="font-size:22px; margin-top:20px; color:var(--primary);">---</h1>
-                <p class="frase-jiribilla">¡Prepárate para el resumen!</p>
+                <h1 class="u-name-display" style="font-size:24px; margin-top:20px; color:var(--primary);">---</h1>
             </div>
         </section>
 
@@ -45,47 +45,47 @@
 
         <section class="story">
             <div class="story-body">
-                <h2>DOMINIO DIGITAL</h2>
+                <h2>EL REY DE LOS LEADS</h2>
                 <div class="big-number" id="u-leads" style="font-size:110px;">0</div>
-                <h1>LEADS</h1>
+                <h1>LEADS TOTALES</h1>
                 <div class="mini-stats">
                     <div><strong id="u-citas">0</strong><br><small>CITAS</small></div>
                     <div class="divider"></div>
                     <div><strong id="u-visitas">0</strong><br><small>VISITAS</small></div>
                 </div>
-                <p id="p-leads-txt" class="frase-jiribilla" style="margin-top:20px;"></p>
+                <p id="p-leads-txt" class="frase-jiribilla"></p>
             </div>
         </section>
 
         <section class="story">
             <div class="story-body">
-                <h2>FUERZA DE CIERRE</h2>
+                <h2>IMPACTO COMERCIAL</h2>
                 <div class="stats-box">
                     <p>BRUTAS: <span id="u-vbrutas">0</span> | CANC: -<span id="u-cancels">0</span></p>
                 </div>
                 <div class="big-number" id="u-vnetas" style="color:var(--primary);">0</div>
                 <h1>VENTAS NETAS</h1>
                 <div class="digital-mention">⚡ <span id="u-vdigital">0</span> fueron ventas digitales</div>
-                <p id="p-vnetas-txt" class="frase-jiribilla" style="margin-top:15px;"></p>
+                <p id="p-vnetas-txt" class="frase-jiribilla"></p>
             </div>
         </section>
 
         <section class="story" id="final-slide">
             <div class="story-body">
                 <div class="card-summary" id="final-card">
-                    <h2 style="color:#000; margin-bottom:5px;">RESUMEN ANUAL 2025</h2>
+                    <h2 style="color:#000; margin-bottom:5px; letter-spacing: 2px;">RESUMEN 2025</h2>
                     <h1 class="u-name-display" style="font-size:18px; color:var(--primary);">---</h1>
                     <div class="stats-grid">
-                        <div class="stat-item"><span>NETAS</span><strong id="f-vnetas">0</strong></div>
-                        <div class="stat-item"><span>ESCRITURAS</span><strong id="f-eqty">0</strong></div>
+                        <div class="stat-item"><span>VENTAS</span><strong id="f-vnetas">0</strong></div>
+                        <div class="stat-item"><span>ENTREGAS</span><strong id="f-eqty">0</strong></div>
                         <div class="stat-item"><span>LEADS</span><strong id="f-leads">0</strong></div>
                     </div>
                     <div class="footer-card">
                         <img src="logo-sadasi.png" style="height:12px;">
-                        <span>#SendasWrapped</span>
+                        <span>#SendasWrapped2025</span>
                     </div>
                 </div>
-                <button id="exportBtn">GUARDAR MI AÑO</button>
+                <button id="exportBtn">GUARDAR EN GALERÍA</button>
             </div>
         </section>
 
