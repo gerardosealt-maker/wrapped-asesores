@@ -19,35 +19,21 @@ const data = [
 
 let current = 0, currentUser = null, storyTimer = null;
 
-const frasesPorSlide = [
-    "¡Tu energía fue el motor de este 2025!", 
-    "Un mes donde simplemente fuiste imparable.", 
-    "Cada contacto fue una oportunidad que supiste aprovechar.", 
-    "Tus resultados hablan de tu compromiso.", 
-    "¡Gracias por ser parte fundamental de Sadasi!" 
-];
-
 document.getElementById('startBtn').onclick = () => {
     const input = document.getElementById('agentInput').value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    if(!input) return alert("Por favor escribe tu nombre");
     const user = data.find(u => u.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(input));
-    if (!user) return alert("Asesor no encontrado. Verifica tu nombre.");
+    if (!user) return alert("Nombre no encontrado.");
     currentUser = user;
     initExperience();
 };
 
 function renderValues(u) {
-    // 1. Determinar Rango de Honor
-    let rango = ""; let fraseHonor = "";
-    if (u.v_netas >= 60) { rango = "👑 MÁSTER ÉLITE"; fraseHonor = "¡Nivel de desempeño legendario!"; }
-    else if (u.v_netas >= 40) { rango = "⭐ ASESOR DIAMANTE"; fraseHonor = "Tu constancia inspira a todo el equipo."; }
-    else if (u.v_netas >= 30) { rango = "🔥 ASESOR SENIOR"; fraseHonor = "Un año de crecimiento imparable."; }
-    else { rango = "🚀 ASESOR PRO"; fraseHonor = "¡Gran trabajo! Vamos por un 2026 increíble."; }
+    let rango = u.v_netas >= 50 ? "MÁSTER ÉLITE" : u.v_netas >= 30 ? "DIAMANTE" : "ASESOR PRO";
+    let frase = u.v_netas >= 30 ? "¡Tu liderazgo marcó la diferencia!" : "¡Gran esfuerzo este año!";
 
-    // 2. Inyectar en Pantalla
     document.getElementById('rank-badge-main').innerHTML = `<div class="rank-badge">${rango}</div>`;
     document.getElementById('f-rango').textContent = rango;
-    document.getElementById('f-frase').textContent = fraseHonor;
+    document.getElementById('f-frase').textContent = frase;
 
     document.querySelectorAll('.u-photo').forEach(img => {
         img.src = encodeURI(u.foto);
@@ -60,31 +46,22 @@ function renderValues(u) {
     document.getElementById('u-leads').textContent = u.leads;
     document.getElementById('u-citas').textContent = u.citas;
     document.getElementById('u-visitas').textContent = u.visitas;
-    document.getElementById('u-vnetas').textContent = u.v_netas;
-    document.getElementById('u-vdigital').textContent = u.v_digital;
-    
-    // Resumen Final
     document.getElementById('f-monto').textContent = u.monto;
     document.getElementById('f-vnetas').textContent = u.v_netas;
     document.getElementById('f-eqty').textContent = u.escrituras_qty;
-    document.getElementById('f-leads').textContent = u.leads;
 }
 
 function showStory(index) {
     const stories = document.querySelectorAll('.story');
     if (index >= stories.length) return;
-    
     stories.forEach(s => s.classList.remove('active'));
     stories[index].classList.add('active');
-    
-    const f = stories[index].querySelector('.u-frase');
-    if (f) f.textContent = frasesPorSlide[index] || "¡Felicidades!";
 
     const root = document.getElementById('progressRoot');
     root.innerHTML = '';
     stories.forEach((_, i) => {
         const bar = document.createElement('div');
-        bar.className = 'progress-bar' + (i < index ? ' completed' : '');
+        bar.className = 'progress-bar';
         const fill = document.createElement('div');
         fill.className = 'progress-fill';
         if (i === index) setTimeout(() => fill.style.width = '100%', 50);
@@ -94,7 +71,7 @@ function showStory(index) {
     });
 
     current = index;
-    if ([1, 3, 4].includes(index)) confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
+    if (index > 0) confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
     
     clearInterval(storyTimer);
     storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
@@ -109,27 +86,5 @@ function initExperience() {
     showStory(0);
 }
 
-document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
+document.getElementById('btnNext').onclick = () => { if (current < 3) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
-
-// SISTEMA DE GUARDADO INFALIBLE
-document.getElementById('exportBtn').onclick = function() {
-    const target = document.getElementById('final-card');
-    const btn = this;
-    btn.innerText = "PROCESANDO...";
-    
-    html2canvas(target, { backgroundColor: "#000", scale: 3, useCORS: true }).then(canvas => {
-        const imgData = canvas.toDataURL("image/png");
-        const overlay = document.createElement('div');
-        overlay.style = "position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;";
-        overlay.innerHTML = `
-            <p style="color:white; margin-bottom:15px; font-weight:bold; text-align:center;">DEJA PRESIONADA LA IMAGEN<br>PARA GUARDAR EN TU CARRETE</p>
-            <img src="${imgData}" style="max-width:100%; border: 2px solid #FF8200; border-radius:15px;">
-            <button id="closeOverlay" style="margin-top:20px; background:#FF8200; color:white; border:none; padding:12px 30px; border-radius:25px; font-weight:bold;">VOLVER</button>
-        `;
-        document.body.appendChild(overlay);
-        btn.innerText = "GUARDAR RESUMEN";
-        document.getElementById('closeOverlay').onclick = () => document.body.removeChild(overlay);
-    });
-};
-
