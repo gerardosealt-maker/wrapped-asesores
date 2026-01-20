@@ -42,7 +42,6 @@ function renderValues(u) {
     else if (u.v_netas >= 30) medalla = "🔥 SENIOR";
     document.getElementById('rank-container').innerHTML = medalla ? `<div class="rank-badge">${medalla}</div>` : "";
 
-    // PARCHE DE FOTOS: Limpia espacios y caracteres especiales
     document.querySelectorAll('.u-photo').forEach(img => {
         img.src = encodeURI(u.foto); 
         img.onerror = () => { 
@@ -106,11 +105,30 @@ function initExperience() {
 document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
 
+// FUNCIÓN DE DESCARGA MEJORADA
 document.getElementById('exportBtn').onclick = function() {
-    html2canvas(document.getElementById('final-card'), { backgroundColor: '#000', scale: 3 }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Wrapped_${currentUser.name}.png`;
-        link.href = canvas.toDataURL();
-        link.click();
+    const card = document.getElementById('final-card');
+    const btn = this;
+    btn.innerText = "GENERANDO...";
+    
+    html2canvas(card, { 
+        backgroundColor: "#ffffff",
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        allowTaint: true
+    }).then(canvas => {
+        try {
+            const link = document.createElement('a');
+            link.download = `Wrapped_2025_${currentUser.name.replace(/\s+/g, '_')}.png`;
+            link.href = canvas.toDataURL("image/png");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            btn.innerText = "¡GUARDADO!";
+        } catch (e) {
+            btn.innerText = "ERROR AL GUARDAR";
+            console.error(e);
+        }
     });
 };
