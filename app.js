@@ -22,14 +22,14 @@ let current = 0, currentUser = null, storyTimer = null;
 const frasesPorSlide = [
     "¡Tu energía fue el motor de este 2025!", 
     "Un mes donde simplemente fuiste imparable.", 
-    "Cada contacto fue una oportunidad que aprovechaste.", 
+    "Cada contacto fue una oportunidad que supiste aprovechar.", 
     "Tus resultados hablan de tu compromiso.", 
-    "¡Gracias por ser parte de Sadasi!" 
+    "¡Gracias por ser parte fundamental de Sadasi!" 
 ];
 
 document.getElementById('startBtn').onclick = () => {
-    const val = document.getElementById('agentInput').value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    const user = data.find(u => u.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(val));
+    const input = document.getElementById('agentInput').value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const user = data.find(u => u.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(input));
     if (!user) return alert("Asesor no encontrado.");
     currentUser = user;
     initExperience();
@@ -42,9 +42,12 @@ function renderValues(u) {
     else if (u.v_netas >= 30) medalla = "🔥 SENIOR";
     document.getElementById('rank-container').innerHTML = medalla ? `<div class="rank-badge">${medalla}</div>` : "";
 
+    // PARCHE DE FOTOS: Limpia espacios y caracteres especiales
     document.querySelectorAll('.u-photo').forEach(img => {
-        img.src = u.foto; 
-        img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`; };
+        img.src = encodeURI(u.foto); 
+        img.onerror = () => { 
+            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`; 
+        };
     });
 
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
@@ -68,8 +71,8 @@ function showStory(index) {
     stories.forEach(s => s.classList.remove('active'));
     stories[index].classList.add('active');
     
-    const fraseElemento = stories[index].querySelector('.u-frase');
-    if (fraseElemento) fraseElemento.textContent = frasesPorSlide[index];
+    const f = stories[index].querySelector('.u-frase');
+    if (f) f.textContent = frasesPorSlide[index];
 
     const root = document.getElementById('progressRoot');
     root.innerHTML = '';
