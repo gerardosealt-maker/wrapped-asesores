@@ -29,24 +29,29 @@ const frasesPorSlide = [
 
 document.getElementById('startBtn').onclick = () => {
     const input = document.getElementById('agentInput').value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if(!input) return alert("Por favor escribe tu nombre");
     const user = data.find(u => u.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(input));
-    if (!user) return alert("Asesor no encontrado.");
+    if (!user) return alert("Asesor no encontrado. Verifica tu nombre.");
     currentUser = user;
     initExperience();
 };
 
 function renderValues(u) {
-    let medalla = "";
-    if (u.v_netas >= 60) medalla = "👑 MASTER ELITE";
-    else if (u.v_netas >= 45) medalla = "⭐ DIAMANTE";
-    else if (u.v_netas >= 30) medalla = "🔥 SENIOR";
-    document.getElementById('rank-container').innerHTML = medalla ? `<div class="rank-badge">${medalla}</div>` : "";
+    // 1. Determinar Rango de Honor
+    let rango = ""; let fraseHonor = "";
+    if (u.v_netas >= 60) { rango = "👑 MÁSTER ÉLITE"; fraseHonor = "¡Nivel de desempeño legendario!"; }
+    else if (u.v_netas >= 40) { rango = "⭐ ASESOR DIAMANTE"; fraseHonor = "Tu constancia inspira a todo el equipo."; }
+    else if (u.v_netas >= 30) { rango = "🔥 ASESOR SENIOR"; fraseHonor = "Un año de crecimiento imparable."; }
+    else { rango = "🚀 ASESOR PRO"; fraseHonor = "¡Gran trabajo! Vamos por un 2026 increíble."; }
+
+    // 2. Inyectar en Pantalla
+    document.getElementById('rank-badge-main').innerHTML = `<div class="rank-badge">${rango}</div>`;
+    document.getElementById('f-rango').textContent = rango;
+    document.getElementById('f-frase').textContent = fraseHonor;
 
     document.querySelectorAll('.u-photo').forEach(img => {
-        img.src = encodeURI(u.foto); 
-        img.onerror = () => { 
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`; 
-        };
+        img.src = encodeURI(u.foto);
+        img.onerror = () => { img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=FF8200&color=fff&size=512`; };
     });
 
     document.querySelectorAll('.u-name-display').forEach(el => el.textContent = u.name);
@@ -57,6 +62,8 @@ function renderValues(u) {
     document.getElementById('u-visitas').textContent = u.visitas;
     document.getElementById('u-vnetas').textContent = u.v_netas;
     document.getElementById('u-vdigital').textContent = u.v_digital;
+    
+    // Resumen Final
     document.getElementById('f-monto').textContent = u.monto;
     document.getElementById('f-vnetas').textContent = u.v_netas;
     document.getElementById('f-eqty').textContent = u.escrituras_qty;
@@ -71,7 +78,7 @@ function showStory(index) {
     stories[index].classList.add('active');
     
     const f = stories[index].querySelector('.u-frase');
-    if (f) f.textContent = frasesPorSlide[index];
+    if (f) f.textContent = frasesPorSlide[index] || "¡Felicidades!";
 
     const root = document.getElementById('progressRoot');
     root.innerHTML = '';
@@ -87,7 +94,7 @@ function showStory(index) {
     });
 
     current = index;
-    if ([1, 3, 4].includes(index)) confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 } });
+    if ([1, 3, 4].includes(index)) confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
     
     clearInterval(storyTimer);
     storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
@@ -105,34 +112,24 @@ function initExperience() {
 document.getElementById('btnNext').onclick = () => { if (current < 4) showStory(current + 1); };
 document.getElementById('btnPrev').onclick = () => { if (current > 0) showStory(current - 1); };
 
-// --- CORRECCIÓN DE BOTÓN DE GUARDAR ---
+// SISTEMA DE GUARDADO INFALIBLE
 document.getElementById('exportBtn').onclick = function() {
     const target = document.getElementById('final-card');
-    this.innerText = "GENERANDO...";
+    const btn = this;
+    btn.innerText = "PROCESANDO...";
     
-    html2canvas(target, { 
-        backgroundColor: "#ffffff",
-        scale: 3,
-        useCORS: true
-    }).then(canvas => {
+    html2canvas(target, { backgroundColor: "#000", scale: 3, useCORS: true }).then(canvas => {
         const imgData = canvas.toDataURL("image/png");
-        
-        // Creamos una pantalla flotante con la imagen generada
         const overlay = document.createElement('div');
-        overlay.id = "imgOverlay";
-        overlay.style = "position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;";
-        
+        overlay.style = "position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;";
         overlay.innerHTML = `
-            <p style="color:white; margin-bottom:15px; font-weight:bold; text-align:center; font-family:sans-serif;">DEJA PRESIONADA LA IMAGEN<br>PARA GUARDAR EN TU CELULAR</p>
-            <img src="${imgData}" style="max-width:100%; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.5);">
-            <button id="closeOverlay" style="margin-top:20px; background:#FF8200; color:white; border:none; padding:12px 25px; border-radius:25px; font-weight:bold; cursor:pointer;">VOLVER</button>
+            <p style="color:white; margin-bottom:15px; font-weight:bold; text-align:center;">DEJA PRESIONADA LA IMAGEN<br>PARA GUARDAR EN TU CARRETE</p>
+            <img src="${imgData}" style="max-width:100%; border: 2px solid #FF8200; border-radius:15px;">
+            <button id="closeOverlay" style="margin-top:20px; background:#FF8200; color:white; border:none; padding:12px 30px; border-radius:25px; font-weight:bold;">VOLVER</button>
         `;
-        
         document.body.appendChild(overlay);
-        document.getElementById('exportBtn').innerText = "GUARDAR";
-
-        document.getElementById('closeOverlay').onclick = () => {
-            document.body.removeChild(overlay);
-        };
+        btn.innerText = "GUARDAR RESUMEN";
+        document.getElementById('closeOverlay').onclick = () => document.body.removeChild(overlay);
     });
 };
+
