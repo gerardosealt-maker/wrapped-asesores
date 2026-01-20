@@ -17,28 +17,53 @@ const data = [
   { "name": "HILDA VERONICA ALVAREZ MEDINA", "foto": "Hilda Veronica.jpg", "mejor_mes": "JULIO", "mejor_mes_ventas": 1, "leads": 12, "citas": 2, "visitas": 0, "v_digital": 1, "v_brutas": 2, "cancelaciones": 0, "v_netas": 2, "escrituras_qty": 0, "monto": "$2.4M" }
 ];
 
-// ... mantén tu lista 'data' aquí arriba ...
+// ... (Aquí va tu objeto data de siempre) ...
 
 let current = 0, currentUser = null, storyTimer = null;
 
 document.getElementById('startBtn').onclick = () => {
     const input = document.getElementById('agentInput').value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const user = data.find(u => u.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(input));
-    if (!user) return alert("Asesor no encontrado.");
+    if (!user) return alert("Nombre no encontrado.");
     currentUser = user;
     initExperience();
 };
 
 function renderValues(u) {
-    let rango = ""; let frase = "";
-    if (u.v_netas >= 60) { rango = "👑 MÁSTER ÉLITE"; frase = "¡Nivel Legendario! Resultados fuera de serie."; }
-    else if (u.v_netas >= 40) { rango = "⭐ ASESOR DIAMANTE"; frase = "Tu constancia inspiró a todo el equipo."; }
-    else if (u.v_netas >= 20) { rango = "🚀 ASESOR PRO"; frase = "¡Buen camino! El 2025 fue de gran crecimiento."; }
-    else { rango = "🎯 EN DESPEGUE"; frase = "¡Vamos por un 2026 imparable!"; }
+    // Definición de Rango y Mensajes según desempeño
+    let r = "", f1 = "", f2 = "", f3 = "", f4 = "", fFinal = "";
+    
+    if (u.v_netas >= 50) {
+        r = "👑 MÁSTER ÉLITE";
+        f1 = "Has redefinido lo que es posible este año.";
+        f2 = `En ${u.mejor_mes} demostraste un nivel de leyenda.`;
+        f3 = "Tu capacidad para convertir contactos en sueños es asombrosa.";
+        f4 = "Un balance casi perfecto. Eres el estándar de excelencia.";
+        fFinal = "Eres una pieza clave en el éxito de Sadasi. ¡Gracias por tanto!";
+    } else if (u.v_netas >= 30) {
+        r = "⭐ ASESOR DIAMANTE";
+        f1 = "Tu brillo y constancia inspiran a todo el equipo.";
+        f2 = `¡${u.mejor_mes} fue un mes espectacular para ti!`;
+        f3 = "Tu disciplina con los prospectos se nota en cada cierre.";
+        f4 = "Números sólidos que demuestran un gran profesionalismo.";
+        fFinal = "Tu crecimiento no tiene límites. ¡Vamos por un 2026 aún mejor!";
+    } else {
+        r = "🚀 ASESOR PRO";
+        f1 = "Un año de aprendizaje y bases sólidas para el futuro.";
+        f2 = `${u.mejor_mes} fue tu mejor momento, ¡repitámoslo en 2026!`;
+        f3 = "Cada lead es una semilla. Sigamos cultivando esos resultados.";
+        f4 = "Analiza tu balance: ¡el próximo año vamos a duplicar las netas!";
+        fFinal = "Tu potencial es enorme. ¡Estamos listos para apoyarte a despegar!";
+    }
 
-    document.getElementById('rank-badge-main').innerHTML = `<div class="rank-badge">${rango}</div>`;
-    document.getElementById('f-rango').textContent = rango;
-    document.getElementById('f-frase').textContent = frase;
+    // Inyectar Datos y Frases
+    document.getElementById('rank-badge-main').innerHTML = `<div class="rank-badge">${r}</div>`;
+    document.getElementById('f-rango').textContent = r;
+    document.getElementById('frase-1').textContent = f1;
+    document.getElementById('frase-2').textContent = f2;
+    document.getElementById('frase-3').textContent = f3;
+    document.getElementById('frase-4').textContent = f4;
+    document.getElementById('f-frase').textContent = fFinal;
 
     document.querySelectorAll('.u-photo').forEach(img => {
         img.src = encodeURI(u.foto);
@@ -51,14 +76,10 @@ function renderValues(u) {
     document.getElementById('u-leads').textContent = u.leads;
     document.getElementById('u-citas').textContent = u.citas;
     document.getElementById('u-visitas').textContent = u.visitas;
-    
-    // Slide de Balance
     document.getElementById('u-vbrutas').textContent = u.v_brutas;
     document.getElementById('u-canceladas').textContent = u.cancelaciones;
     document.getElementById('u-vnetas-slide').textContent = u.v_netas;
     document.getElementById('u-vdigital-slide').textContent = u.v_digital;
-
-    // Resumen Final
     document.getElementById('f-monto').textContent = u.monto;
     document.getElementById('f-vnetas').textContent = u.v_netas;
     document.getElementById('f-eqty').textContent = u.escrituras_qty;
@@ -84,7 +105,7 @@ function showStory(index) {
     });
 
     current = index;
-    if (index > 0) confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
+    if (index > 0) confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
     
     clearInterval(storyTimer);
     storyTimer = setInterval(() => { if (current < stories.length - 1) showStory(current + 1); }, 5500);
